@@ -45,11 +45,11 @@ if __name__ == "__main__":
             else:
                 try:
                     tk.Tk().call("package", "require", "Img")
-                    self.themes = ["blue", "plastik", "keramik", "arc",
+                    self.themes = ["plastik", "keramik", "arc",
                                    "clearlooks", "elegance", "kroc", "radiance",
                                    "winxpblue", "aquativo", "keramik_alt"]
                 except tk.TclError:
-                    self.themes = ["blue", "plastik", "keramik", "aquativo",
+                    self.themes = ["plastik", "keramik", "aquativo",
                                    "clearlooks", "elegance", "kroc", "radiance",
                                    "winxpblue", "keramik_alt"]
             self.tk = ThemedTk()
