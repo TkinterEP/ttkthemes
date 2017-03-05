@@ -1,0 +1,18 @@
+environment:
+  matrix:
+    - PYTHON: "C:\\PYTHON27"
+    - PYTHON: "C:\\PYTHON27-x64"
+    - PYTHON: "C:\\PYTHON34"
+    - PYTHON: "C:\\PYTHON34-x64"
+    - PYTHON: "C:\\PYTHON35"
+    - PYTHON: "C:\\PYTHON35-x64"
+    - PYTHON: "C:\\PYTHON36"
+    - PYTHON: "C:\\PYTHON36-x64"
+install:
+  - "%PYTHON%\\python.exe -m pip install codecov coverage"
+build: off
+test_script:
+  - "%PYTHON%\\python.exe themed_tk.py"
+after_test:
+  - "%PYTHON%\\Scripts\\coverage.exe run themed_tk.py"
+  - "%PYTHON%\\Scripts\\codecov.exe"

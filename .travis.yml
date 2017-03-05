@@ -1,0 +1,19 @@
+language: python
+required: sudo
+python:
+    - "2.7"
+    - "3.5"
+    - "3.6"
+before_install:
+    - "export DISPLAY=:99.0"
+    - "sh -e /etc/init.d/xvfb start"
+    - sleep 3
+    - sudo apt-get install python-tk
+    - sudo apt-get install python3-tk
+    - sudo apt-get install libtk-img
+    - sudo pip install codecov coverage
+script:
+  - python themed_tk.py
+after_success:
+    - coverage run themed_tk.py
+    - codecov
