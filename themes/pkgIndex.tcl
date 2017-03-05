@@ -12,6 +12,8 @@ source [file join $themesdir clearlooks clearlooks8.5.tcl]
 source [file join $themesdir elegance elegance.tcl]
 source [file join $themesdir blue blue.tcl]
 source [file join $themesdir aquativo aquativo.tcl]
+source [file join $themesdir keramik keramik.tcl]
+source [file join $themesdir winxpblue winxpblue.tcl]
 if {![catch {package present Img}] && ![catch {package required Tk 8.6}]} {
     source [file join $themesdir arc arc.tcl]
 }

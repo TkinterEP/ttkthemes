@@ -21,7 +21,7 @@ class ThemedTk(tk.Tk):
         try:
             self.tk.call("package", "require", "Img")
             self.img_support = True
-        except tk._tkinter.TclError:
+        except tk.TclError:
             print("Package Img cannot be called. Skipping.")
         self.tk.eval("source themes/pkgIndex.tcl")
         self.tk.call("package", "require", "ttk-themes")
@@ -37,16 +37,21 @@ if __name__ == "__main__":
     import unittest
 
     class TestThemedTk(unittest.TestCase):
-        if sys.version_info.major == 2:
-            themes = ["blue", "plastik", "keramik", "keramik_alt",
-                      "clearlooks", "elegance", "kroc", "radiance",
-                      "winxpblue"]
-        else:
-            themes = ["blue", "plastik", "keramik", "keramik_alt",
-                      "clearlooks", "elegance", "kroc", "radiance",
-                      "winxpblue", "arc", "aquativo"]
-
         def setUp(self):
+            if sys.version_info.major == 2:
+                self.themes = ["blue", "plastik", "keramik", "winxpblue",
+                               "clearlooks", "elegance", "kroc", "radiance",
+                               "keramik_alt"]
+            else:
+                try:
+                    tk.Tk().call("package", "require", "Img")
+                    self.themes = ["blue", "plastik", "keramik", "arc",
+                                   "clearlooks", "elegance", "kroc", "radiance",
+                                   "winxpblue", "aquativo", "keramik_alt"]
+                except tk.TclError:
+                    self.themes = ["blue", "plastik", "keramik", "aquativo",
+                                   "clearlooks", "elegance", "kroc", "radiance",
+                                   "winxpblue", "keramik_alt"]
             self.tk = ThemedTk()
 
         def tearDown(self):
@@ -64,7 +69,7 @@ if __name__ == "__main__":
             button.pack()
             label.pack()
             self.tk.update()
-            for theme in self.tk.get_themes():
+            for theme in self.themes:
                 self.tk.set_theme(theme)
                 self.tk.update()
 

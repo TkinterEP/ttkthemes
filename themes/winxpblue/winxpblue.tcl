@@ -9,13 +9,13 @@ package provide ttk::theme::winxpblue 0.6
 
 proc LoadImages {imgdir} {
     variable I
-    foreach file [glob -directory $imgdir *.png] {
+    foreach file [glob -directory $imgdir *.gif] {
 	set img [file tail [file rootname $file]]
 	set I($img) [image create photo -file $file -format gif]
     }
 }
 
-LoadImages [file join [file dirname [info script]] winxpblue gtk-2.0]
+LoadImages [file join [file dirname [info script]] winxpblue]
 
 ttk::style theme create winxpblue -settings {
 
