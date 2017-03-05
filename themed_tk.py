@@ -5,16 +5,13 @@ import sys
 import os
 if sys.version_info.major == 2:
     import Tkinter as tk
-    import ttk
 else:
     import tkinter as tk
-    from tkinter import ttk
 
 
 class ThemedTk(tk.Tk):
     def __init__(self, *args, **kwargs):
         tk.Tk.__init__(self, *args, **kwargs)
-        self.style = ttk.Style()
         self.folder = os.path.dirname(os.path.realpath(__file__)).replace("\\", "/")
         self.tk.call("lappend", "auto_path", "[%s]" % self.folder + "/themes")
         self.img_support = False
@@ -22,12 +19,12 @@ class ThemedTk(tk.Tk):
             self.tk.call("package", "require", "Img")
             self.img_support = True
         except tk.TclError:
-            print("Package Img cannot be called. Skipping.")
+            print("Package Img cannot be called. Skipping theme Arc.")
         self.tk.eval("source themes/pkgIndex.tcl")
-        self.tk.call("package", "require", "ttk-themes")
 
     def set_theme(self, theme_name):
-        self.style.theme_use(theme_name)
+        self.tk.call("package", "require", "ttk-themes")
+        self.tk.call("ttk::setTheme", theme_name)
 
     def get_themes(self):
         return list(self.tk.call("ttk::themes"))
@@ -35,6 +32,10 @@ class ThemedTk(tk.Tk):
 
 if __name__ == "__main__":
     import unittest
+    if sys.version_info.major == 2:
+        import ttk
+    else:
+        from tkinter import ttk
 
     class TestThemedTk(unittest.TestCase):
         def setUp(self):
@@ -45,11 +46,11 @@ if __name__ == "__main__":
             else:
                 try:
                     tk.Tk().call("package", "require", "Img")
-                    self.themes = ["plastik", "keramik", "arc",
+                    self.themes = ["blue", "plastik", "keramik", "arc",
                                    "clearlooks", "elegance", "kroc", "radiance",
                                    "winxpblue", "aquativo", "keramik_alt"]
                 except tk.TclError:
-                    self.themes = ["plastik", "keramik", "aquativo",
+                    self.themes = ["blue", "plastik", "keramik", "aquativo",
                                    "clearlooks", "elegance", "kroc", "radiance",
                                    "winxpblue", "keramik_alt"]
             self.tk = ThemedTk()
@@ -60,7 +61,6 @@ if __name__ == "__main__":
         def test_themes_available(self):
             available_themes = self.tk.get_themes()
             for theme in self.themes:
-                print(theme)
                 self.assertTrue(theme in available_themes)
 
         def test_theme_setting(self):
@@ -69,7 +69,7 @@ if __name__ == "__main__":
             button.pack()
             label.pack()
             self.tk.update()
-            for theme in self.themes:
+            for theme in self.tk.get_themes():
                 self.tk.set_theme(theme)
                 self.tk.update()
 
