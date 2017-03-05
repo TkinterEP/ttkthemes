@@ -55,6 +55,7 @@ if __name__ == "__main__":
         def test_themes_available(self):
             available_themes = self.tk.get_themes()
             for theme in self.themes:
+                print(theme)
                 self.assertTrue(theme in available_themes)
 
         def test_theme_setting(self):
