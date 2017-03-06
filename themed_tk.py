@@ -17,6 +17,7 @@ class ThemedTk(tk.Tk):
         self.img_support = False
         try:
             self.tk.call("package", "require", "Img")
+            self.tk.call("package", "require", "Tk", "8.6")
             self.img_support = True
         except tk.TclError:
             print("Package Img cannot be called. Skipping theme Arc.")
@@ -27,6 +28,10 @@ class ThemedTk(tk.Tk):
         self.tk.call("ttk::setTheme", theme_name)
 
     def get_themes(self):
+        self.tk.call("package", "require", "ttk-themes")
+        if self.img_support:
+            self.tk.call("package", "require", "Img")
+            self.tk.call("pacakage", "require", "Tk", "8.6")
         return list(self.tk.call("ttk::themes"))
 
 
@@ -39,21 +44,15 @@ if __name__ == "__main__":
 
     class TestThemedTk(unittest.TestCase):
         def setUp(self):
-            if sys.version_info.major == 2:
-                self.themes = ["blue", "plastik", "keramik", "winxpblue",
-                               "clearlooks", "elegance", "kroc", "radiance",
-                               "keramik_alt"]
-            else:
-                try:
-                    tk.Tk().call("package", "require", "Img")
-                    self.themes = ["blue", "plastik", "keramik", "arc",
-                                   "clearlooks", "elegance", "kroc", "radiance",
-                                   "winxpblue", "aquativo", "keramik_alt"]
-                except tk.TclError:
-                    self.themes = ["blue", "plastik", "keramik", "aquativo",
-                                   "clearlooks", "elegance", "kroc", "radiance",
-                                   "winxpblue", "keramik_alt"]
             self.tk = ThemedTk()
+            if self.tk.img_support:
+                self.themes = ["blue", "plastik", "keramik", "arc",
+                               "clearlooks", "elegance", "kroc", "radiance",
+                               "winxpblue", "aquativo", "keramik_alt"]
+            else:
+                self.themes = ["blue", "plastik", "keramik", "aquativo",
+                               "clearlooks", "elegance", "kroc", "radiance",
+                               "winxpblue", "keramik_alt"]
 
         def tearDown(self):
             self.tk.destroy()
