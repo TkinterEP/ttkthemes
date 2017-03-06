@@ -1,4 +1,10 @@
-# ttk-themes
+# ttk-themes 
+[![Build status](https://ci.appveyor.com/api/projects/status/to1w9uqe5gaq7vu1/branch/master?svg=true)](https://ci.appveyor.com/project/RedFantom/ttk-themes/branch/master)
+[![Build Status](https://travis-ci.org/RedFantom/ttk-themes.svg?branch=master)](https://travis-ci.org/RedFantom/ttk-themes)
+[![codecov](https://codecov.io/gh/RedFantom/ttk-themes/branch/master/graph/badge.svg)](https://codecov.io/gh/RedFantom/ttk-themes)
+[![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](http://www.gnu.org/licenses/gpl-3.0)
+[![License](https://img.shields.io/badge/License-BSD%202--Clause-orange.svg)](https://opensource.org/licenses/BSD-2-Clause)
+
 A group of themes for the ttk extenstions for Tkinter gathered together by RedFantom and 
 created by various authors.
 
@@ -24,6 +30,10 @@ created by various authors.
     
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.``
+    
+Please note that while you can use some themes **only** under GPLv3 and that my code is also
+available **only** under GPLv3, some themes, of which the files have a header explicitly stating
+this, are also available under the BSD-like 2-clause Tcl license.
 
 ## Usage
 For more information about how to use this project in your own programs, please check out the
