@@ -4,7 +4,7 @@
 [![codecov](https://codecov.io/gh/RedFantom/ttk-themes/branch/master/graph/badge.svg)](https://codecov.io/gh/RedFantom/ttk-themes)
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](http://www.gnu.org/licenses/gpl-3.0)
 [![License](https://img.shields.io/badge/License-BSD%202--Clause-orange.svg)](https://opensource.org/licenses/BSD-2-Clause)
-[![PyPI version](https://badge.fury.io/py/ttk-themes.svg)](https://pypi.python.org/pypi/ttk-themes)
+[![PyPI version](https://badge.fury.io/py/ttkthemes.svg)](https://pypi.python.org/pypi/ttkthemes)
 
 A group of themes for the ttk extenstions for Tkinter gathered together by RedFantom and 
 created by various authors.
