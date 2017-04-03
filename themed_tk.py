@@ -12,6 +12,8 @@ else:
 class ThemedTk(tk.Tk):
     def __init__(self, *args, **kwargs):
         tk.Tk.__init__(self, *args, **kwargs)
+        prev_folder = os.getcwd()
+        os.chdir(os.path.dirname(os.path.realpath(__file__)))
         self.folder = os.path.dirname(os.path.realpath(__file__)).replace("\\", "/")
         self.tk.call("lappend", "auto_path", "[%s]" % self.folder + "/themes")
         self.img_support = False
@@ -22,6 +24,7 @@ class ThemedTk(tk.Tk):
         except tk.TclError:
             print("Package Img cannot be called. Skipping theme Arc.")
         self.tk.eval("source themes/pkgIndex.tcl")
+        os.chdir(prev_folder)
 
     def set_theme(self, theme_name):
         self.tk.call("package", "require", "ttk-themes")
