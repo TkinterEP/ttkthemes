@@ -27,11 +27,11 @@ class ThemedTk(tk.Tk):
         os.chdir(prev_folder)
 
     def set_theme(self, theme_name):
-        self.tk.call("package", "require", "ttk-themes")
+        self.tk.call("package", "require", "ttkthemes")
         self.tk.call("ttk::setTheme", theme_name)
 
     def get_themes(self):
-        self.tk.call("package", "require", "ttk-themes")
+        self.tk.call("package", "require", "ttkthemes")
         if self.img_support:
             self.tk.call("package", "require", "Img")
             self.tk.call("pacakage", "require", "Tk", "8.6")
