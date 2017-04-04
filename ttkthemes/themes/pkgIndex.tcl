@@ -4,7 +4,7 @@
 
 set themesdir [file join [pwd] [file dirname [info script]]]
 lappend auto_path $themesdir
-package provide ttk-themes 1.0
+package provide ttkthemes 1.0
 source [file join $themesdir plastik plastik.tcl]
 source [file join $themesdir radiance radiance8.5.tcl]
 source [file join $themesdir kroc kroc.tcl]
