@@ -15,5 +15,5 @@ test_script:
   - "%PYTHON%\\python.exe setup.py install"
   - "%PYTHON%\\python.exe tests.py"
 after_test:
-  - "%PYTHON%\\Scripts\\coverage.exe run themed_tk.py"
+  - "%PYTHON%\\Scripts\\coverage.exe run tests.py"
   - "%PYTHON%\\Scripts\\codecov.exe"
