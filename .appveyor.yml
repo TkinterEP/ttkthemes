@@ -12,7 +12,8 @@ install:
   - "%PYTHON%\\python.exe -m pip install codecov coverage"
 build: off
 test_script:
-  - "%PYTHON%\\python.exe themed_tk.py"
+  - "%PYTHON%\\python.exe ttkthemes/setup.py install"
+  - "%PYTHON%\\python.exe tests.py"
 after_test:
   - "%PYTHON%\\Scripts\\coverage.exe run themed_tk.py"
   - "%PYTHON%\\Scripts\\codecov.exe"
