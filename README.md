@@ -1,7 +1,7 @@
 # ttk-themes 
 [![Build status](https://ci.appveyor.com/api/projects/status/to1w9uqe5gaq7vu1/branch/master?svg=true)](https://ci.appveyor.com/project/RedFantom/ttk-themes/branch/master)
-[![Build Status](https://travis-ci.org/RedFantom/ttk-themes.svg?branch=master)](https://travis-ci.org/RedFantom/ttk-themes)
-[![codecov](https://codecov.io/gh/RedFantom/ttk-themes/branch/master/graph/badge.svg)](https://codecov.io/gh/RedFantom/ttk-themes)
+[![Build Status](https://travis-ci.org/RedFantom/ttkthemes.svg?branch=master)](https://travis-ci.org/RedFantom/ttkthemes)
+[![codecov](https://codecov.io/gh/RedFantom/ttkthemes/branch/master/graph/badge.svg)](https://codecov.io/gh/RedFantom/ttkthemes)
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](http://www.gnu.org/licenses/gpl-3.0)
 [![License](https://img.shields.io/badge/License-BSD%202--Clause-orange.svg)](https://opensource.org/licenses/BSD-2-Clause)
 [![PyPI version](https://badge.fury.io/py/ttkthemes.svg)](https://pypi.python.org/pypi/ttkthemes)
