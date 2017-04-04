@@ -7,6 +7,7 @@ import os
 def read(fname):
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
 
+
 setup(
     name='ttkthemes',
     packages=['ttkthemes'],
@@ -16,9 +17,13 @@ setup(
     author_email='redfantom@outlook.com',
     url='https://github.com/RedFantom/ttkthemes',
     download_url='https://github.com/RedFantom/ttkthemes/archive/1.3.tar.gz',
-    data_files=[(root, [os.path.relpath(os.path.join(root, f) for f in files)], os.path.dirname(
-                        os.path.realpath(__file__)) for root, dirs, files in os.walk(os.path.join(
-                        os.path.dirname(os.path.realpath(__file__)), "ttkthemes", "themes")))],
+    data_files=[(root, [os.path.relpath(os.path.join(root, f), os.path.dirname(os.path.realpath(__file__)))
+                        for f in files]) for root, dirs, files in os.walk(os.path.join(os.path.dirname(
+                os.path.realpath(__file__)), "ttkthemes", "themes"))] +
+               [os.path.relpath(os.path.join(os.path.dirname(os.path.realpath(__file__)), "ttkthemes", "README.md"),
+                                os.path.dirname(os.path.realpath(__file__))),
+                os.path.relpath(os.path.join(os.path.dirname(os.path.realpath(__file__)), "ttkthemes", "LICENSE"),
+                                os.path.dirname(os.path.realpath(__file__)))],
     include_package_data=True,
     keywords=['tkinter', 'ttk', 'gui', 'tcl', 'theme'],
     license='GPLv3',
