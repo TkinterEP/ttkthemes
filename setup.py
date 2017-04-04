@@ -7,16 +7,6 @@ import os
 def read(fname):
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
 
-
-def gen_data_files(*dirs):
-    results = []
-
-    for src_dir in dirs:
-        for root, dirs, files in os.walk(src_dir):
-            results.append((root, map(lambda f: root + "/" + f, files)))
-    return results
-
-
 setup(
     name='ttkthemes',
     packages=['ttkthemes'],
@@ -26,7 +16,8 @@ setup(
     author_email='redfantom@outlook.com',
     url='https://github.com/RedFantom/ttkthemes',
     download_url='https://github.com/RedFantom/ttkthemes/archive/1.3.tar.gz',
-    data_files=gen_data_files("ttkthemes/themes"),
+    data_files=[(root, [os.path.join(root, f) for f in files]) for root, dirs, files in os.walk(
+                        os.path.join(os.path.dirname(os.path.realpath(__file__)), "ttkthemes", "themes"))],
     include_package_data=True,
     keywords=['tkinter', 'ttk', 'gui', 'tcl', 'theme'],
     license='GPLv3',
