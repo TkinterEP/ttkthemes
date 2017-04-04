@@ -34,5 +34,5 @@ class ThemedTk(tk.Tk):
         self.tk.call("package", "require", "ttkthemes")
         if self.img_support:
             self.tk.call("package", "require", "Img")
-            self.tk.call("pacakage", "require", "Tk", "8.6")
+            self.tk.call("package", "require", "Tk", "8.6")
         return list(self.tk.call("ttk::themes"))

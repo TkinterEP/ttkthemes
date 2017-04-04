@@ -11,12 +11,12 @@ def read(fname):
 setup(
     name='ttkthemes',
     packages=['ttkthemes'],
-    version='1.3.2',
+    version='1.3.3',
     description='A group of themes for the ttk extensions of Tkinter with a Tkinter.Tk wrapper',
     author='RedFantom and others',
     author_email='redfantom@outlook.com',
     url='https://github.com/RedFantom/ttkthemes',
-    download_url='https://github.com/RedFantom/ttkthemes/archive/1.3.2.tar.gz',
+    download_url='https://github.com/RedFantom/ttkthemes/archive/1.3.3.tar.gz',
     data_files=[(root, [os.path.relpath(os.path.join(root, f), os.path.dirname(os.path.realpath(__file__)))
                         for f in files]) for root, dirs, files in os.walk(os.path.join(os.path.dirname(
                 os.path.realpath(__file__)), "ttkthemes", "themes"))] +
