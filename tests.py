@@ -16,11 +16,11 @@ if __name__ == "__main__":
             if self.tk.img_support:
                 self.themes = ["blue", "plastik", "keramik", "arc",
                                "clearlooks", "elegance", "kroc", "radiance",
-                               "winxpblue", "aquativo", "keramik_alt"]
+                               "winxpblue", "aquativo", "keramik_alt", "black"]
             else:
                 self.themes = ["blue", "plastik", "keramik", "aquativo",
                                "clearlooks", "elegance", "kroc", "radiance",
-                               "winxpblue", "keramik_alt"]
+                               "winxpblue", "keramik_alt", "black"]
 
         def tearDown(self):
             self.tk.destroy()
