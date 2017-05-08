@@ -16,6 +16,7 @@ created by various authors.
     Copyright (C) 2017 RedFantom
     Copyright (C) 2004 Pat Thoyts
     Copyright (C) 2004 David Zolli
+    Copyright (C) 2007-2008 Mats Bengsston
     Copyright (C) Regents of the University of California, Sun Microsystems, Inc., 
     Scriptics Corporation, and other parties.
     
@@ -38,7 +39,8 @@ this, are also available under the BSD-like 2-clause Tcl license.
 
 ## Usage
 For more information about how to use this project in your own programs, please check out the
-[wiki](https://github.com/RedFantom/ttk-themes/wiki).
+[wiki](https://github.com/RedFantom/ttk-themes/wiki). You can also find example images of all
+themes there, so you can choose one easily.
   
 ## Recommendations
 The themes `plastik`, `clearlooks` and `elegance` are recommended to make your UI look nicer
