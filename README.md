@@ -1,4 +1,4 @@
-# ttk-themes 
+# ttkthemes 
 [![Build status](https://ci.appveyor.com/api/projects/status/to1w9uqe5gaq7vu1/branch/master?svg=true)](https://ci.appveyor.com/project/RedFantom/ttk-themes/branch/master)
 [![Build Status](https://travis-ci.org/RedFantom/ttkthemes.svg?branch=master)](https://travis-ci.org/RedFantom/ttkthemes)
 [![codecov](https://codecov.io/gh/RedFantom/ttkthemes/branch/master/graph/badge.svg)](https://codecov.io/gh/RedFantom/ttkthemes)
@@ -12,7 +12,7 @@ created by various authors.
 ![Tcl/Tk logo](https://www.gsfparser.tk/wp-content/uploads/2017/03/Tcl.Tk_.png)
 
 ## License
-    ttk-themes: A group of themes for the ttk extensions of Tcl
+    ttkthemes: A group of themes for the ttk extensions of Tcl
     Copyright (C) 2017 RedFantom
     Copyright (C) 2004 Pat Thoyts
     Copyright (C) 2004 David Zolli
