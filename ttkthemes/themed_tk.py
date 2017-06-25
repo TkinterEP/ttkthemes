@@ -11,6 +11,7 @@ else:
 
 class ThemedTk(tk.Tk):
     def __init__(self, *args, **kwargs):
+        self.__debug = kwargs.pop("debug", False)
         tk.Tk.__init__(self, *args, **kwargs)
         prev_folder = os.getcwd()
         os.chdir(os.path.dirname(os.path.realpath(__file__)))
@@ -22,7 +23,8 @@ class ThemedTk(tk.Tk):
             self.tk.call("package", "require", "Tk", "8.6")
             self.img_support = True
         except tk.TclError:
-            print("Package Img cannot be called. Skipping theme Arc.")
+            if self.__debug:
+                print("Package Img cannot be called. Skipping theme Arc.")
         self.tk.eval("source themes/pkgIndex.tcl")
         os.chdir(prev_folder)
 
@@ -36,3 +38,7 @@ class ThemedTk(tk.Tk):
             self.tk.call("package", "require", "Img")
             self.tk.call("package", "require", "Tk", "8.6")
         return list(self.tk.call("ttk::themes"))
+
+    @property
+    def themes(self):
+        return self.get_themes()
