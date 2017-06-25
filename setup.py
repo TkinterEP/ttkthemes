@@ -16,7 +16,7 @@ setup(
     author='RedFantom and others',
     author_email='redfantom@outlook.com',
     url='https://github.com/RedFantom/ttkthemes',
-    download_url='https://github.com/RedFantom/ttkthemes/archive/1.4.1.tar.gz',
+    download_url='https://github.com/RedFantom/ttkthemes/releases',
     data_files=[(root, [os.path.relpath(os.path.join(root, f), os.path.dirname(os.path.realpath(__file__)))
                         for f in files]) for root, dirs, files in os.walk(os.path.join(os.path.dirname(
                 os.path.realpath(__file__)), "ttkthemes", "themes"))] +
