@@ -5,14 +5,16 @@ import sys
 import os
 if sys.version_info.major is 2:
     import Tkinter as tk
+    import ttk
 else:
     import tkinter as tk
+    from tkinter import ttk
 
 
-class ThemedTk(tk.Tk):
+class ThemedStyle(ttk.Style):
     def __init__(self, *args, **kwargs):
         self.__debug = kwargs.pop("debug", False)
-        tk.Tk.__init__(self, *args, **kwargs)
+        ttk.Style.__init__(self, *args, **kwargs)
         prev_folder = os.getcwd()
         os.chdir(os.path.dirname(os.path.realpath(__file__)))
         self.folder = os.path.dirname(os.path.realpath(__file__)).replace("\\", "/")
@@ -27,6 +29,9 @@ class ThemedTk(tk.Tk):
                 print("Package Img cannot be called. Skipping theme Arc.")
         self.tk.eval("source themes/pkgIndex.tcl")
         os.chdir(prev_folder)
+
+        self.theme_use = self.set_theme
+        self.theme_names = self.get_themes
 
     def set_theme(self, theme_name):
         self.tk.call("package", "require", "ttkthemes")
