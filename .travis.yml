@@ -11,14 +11,9 @@ before_install:
     - sudo apt-get install python-tk
     - sudo apt-get install python3-tk
     - sudo apt-get install libtk-img
-    - sudo pip install codecov coverage
+    - sudo -H pip install codecov coverage nose
 script:
-  - if [[ $TRAVIS_PYTHON_VERSION == 2.7 ]]; then python setup.py install; fi
-  - if [[ $TRAVIS_PYTHON_VERSION == 3.5 ]]; then python3 setup.py install; fi
-  - if [[ $TRAVIS_PYTHON_VERSION == 3.6 ]]; then python3 setup.py install; fi
-  - if [[ $TRAVIS_PYTHON_VERSION == 2.7 ]]; then python tests.py; fi
-  - if [[ $TRAVIS_PYTHON_VERSION == 3.5 ]]; then python3 tests.py; fi
-  - if [[ $TRAVIS_PYTHON_VERSION == 3.6 ]]; then python3 tests.py; fi
+    - python -m pip install .
+    - python -m nose --with-coverage
 after_success:
-    - coverage run tests.py
     - codecov
