@@ -1,7 +1,7 @@
 # Copyright (C) 2017 by RedFantom
 # Available under the license found in LICENSE
 import sys
-from ttkthemes.themed_tk import ThemedStyle
+from ttkthemes.themed_style import ThemedStyle
 import unittest
 if sys.version_info.major is 2:
     import Tkinter as tk
