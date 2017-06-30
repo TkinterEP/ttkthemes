@@ -11,7 +11,7 @@ def read(fname):
 setup(
     name='ttkthemes',
     packages=['ttkthemes'],
-    version='1.4.2',
+    version='1.5.0',
     description='A group of themes for the ttk extensions of Tkinter with a Tkinter.Tk wrapper',
     author='RedFantom and others',
     author_email='redfantom@outlook.com',
