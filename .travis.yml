@@ -13,6 +13,7 @@ before_install:
     - sudo apt-get install libtk-img
     - sudo -H pip install codecov coverage nose
 script:
+    - python -m pip install .
     - python -m nose --with-coverage
 after_success:
     - codecov
