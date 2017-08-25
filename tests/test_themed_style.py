@@ -27,4 +27,4 @@ class TestThemedStyle(unittest.TestCase):
         for item in themes:
             self.assertTrue(item in style.themes)
             style.theme_use(item)
-        self.assertEqual(style.theme_use, style.set_theme)
+            self.assertEqual(style.theme_use(), item)

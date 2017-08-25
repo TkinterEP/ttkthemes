@@ -30,8 +30,17 @@ class ThemedStyle(ttk.Style):
         self.tk.eval("source themes/pkgIndex.tcl")
         os.chdir(prev_folder)
 
-        self.theme_use = self.set_theme
         self.theme_names = self.get_themes
+
+    def theme_use(self, theme_name=None):
+        if theme_name is None:
+            # return currently used theme
+            # this also works on python 2 because ttk.Style inherits
+            # from object
+            return super(ThemedStyle, self).theme_use()
+
+        self.set_theme(theme_name)
+        return None
 
     def set_theme(self, theme_name):
         self.tk.call("package", "require", "ttkthemes")
