@@ -11,19 +11,13 @@ def read(fname):
 setup(
     name='ttkthemes',
     packages=['ttkthemes'],
-    version='1.5.0',
+    package_data={"ttkthemes": ["themes/*", "README.md", "LICENSE"]},
+    version='1.5.1',
     description='A group of themes for the ttk extensions of Tkinter with a Tkinter.Tk wrapper',
-    author='RedFantom and others',
+    author='The ttkthemes authors',
     author_email='redfantom@outlook.com',
     url='https://github.com/RedFantom/ttkthemes',
     download_url='https://github.com/RedFantom/ttkthemes/releases',
-    data_files=[(root, [os.path.relpath(os.path.join(root, f), os.path.dirname(os.path.realpath(__file__)))
-                        for f in files]) for root, dirs, files in os.walk(os.path.join(os.path.dirname(
-                os.path.realpath(__file__)), "ttkthemes", "themes"))] +
-               [os.path.relpath(os.path.join(os.path.dirname(os.path.realpath(__file__)), "ttkthemes", "README.md"),
-                                os.path.dirname(os.path.realpath(__file__))),
-                os.path.relpath(os.path.join(os.path.dirname(os.path.realpath(__file__)), "ttkthemes", "LICENSE"),
-                                os.path.dirname(os.path.realpath(__file__)))],
     include_package_data=True,
     keywords=['tkinter', 'ttk', 'gui', 'tcl', 'theme'],
     license='GPLv3',
@@ -37,4 +31,5 @@ setup(
                  'License :: OSI Approved :: GNU General Public License v3 (GPLv3)',
                  'Topic :: Software Development :: Libraries :: Tcl Extensions',
                  'Topic :: Software Development :: Libraries :: Python Modules'],
+    zip_safe=False
 )
