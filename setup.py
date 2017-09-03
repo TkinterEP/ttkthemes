@@ -12,7 +12,7 @@ setup(
     name='ttkthemes',
     packages=['ttkthemes'],
     package_data={"ttkthemes": ["themes/*", "README.md", "LICENSE"]},
-    version='1.5.1',
+    version='1.5.2',
     description='A group of themes for the ttk extensions of Tkinter with a Tkinter.Tk wrapper',
     author='The ttkthemes authors',
     author_email='redfantom@outlook.com',
