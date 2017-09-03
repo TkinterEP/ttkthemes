@@ -10,6 +10,7 @@ environment:
     - PYTHON: "C:\\PYTHON36-x64"
 install:
   - "%PYTHON%\\python.exe -m pip install codecov coverage nose"
+  - "%PYTHON%\\python.exe -m pip install setuptools --upgrade"
 build: off
 test_script:
   - "%PYTHON%\\python.exe setup.py install"
