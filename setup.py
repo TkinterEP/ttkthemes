@@ -31,5 +31,6 @@ setup(
                  'License :: OSI Approved :: GNU General Public License v3 (GPLv3)',
                  'Topic :: Software Development :: Libraries :: Tcl Extensions',
                  'Topic :: Software Development :: Libraries :: Python Modules'],
-    zip_safe=False
+    zip_safe=False,
+    install_requires=["pillow", "numpy"]
 )
