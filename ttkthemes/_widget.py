@@ -24,7 +24,23 @@ class ThemedWidget(object):
     duplication in the ThemedTk and ThemedStyle classes.
     """
 
-    png_themes = ["arc"]
+    pixmap_themes = [
+        "arc",
+        "black",
+        "blue",
+        "clearlooks",
+        "elegance",
+        "kroc",
+        "keramik",
+        "plastik",
+        "radiance",
+        "winxpblue"
+    ]
+
+    files = {
+        "radiance": "radiance8.5.tcl",
+        "clearlooks": "clearlooks8.5.tcl"
+    }
 
     def __init__(self, tk_interpreter):
         """
@@ -38,13 +54,7 @@ class ThemedWidget(object):
         os.chdir(utils.get_file_directory())
         # Load the themes
         self.tk.call("lappend", "auto_path", "[{}]".format(utils.get_themes_directory()))
-        self.img_support = False
-        try:
-            self.tk.call("package", "require", "Img")
-            self.tk.call("package", "require", "Tk", "8.6")
-            self.img_support = True
-        except tk.TclError:
-            pass
+        self.check_img_support()
         self.tk.eval("source themes/pkgIndex.tcl")
         # Change back working directory
         os.chdir(prev_folder)
@@ -61,9 +71,7 @@ class ThemedWidget(object):
     def get_themes(self):
         """Return a list of names of available themes"""
         self.tk.call("package", "require", "ttkthemes")
-        if self.img_support:
-            self.tk.call("package", "require", "Img")
-            self.tk.call("package", "require", "Tk", "8.6")
+        self.check_img_support()
         return list(self.tk.call("ttk::themes"))
 
     @property
@@ -77,16 +85,24 @@ class ThemedWidget(object):
         """
         Load an advanced theme that is customized upon runtime. Requires
         write permission into a temporary directory that is used to
-        temporarily store the custom theme.
+        temporarily store the custom theme. Only available with Img
+        library support (Tk 8.6 or higher, Python 3 unless you have
+        compiled Tk yourself).
         :param theme_name: pixmap theme name to base the new theme on
         :param brightness: brightness modifier for the pixmaps
         :param saturation: saturation modifier for the pixmaps
-        :param hue: hue modifier for the pixmaps
+        :param hue: hue modifier for the pixmaps, limited to 0.0-2.0
+        :param preserve_transparency: When True, all black pixels in the
+            resulting images will be set to transparent instead, as
+            transparency is lost during RGBA->HSV conversion. Has no
+            effect when not changing hue.
         :param output_dir: directory to put the theme in. By default,
-                           a volatile temporary directory is used
+            a volatile temporary directory is used
         """
+        if not self.check_img_support():
+            raise RuntimeError("Img library is not available")
         # Check if the theme is a pixmap theme
-        if theme_name not in self.png_themes:
+        if theme_name not in self.pixmap_themes:
             raise ValueError("Theme is not a valid pixmap theme")
         # Check if theme is available in the first place
         if theme_name not in self.themes:
@@ -123,11 +139,18 @@ class ThemedWidget(object):
         for directory in [output_dir, output_theme_dir]:
             utils.create_directory(directory)
         """Theme TCL file"""
-        theme_input = os.path.join(input_theme_dir, theme_name + ".tcl")
+        file_name = theme_name + ".tcl" if theme_name not in ThemedWidget.files else ThemedWidget.files[theme_name]
+        theme_input = os.path.join(input_theme_dir, file_name)
         theme_output = os.path.join(output_theme_dir, "advanced.tcl")
         with open(theme_input, "r") as fi, open(theme_output, "w") as fo:
             for line in fi:
-                fo.write(line.replace(theme_name, "advanced"))
+                # Setup new theme
+                line = line.replace(theme_name, "advanced")
+                # Setup new image format
+                line = line.replace("gif89", "png")
+                line = line.replace("gif", "png")
+                # Write processed line
+                fo.write(line)
         """pkgIndex.tcl file"""
         theme_pkg_input = os.path.join(advanced_pkg_dir, "pkgIndex.tcl")
         theme_pkg_output = os.path.join(output_theme_dir, "pkgIndex.tcl")
@@ -152,7 +175,7 @@ class ThemedWidget(object):
         :param hue: hue modifier
         """
         for file_name in os.listdir(directory):
-            image = Image.open(os.path.join(directory, file_name))
+            image = Image.open(os.path.join(directory, file_name)).convert("RGBA")
             # Only perform required operations
             if brightness != 1.0:
                 enhancer = ImageEnhance.Brightness(image)
@@ -165,5 +188,21 @@ class ThemedWidget(object):
             if preserve_transparency is True:
                 image = imgops.make_transparent(image)
             # Save the new image
-            image.save(os.path.join(directory, file_name))
+            image.save(os.path.join(directory, file_name.replace("gif", "png")))
+        for file_name in (item for item in os.listdir(directory) if item.endswith(".gif")):
+            os.remove(os.path.join(directory, file_name))
         return
+
+    def check_img_support(self):
+        img_support = False
+        try:
+            self.tk.call("package", "require", "Img")
+            img_support = True
+        except tk.TclError:
+            pass
+        try:
+            self.tk.call("package", "require", "Tk", "8.6")
+            img_support = True
+        except tk.TclError:
+            pass
+        return img_support
