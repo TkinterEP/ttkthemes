@@ -120,10 +120,7 @@ class ThemedWidget(object):
         prev_folder = os.getcwd()
         os.chdir(output_dir)
         self.tk.call("lappend", "auto_path", "[{}]".format(output_dir))
-        try:
-            self.tk.eval("source pkgIndex.tcl")
-        except tk.TclError:
-            pass
+        self.tk.eval("source pkgIndex.tcl")
         self.set_theme("advanced")
         os.chdir(prev_folder)
 
