@@ -40,7 +40,7 @@ class TestThemedTk(unittest.TestCase):
             self.tk.update()
 
     def test_custom_theme(self):
-        if not is_python_3():
+        if not self.tk.check_img_support():
             return
         for theme in self.tk.pixmap_themes:
             tk = ThemedTk()

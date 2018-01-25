@@ -30,7 +30,6 @@ class ThemedWidget(object):
         "clearlooks",
         "elegance",
         "kroc",
-        "keramik",
         "plastik",
         "radiance",
         "winxpblue"

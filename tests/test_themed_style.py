@@ -33,10 +33,11 @@ class TestThemedStyle(unittest.TestCase):
             self.assertEqual(style.theme_use(), item)
 
     def test_custom_theme(self):
-        if not is_python_3():
+        if not ThemedStyle().check_img_support():
             return
         for theme in ThemedStyle.pixmap_themes:
             window = tk.Tk()
             style = ThemedStyle(window)
+            print("Testing theme:", theme, flush=True)
             style.set_theme_advanced(theme, brightness=0.2, saturation=1.3, hue=1.4)
         return
