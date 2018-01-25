@@ -26,7 +26,6 @@ class ThemedWidget(object):
 
     pixmap_themes = [
         "arc",
-        "black",
         "blue",
         "clearlooks",
         "elegance",
@@ -55,7 +54,10 @@ class ThemedWidget(object):
         # Load the themes
         self.tk.call("lappend", "auto_path", "[{}]".format(utils.get_themes_directory()))
         self.check_img_support()
-        self.tk.eval("source themes/pkgIndex.tcl")
+        try:
+            self.tk.eval("source themes/pkgIndex.tcl")
+        except tk.TclError:
+            pass
         # Change back working directory
         os.chdir(prev_folder)
 
@@ -98,9 +100,11 @@ class ThemedWidget(object):
             effect when not changing hue.
         :param output_dir: directory to put the theme in. By default,
             a volatile temporary directory is used
+        :raises: RuntimeError when PNG images are not supported by Tk.
+            This usually applies to Python 2 platforms.
         """
         if not self.check_img_support():
-            raise RuntimeError("Img library is not available")
+            raise RuntimeError("PNG images are not supported by your Tkinter installation")
         # Check if the theme is a pixmap theme
         if theme_name not in self.pixmap_themes:
             raise ValueError("Theme is not a valid pixmap theme")
@@ -116,7 +120,10 @@ class ThemedWidget(object):
         prev_folder = os.getcwd()
         os.chdir(output_dir)
         self.tk.call("lappend", "auto_path", "[{}]".format(output_dir))
-        self.tk.eval("source pkgIndex.tcl")
+        try:
+            self.tk.eval("source pkgIndex.tcl")
+        except tk.TclError:
+            pass
         self.set_theme("advanced")
         os.chdir(prev_folder)
 
@@ -175,7 +182,8 @@ class ThemedWidget(object):
         :param hue: hue modifier
         """
         for file_name in os.listdir(directory):
-            image = Image.open(os.path.join(directory, file_name)).convert("RGBA")
+            with open(os.path.join(directory, file_name), "rb") as fi:
+                image = Image.open(fi).convert("RGBA")
             # Only perform required operations
             if brightness != 1.0:
                 enhancer = ImageEnhance.Brightness(image)

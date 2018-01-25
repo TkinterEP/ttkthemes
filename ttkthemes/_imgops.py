@@ -15,14 +15,14 @@ def shift_hue(image, hue):
     """
     hue = max(min(hue, 2.0), 0.0)
     hue = 180 + (hue - 1.0) * 180
-    hsv_array = array(image.convert("HSV"))
+    hsv_array = array(image.copy().convert("HSV"))
     hsv_array[..., 0] = hue
     return Image.fromarray(hsv_array, "HSV").convert("RGBA")
 
 
 def make_transparent(image):
     """Turn all black pixels in an image into transparent ones"""
-    data = image.getdata()
+    data = image.copy().getdata()
     modified = []
     for item in data:
         if _check_pixel(item) is True:
