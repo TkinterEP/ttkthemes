@@ -3,5 +3,3 @@ recursive-include *.tcl
 recursive-include *.png
 recursive-include *.gif
 recursive-include *.md
-include README.md
-include LICENSE
