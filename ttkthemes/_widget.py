@@ -52,7 +52,13 @@ class ThemedWidget(object):
         os.chdir(utils.get_file_directory())
         # Load the themes
         self.tk.call("lappend", "auto_path", "[{}]".format(utils.get_themes_directory()))
-        self.check_img_support()
+        self._img_support = False
+        try:
+            self.tk.call("package", "require", "Img")
+            self.tk.call("package", "require", "Tk", "8.6")
+            self._img_support = True
+        except tk.TclError:
+            pass
         try:
             self.tk.eval("source themes/pkgIndex.tcl")
         except tk.TclError:
@@ -72,7 +78,7 @@ class ThemedWidget(object):
     def get_themes(self):
         """Return a list of names of available themes"""
         self.tk.call("package", "require", "ttkthemes")
-        self.check_img_support()
+        self.img_support
         return list(self.tk.call("ttk::themes"))
 
     @property
@@ -102,14 +108,14 @@ class ThemedWidget(object):
         :raises: RuntimeError when PNG images are not supported by Tk.
             This usually applies to Python 2 platforms.
         """
-        if not self.check_img_support():
+        if not self.img_support:
             raise RuntimeError("PNG images are not supported by your Tkinter installation")
         # Check if the theme is a pixmap theme
         if theme_name not in self.pixmap_themes:
             raise ValueError("Theme is not a valid pixmap theme")
         # Check if theme is available in the first place
         if theme_name not in self.themes:
-            raise ValueError("Theme to create new theme from is not available")
+            raise ValueError("Theme to create new theme from is not available: {}".format(theme_name))
         output_dir = os.path.join(utils.get_temp_directory()) if output_dir is None else output_dir
         self._setup_advanced_theme(theme_name, output_dir)
         # Perform image operations
@@ -197,16 +203,6 @@ class ThemedWidget(object):
             os.remove(os.path.join(directory, file_name))
         return
 
-    def check_img_support(self):
-        img_support = False
-        try:
-            self.tk.call("package", "require", "Img")
-            img_support = True
-        except tk.TclError:
-            pass
-        try:
-            self.tk.call("package", "require", "Tk", "8.6")
-            img_support = True
-        except tk.TclError:
-            pass
-        return img_support
+    @property
+    def img_support(self):
+        return self._img_support

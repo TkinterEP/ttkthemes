@@ -18,7 +18,7 @@ class TestThemedTk(unittest.TestCase):
         self.themes = ["blue", "plastik", "keramik", "aquativo",
                        "clearlooks", "elegance", "kroc", "radiance",
                        "winxpblue", "keramik_alt", "black"]
-        if self.tk.check_img_support():
+        if self.tk.img_support:
             self.themes.append("arc")
 
     def tearDown(self):
@@ -40,7 +40,7 @@ class TestThemedTk(unittest.TestCase):
             self.tk.update()
 
     def test_custom_theme(self):
-        if not self.tk.check_img_support():
+        if not self.tk.img_support:
             return
         for theme in self.tk.pixmap_themes:
             tk = ThemedTk()

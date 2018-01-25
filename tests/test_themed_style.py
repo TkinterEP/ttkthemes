@@ -24,7 +24,7 @@ class TestThemedStyle(unittest.TestCase):
         themes = ["blue", "plastik", "keramik", "aquativo",
                   "clearlooks", "elegance", "kroc", "radiance",
                   "winxpblue", "keramik_alt", "black"]
-        if style.check_img_support():
+        if style.img_support:
             themes.append("arc")
         self.assertListEqual(style.get_themes(), style.themes)
         for item in themes:
@@ -33,7 +33,7 @@ class TestThemedStyle(unittest.TestCase):
             self.assertEqual(style.theme_use(), item)
 
     def test_custom_theme(self):
-        if not ThemedStyle().check_img_support():
+        if not ThemedStyle().img_support:
             return
         for theme in ThemedStyle.pixmap_themes:
             window = tk.Tk()
