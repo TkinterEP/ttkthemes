@@ -18,7 +18,7 @@ class Example(ThemedTk):
     """
     Example that is used to create screenshots for new themes.
     """
-    def __init__(self, theme="dark"):
+    def __init__(self, theme="arc"):
         """
         :param theme: Theme to show off
         """
@@ -68,5 +68,5 @@ class Example(ThemedTk):
 
 if __name__ == '__main__':
     example = Example()
-    example.set_theme_advanced("elegance", saturation=1.2, hue=1.4, brightness=0.99)
+    example.set_theme_advanced("arc", saturation=1.2, hue=1.4, brightness=0.99)
     example.mainloop()
