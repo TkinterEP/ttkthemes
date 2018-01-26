@@ -14,6 +14,6 @@ install:
 build: off
 test_script:
   - "%PYTHON%\\python.exe setup.py install"
-  - "%PYTHON%\\python.exe -m nose --with-coverage"
+  - "%PYTHON%\\python.exe -m nose --with-coverage --cover-package=ttkthemes --cover-xml"
 after_test:
-  - "%PYTHON%\\Scripts\\codecov.exe"
+  - "%PYTHON%\\Scripts\\codecov.exe --file c:/projects/ttk-themes/coverage.xml"

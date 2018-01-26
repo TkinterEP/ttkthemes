@@ -12,9 +12,9 @@ before_install:
     - sudo apt-get install python-tk
     - sudo apt-get install python3-tk
     - sudo apt-get install libtk-img
-    - sudo -H pip install codecov coverage nose
+    - pip install codecov coverage nose
 script:
     - python -m pip install .
-    - python -m nose --with-coverage
+    - python -m nose --with-coverage --cover-package=ttkthemes --cover-xml
 after_success:
-    - codecov
+    - python -m codecov
