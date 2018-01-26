@@ -4,9 +4,6 @@
 
 namespace eval ttk::theme::arc {
 
-    variable version 0.1
-    package provide ttk::theme::arc $version
-
     variable colors
     array set colors {
         -fg             "#5c616c"
@@ -312,5 +309,8 @@ namespace eval ttk::theme::arc {
             -foreground [list selected $colors(-selectfg)]
     }
 }
+
+variable version 0.2
+package provide ttk::theme::arc $version
 
 # vim:ts=8:sw=4:sts=4:et

@@ -32,7 +32,7 @@ class ThemedWidget(object):
         # Load the themes
         self.folder = os.path.dirname(os.path.realpath(__file__)).replace("\\", "/")
         self.tk.call("lappend", "auto_path", "[%s]" % self.folder + "/themes")
-        self.img_support = self._load_tkimg()
+        self._load_tkimg()
         self.tk.eval("source themes/pkgIndex.tcl")
         # Change back working directory
         os.chdir(prev_folder)

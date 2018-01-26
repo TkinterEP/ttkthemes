@@ -15,6 +15,6 @@ source [file join $themesdir aquativo aquativo.tcl]
 source [file join $themesdir keramik keramik.tcl]
 source [file join $themesdir winxpblue winxpblue.tcl]
 source [file join $themesdir black black.tcl]
-if {![catch {package present Img}] && ![catch {package required Tk 8.6}]} {
+if {![catch {package present Img}]} {
     source [file join $themesdir arc arc.tcl]
 }
