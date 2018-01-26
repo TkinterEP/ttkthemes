@@ -7,7 +7,6 @@
 # use tile::availableThemes and tile::setTheme 
 
 if {![file isdirectory [file join $dir arc]]} { return }
-if {![package vsatisfies [package provide Tcl] 8.6]} { return }
 
 package ifneeded ttk::theme::arc 0.1 \
     [list source [file join $dir arc.tcl]]

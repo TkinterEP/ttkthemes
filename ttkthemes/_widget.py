@@ -11,11 +11,6 @@ from PIL import Image, ImageEnhance
 import ttkthemes._imgops as imgops
 # Own modules
 from ttkthemes import _utils as utils
-# Tkinter
-if utils.is_python_3():
-    import tkinter as tk
-else:
-    import Tkinter as tk
 
 
 class ThemedWidget(object):
@@ -35,11 +30,6 @@ class ThemedWidget(object):
         "winxpblue"
     ]
 
-    files = {
-        "radiance": "radiance8.5.tcl",
-        "clearlooks": "clearlooks8.5.tcl"
-    }
-
     def __init__(self, tk_interpreter):
         """
         Loads themes into tk interpreter
@@ -51,18 +41,10 @@ class ThemedWidget(object):
         prev_folder = os.getcwd()
         os.chdir(utils.get_file_directory())
         # Load the themes
-        self.tk.call("lappend", "auto_path", "[{}]".format(utils.get_themes_directory()))
-        self._img_support = False
-        try:
-            self.tk.call("package", "require", "Img")
-            self.tk.call("package", "require", "Tk", "8.6")
-            self._img_support = True
-        except tk.TclError:
-            pass
-        try:
-            self.tk.eval("source themes/pkgIndex.tcl")
-        except tk.TclError:
-            pass
+        self.folder = os.path.dirname(os.path.realpath(__file__)).replace("\\", "/")
+        self.tk.call("lappend", "auto_path", "[%s]" % self.folder + "/themes")
+        self._img_support = self._load_tkimg()
+        self.tk.eval("source themes/pkgIndex.tcl")
         # Change back working directory
         os.chdir(prev_folder)
 
@@ -78,7 +60,6 @@ class ThemedWidget(object):
     def get_themes(self):
         """Return a list of names of available themes"""
         self.tk.call("package", "require", "ttkthemes")
-        self.img_support
         return list(self.tk.call("ttk::themes"))
 
     @property
@@ -148,7 +129,7 @@ class ThemedWidget(object):
         for directory in [output_dir, output_theme_dir]:
             utils.create_directory(directory)
         """Theme TCL file"""
-        file_name = theme_name + ".tcl" if theme_name not in ThemedWidget.files else ThemedWidget.files[theme_name]
+        file_name = theme_name + ".tcl"
         theme_input = os.path.join(input_theme_dir, file_name)
         theme_output = os.path.join(output_theme_dir, "advanced.tcl")
         with open(theme_input, "r") as fi, open(theme_output, "w") as fo:
@@ -202,6 +183,26 @@ class ThemedWidget(object):
         for file_name in (item for item in os.listdir(directory) if item.endswith(".gif")):
             os.remove(os.path.join(directory, file_name))
         return
+
+    def _load_tkimg(self):
+        """
+        Load the TkImg library from the tkimg folder for the current
+        tk interpreter. Required for PNG support on Python 2, but also
+        used on Python 3 as the theme files have been modified to
+        support Img.
+        :raise: tk.TclError if evaluation fails
+        """
+        tkimg_folder = utils.get_tkimg_directory()
+        if not os.path.exists(tkimg_folder):
+            raise RuntimeError("Unsupported platform and/or architecture")
+        pkg_index = os.path.join(tkimg_folder, "pkgIndex.tcl")
+        prev_folder = os.getcwd()
+        os.chdir(tkimg_folder)
+        self.tk.call("lappend", "auto_path", "[{}]".format(tkimg_folder))
+        self.tk.eval("source {}".format(os.path.relpath(pkg_index, os.getcwd())))
+        self.tk.call("package", "require", "Img")
+        os.chdir(prev_folder)
+        return True
 
     @property
     def img_support(self):

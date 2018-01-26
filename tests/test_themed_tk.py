@@ -17,9 +17,7 @@ class TestThemedTk(unittest.TestCase):
         self.tk = ThemedTk()
         self.themes = ["blue", "plastik", "keramik", "aquativo",
                        "clearlooks", "elegance", "kroc", "radiance",
-                       "winxpblue", "keramik_alt", "black"]
-        if self.tk.img_support:
-            self.themes.append("arc")
+                       "winxpblue", "keramik_alt", "black", "arc"]
 
     def tearDown(self):
         self.tk.destroy()
@@ -27,6 +25,8 @@ class TestThemedTk(unittest.TestCase):
     def test_themes_available(self):
         available_themes = self.tk.get_themes()
         for theme in self.themes:
+            if theme not in available_themes:
+                print("Theme failed:", theme)
             self.assertTrue(theme in available_themes)
 
     def test_theme_setting(self):

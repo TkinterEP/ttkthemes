@@ -34,7 +34,15 @@ def get_themes_directory():
 
 
 def create_directory(directory):
+    """Create directory but first delete it if it exists"""
     if os.path.exists(directory):
         rmtree(directory)
     os.makedirs(directory)
     return directory
+
+
+def get_tkimg_directory():
+    """
+    Return an absolute path to the TkImg directory for current platform
+    """
+    return os.path.join(os.path.dirname(__file__), "tkimg")
