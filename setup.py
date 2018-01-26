@@ -34,7 +34,7 @@ if __name__ == '__main__':
 setup(
     name='ttkthemes',
     packages=['ttkthemes'],
-    package_data={"ttkthemes": ["themes/*", "tkimg/*", "README.md", "LICENSE"]},
+    package_data={"ttkthemes": ["themes/*", "tkimg/*"]},
     version='1.5.2',
     description='A group of themes for the ttk extensions of Tkinter with a Tkinter.Tk wrapper',
     author='The ttkthemes authors',

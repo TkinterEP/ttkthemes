@@ -16,8 +16,6 @@ class TestUtils(TestCase):
         directory = utils.get_file_directory()
         self.assertIsInstance(directory, str)
         self.assertTrue(os.path.exists(directory))
-        test_dir = os.path.realpath(os.path.join(directory, "..", "tests"))
-        self.assertTrue(os.path.basename(__file__) in os.listdir(test_dir))
 
     def test_get_temp_directory(self):
         self.assertTrue(os.path.exists(utils.get_temp_directory()))
