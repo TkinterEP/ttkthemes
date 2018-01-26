@@ -4,8 +4,7 @@ License: GNU GPLv3
 Copyright (c) 2017-2018 RedFantom
 """
 import os
-import sys
-from platform import architecture
+from ttkthemes import _utils as utils
 
 
 class ThemedWidget(object):
@@ -13,11 +12,6 @@ class ThemedWidget(object):
     Provides functions to manipulate themes in order to reduce code
     duplication in the ThemedTk and ThemedStyle classes.
     """
-
-    platforms = {
-        "win32": "win",
-        "linux2": "linux"
-    }
 
     def __init__(self, tk_interpreter):
         """
@@ -64,11 +58,9 @@ class ThemedWidget(object):
         support Img.
         :raise: tk.TclError if evaluation fails
         """
-        prefix = sys.platform if sys.platform not in self.platforms else self.platforms[sys.platform]
-        arch = int(architecture()[0][:2])
-        tkimg_folder = os.path.join(os.path.dirname(__file__), "tkimg", "{}{}".format(prefix, arch))
+        tkimg_folder = utils.get_tkimg_directory()
         if not os.path.exists(tkimg_folder):
-            raise RuntimeError("Unsupported platform and/or architecture: {}_{}".format(prefix, arch))
+            raise RuntimeError("Unsupported platform and/or architecture")
         pkg_index = os.path.join(tkimg_folder, "pkgIndex.tcl")
         prev_folder = os.getcwd()
         os.chdir(tkimg_folder)
