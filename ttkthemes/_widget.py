@@ -6,11 +6,6 @@ Copyright (c) 2017-2018 RedFantom
 import os
 import sys
 from platform import architecture
-from ._utils import is_python_3
-if is_python_3():
-    import tkinter as tk
-else:
-    import Tkinter as tk
 
 
 class ThemedWidget(object):
@@ -67,6 +62,7 @@ class ThemedWidget(object):
         tk interpreter. Required for PNG support on Python 2, but also
         used on Python 3 as the theme files have been modified to
         support Img.
+        :raise: tk.TclError if evaluation fails
         """
         prefix = sys.platform if sys.platform not in self.platforms else self.platforms[sys.platform]
         arch = int(architecture()[0][:2])
@@ -77,13 +73,9 @@ class ThemedWidget(object):
         prev_folder = os.getcwd()
         os.chdir(tkimg_folder)
         self.tk.call("lappend", "auto_path", "[{}]".format(tkimg_folder))
-        try:
-            self.tk.eval("source {}".format(os.path.relpath(pkg_index, os.getcwd())))
-            self.tk.call("package", "require", "Img")
-            success = True
-        except tk.TclError:
-            success = False
+        self.tk.eval("source {}".format(os.path.relpath(pkg_index, os.getcwd())))
+        self.tk.call("package", "require", "Img")
         os.chdir(prev_folder)
-        return success
+        return True
 
 
