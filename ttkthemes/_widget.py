@@ -180,6 +180,7 @@ class ThemedWidget(object):
                 image = imgops.make_transparent(image)
             # Save the new image
             image.save(os.path.join(directory, file_name.replace("gif", "png")))
+            image.close()
         for file_name in (item for item in os.listdir(directory) if item.endswith(".gif")):
             os.remove(os.path.join(directory, file_name))
         return

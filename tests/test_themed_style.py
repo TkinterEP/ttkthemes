@@ -26,16 +26,13 @@ class TestThemedStyle(unittest.TestCase):
                   "winxpblue", "keramik_alt", "black", "arc"]
         for item in themes:
             style.theme_use(item)
-            if item not in style.themes:
-                print("Theme failed:", item)
             self.assertTrue(item in style.themes)
             self.assertEqual(style.theme_use(), item)
 
     def test_custom_theme(self):
-        if not ThemedStyle().img_support:
-            return
         for theme in ThemedStyle.pixmap_themes:
             window = tk.Tk()
             style = ThemedStyle(window)
             style.set_theme_advanced(theme, brightness=0.2, saturation=1.3, hue=1.4)
+            window.destroy()
         return
