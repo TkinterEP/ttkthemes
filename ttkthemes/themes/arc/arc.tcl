@@ -21,7 +21,7 @@ namespace eval ttk::theme::arc {
         variable I
         foreach file [glob -directory $imgdir *.png] {
             set img [file tail [file rootname $file]]
-            set I($img) [image create photo im -file $file -format png]
+            set I($img) [image create photo -file $file -format png]
         }
     }
 
@@ -310,7 +310,6 @@ namespace eval ttk::theme::arc {
     }
 }
 
-variable version 0.2
+variable version 0.1
 package provide ttk::theme::arc $version
 
-# vim:ts=8:sw=4:sts=4:et

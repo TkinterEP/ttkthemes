@@ -13,10 +13,9 @@ def shift_hue(image, hue):
     :param image: PIL Image to perform operation on
     :param hue: value between 0 and 2.0
     """
-    hue = max(min(hue, 2.0), 0.0)
-    hue = 180 + (hue - 1.0) * 180
+    hue = (hue - 1.0) * 180
     hsv_array = array(image.copy().convert("HSV"))
-    hsv_array[..., 0] = hue
+    hsv_array[..., 0] += int(hue)
     return Image.fromarray(hsv_array, "HSV").convert("RGBA")
 
 

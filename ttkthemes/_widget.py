@@ -69,7 +69,8 @@ class ThemedWidget(object):
 
     def set_theme_advanced(self, theme_name, brightness=1.0,
                            saturation=1.0, hue=1.0,
-                           preserve_transparency=True, output_dir=None):
+                           preserve_transparency=True, output_dir=None,
+                           advanced_name="advanced"):
         """
         Load an advanced theme that is customized upon runtime. Requires
         write permission into a temporary directory that is used to
@@ -86,8 +87,11 @@ class ThemedWidget(object):
             effect when not changing hue.
         :param output_dir: directory to put the theme in. By default,
             a volatile temporary directory is used
+        :param advanced_name: Name to give to the new theme
         :raises: RuntimeError when PNG images are not supported by Tk.
             This usually applies to Python 2 platforms.
+        :raises: ValueError is theme is not available or valid
+        :raises: RuntimeError when the same name is used twice
         """
         if not self.img_support:
             raise RuntimeError("PNG images are not supported by your Tkinter installation")
@@ -97,21 +101,24 @@ class ThemedWidget(object):
         # Check if theme is available in the first place
         if theme_name not in self.themes:
             raise ValueError("Theme to create new theme from is not available: {}".format(theme_name))
-        output_dir = os.path.join(utils.get_temp_directory()) if output_dir is None else output_dir
-        self._setup_advanced_theme(theme_name, output_dir)
+        if advanced_name in self.themes:
+            raise RuntimeError("The same name for an advanced theme cannot be used twice")
+        # Unload advanced if already loaded
+        output_dir = os.path.join(utils.get_temp_directory(), advanced_name) if output_dir is None else output_dir
+        self._setup_advanced_theme(theme_name, output_dir, advanced_name)
         # Perform image operations
-        image_directory = os.path.join(output_dir, "advanced", "advanced")
+        image_directory = os.path.join(output_dir, advanced_name, advanced_name)
         self._setup_images(image_directory, brightness, saturation, hue, preserve_transparency)
         # Load the new theme
         prev_folder = os.getcwd()
         os.chdir(output_dir)
         self.tk.call("lappend", "auto_path", "[{}]".format(output_dir))
         self.tk.eval("source pkgIndex.tcl")
-        self.set_theme("advanced")
+        self.set_theme(advanced_name)
         os.chdir(prev_folder)
 
     @staticmethod
-    def _setup_advanced_theme(theme_name, output_dir):
+    def _setup_advanced_theme(theme_name, output_dir, advanced_name):
         """
         Setup all the files required to enable an advanced theme. Copies
         all the files over and creates the required directories if they
@@ -120,8 +127,8 @@ class ThemedWidget(object):
         :param output_dir: output directory to place the files in
         """
         """Directories"""
-        output_theme_dir = os.path.join(output_dir, "advanced")
-        output_images_dir = os.path.join(output_theme_dir, "advanced")
+        output_theme_dir = os.path.join(output_dir, advanced_name)
+        output_images_dir = os.path.join(output_theme_dir, advanced_name)
         input_theme_dir = os.path.join(utils.get_themes_directory(), theme_name)
         input_images_dir = os.path.join(input_theme_dir, theme_name)
         advanced_pkg_dir = os.path.join(utils.get_file_directory(), "advanced")
@@ -131,11 +138,11 @@ class ThemedWidget(object):
         """Theme TCL file"""
         file_name = theme_name + ".tcl"
         theme_input = os.path.join(input_theme_dir, file_name)
-        theme_output = os.path.join(output_theme_dir, "advanced.tcl")
+        theme_output = os.path.join(output_theme_dir, "{}.tcl".format(advanced_name))
         with open(theme_input, "r") as fi, open(theme_output, "w") as fo:
             for line in fi:
                 # Setup new theme
-                line = line.replace(theme_name, "advanced")
+                line = line.replace(theme_name, advanced_name)
                 # Setup new image format
                 line = line.replace("gif89", "png")
                 line = line.replace("gif", "png")
@@ -144,11 +151,15 @@ class ThemedWidget(object):
         """pkgIndex.tcl file"""
         theme_pkg_input = os.path.join(advanced_pkg_dir, "pkgIndex.tcl")
         theme_pkg_output = os.path.join(output_theme_dir, "pkgIndex.tcl")
-        copyfile(theme_pkg_input, theme_pkg_output)
+        with open(theme_pkg_input, "r") as fi, open(theme_pkg_output, "w") as fo:
+            for line in fi:
+                fo.write(line.replace("advanced", advanced_name))
         """pkgIndex_package.tcl -> pkgIndex.tcl"""
         theme_pkg_input = os.path.join(advanced_pkg_dir, "pkgIndex_package.tcl")
         theme_pkg_output = os.path.join(output_dir, "pkgIndex.tcl")
-        copyfile(theme_pkg_input, theme_pkg_output)
+        with open(theme_pkg_input, "r") as fi, open(theme_pkg_output, "w") as fo:
+            for line in fi:
+                fo.write(line.replace("advanced", advanced_name))
         """Images"""
         if os.path.exists(output_images_dir):
             rmtree(output_images_dir)
