@@ -24,7 +24,7 @@ matrix:
   allow_failures:
    - os: osx
 
-env: DEPENDENCIES="codecov coverage nose" PACKAGES="python-tk python3-tk libtk-img python-coverage python3-coverage"
+env: PACKAGES="python-tk python3-tk libtk-img"
 
 before_install:
   # Linux
@@ -38,7 +38,7 @@ before_install:
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
       brew install $PYTHON pipenv || echo "Installed PipEnv";
     fi;
-  - $PIP install $DEPENDENCIES pip setuptools -U
+  - $PIP install codecov coverage nose pip setuptools -U
 
 script:
   - $PIP install .
