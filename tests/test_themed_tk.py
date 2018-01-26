@@ -14,9 +14,7 @@ class TestThemedTk(unittest.TestCase):
         self.tk = ThemedTk()
         self.themes = ["blue", "plastik", "keramik", "aquativo",
                        "clearlooks", "elegance", "kroc", "radiance",
-                       "winxpblue", "keramik_alt", "black"]
-        if self.tk.img_support:
-            self.themes.append("arc")
+                       "winxpblue", "keramik_alt", "black", "arc"]
 
     def tearDown(self):
         self.tk.destroy()

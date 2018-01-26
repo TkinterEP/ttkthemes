@@ -20,9 +20,7 @@ class TestThemedStyle(unittest.TestCase):
         style = ThemedStyle(self.window)
         themes = ["blue", "plastik", "keramik", "aquativo",
                   "clearlooks", "elegance", "kroc", "radiance",
-                  "winxpblue", "keramik_alt", "black"]
-        if style.img_support:
-            themes.append("arc")
+                  "winxpblue", "keramik_alt", "black", "arc"]
         self.assertListEqual(style.get_themes(), style.themes)
         for item in themes:
             self.assertTrue(item in style.themes)

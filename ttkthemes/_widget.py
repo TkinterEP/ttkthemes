@@ -38,11 +38,6 @@ class ThemedWidget(object):
         self.folder = os.path.dirname(os.path.realpath(__file__)).replace("\\", "/")
         self.tk.call("lappend", "auto_path", "[%s]" % self.folder + "/themes")
         self._load_tkimg()
-        try:
-            self.tk.call("package", "require", "Img")
-            self.img_support = True
-        except tk.TclError:
-            pass
         self.tk.eval("source themes/pkgIndex.tcl")
         # Change back working directory
         os.chdir(prev_folder)
@@ -59,8 +54,6 @@ class ThemedWidget(object):
     def get_themes(self):
         """Return a list of names of available themes"""
         self.tk.call("package", "require", "ttkthemes")
-        if self.img_support:
-            self.tk.call("package", "require", "Img")
         return list(self.tk.call("ttk::themes"))
 
     @property
