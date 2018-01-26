@@ -46,7 +46,7 @@ script:
   - if [[ "TRAVIS_OS_NAME" == "linux" ]]; then $PYTHON $NOSE --with-coverage --cover-xml --cover-package=ttkthemes; fi;
 
 after_success:
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then $PYTHON -m codecov; fi;
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then $PYTHON -m codecov -f coverage.xml; fi;
   - $PYTHON setup.py bdist_wheel
 
 deploy:
