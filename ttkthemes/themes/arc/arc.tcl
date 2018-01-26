@@ -1,7 +1,6 @@
 #  Copyright (c) 2015 Sergei Golovan <sgolovan@nes.ru>
 #  Derived from https://github.com/horst3180/arc-theme/ under the GNU GPLv3
 #  Thus this is available under GNU GPLv3 also, as described in LICENSE
-package require Tk 8.6.0
 
 namespace eval ttk::theme::arc {
 

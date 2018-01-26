@@ -23,6 +23,9 @@ class TestThemedStyle(unittest.TestCase):
                   "winxpblue", "keramik_alt", "black", "arc"]
         self.assertListEqual(style.get_themes(), style.themes)
         for item in themes:
+            if item not in style.themes:
+                print("Theme failed:", item)
             self.assertTrue(item in style.themes)
             style.theme_use(item)
             self.assertEqual(style.theme_use(), item)
+            print("Theme available:", item)

@@ -22,6 +22,8 @@ class TestThemedTk(unittest.TestCase):
     def test_themes_available(self):
         available_themes = self.tk.get_themes()
         for theme in self.themes:
+            if theme not in available_themes:
+                print("Theme failed:", theme)
             self.assertTrue(theme in available_themes)
 
     def test_theme_setting(self):
