@@ -4,8 +4,9 @@ License: GNU GPLv3
 Copyright (c) 2017-2018 RedFantom
 """
 import os
+import sys
+from platform import architecture
 from ._utils import is_python_3
-
 if is_python_3():
     import tkinter as tk
 else:
@@ -17,6 +18,12 @@ class ThemedWidget(object):
     Provides functions to manipulate themes in order to reduce code
     duplication in the ThemedTk and ThemedStyle classes.
     """
+
+    platforms = {
+        "win32": "win",
+        "linux2": "linux"
+    }
+
     def __init__(self, tk_interpreter):
         """
         Loads themes into tk interpreter
@@ -30,10 +37,9 @@ class ThemedWidget(object):
         # Load the themes
         self.folder = os.path.dirname(os.path.realpath(__file__)).replace("\\", "/")
         self.tk.call("lappend", "auto_path", "[%s]" % self.folder + "/themes")
-        self.img_support = False
+        self._load_tkimg()
         try:
             self.tk.call("package", "require", "Img")
-            self.tk.call("package", "require", "Tk", "8.6")
             self.img_support = True
         except tk.TclError:
             pass
@@ -55,12 +61,34 @@ class ThemedWidget(object):
         self.tk.call("package", "require", "ttkthemes")
         if self.img_support:
             self.tk.call("package", "require", "Img")
-            self.tk.call("package", "require", "Tk", "8.6")
         return list(self.tk.call("ttk::themes"))
 
     @property
     def themes(self):
         """Property alias of get_themes()"""
         return self.get_themes()
+
+    def _load_tkimg(self):
+        """
+        Load the TkImg library from the tkimg folder for the current
+        tk interpreter. Required for PNG support on Python 2, but also
+        used on Python 3 as the theme files have been modified to
+        support Img.
+        """
+        prefix = sys.platform if sys.platform not in self.platforms else self.platforms[sys.platform]
+        arch = int(architecture()[0][:2])
+        tkimg_folder = os.path.join(os.path.dirname(__file__), "tkimg", "{}{}".format(prefix, arch))
+        pkg_index = os.path.join(tkimg_folder, "pkgIndex.tcl")
+        prev_folder = os.getcwd()
+        os.chdir(tkimg_folder)
+        self.tk.call("lappend", "auto_path", "[{}]".format(tkimg_folder))
+        try:
+            self.tk.eval("source {}".format(os.path.relpath(pkg_index, os.getcwd())))
+            self.tk.call("package", "require", "Img")
+            success = True
+        except tk.TclError:
+            success = False
+        os.chdir(prev_folder)
+        return success
 
 

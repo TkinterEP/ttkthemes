@@ -25,7 +25,7 @@ namespace eval ttk::theme::arc {
         variable I
         foreach file [glob -directory $imgdir *.png] {
             set img [file tail [file rootname $file]]
-            set I($img) [image create photo -file $file -format png]
+            set I($img) [image create photo im -file $file -format png]
         }
     }
 
