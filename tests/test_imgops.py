@@ -18,7 +18,7 @@ class TestImgOps(TestCase):
     def test_shift_hue(self):
         red_image = Image.new("RGBA", (10, 10), (255, 0, 0, 255))
         shifted_image = imgops.shift_hue(red_image, 0.5)
-        self.assertEqual(shifted_image.getdata()[0][1], 255)
+        self.assertNotEqual(shifted_image.getdata()[0], red_image.getdata()[0])
 
     def test_check_pixel(self):
         black_image = Image.new("RGBA", (10, 10))
