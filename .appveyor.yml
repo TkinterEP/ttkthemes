@@ -9,11 +9,11 @@ environment:
     - PYTHON: "C:\\PYTHON36"
     - PYTHON: "C:\\PYTHON36-x64"
 install:
-  - "%PYTHON%\\python.exe -m pip install codecov coverage nose"
+  - "%PYTHON%\\python.exe -m pip install codecov coverage nose pillow numpy"
   - "%PYTHON%\\python.exe -m pip install setuptools pip wheel --upgrade"
 build: off
 test_script:
-  - "%PYTHON%\\python.exe -m pip install ."
+  - "%PYTHON%\\python.exe setup.py install"
   - "%PYTHON%\\python.exe -m nose --with-coverage --cover-package=ttkthemes --cover-xml"
 after_test:
   - "%PYTHON%\\Scripts\\codecov.exe -f C:\\projects\\ttk-themes\\coverage.xml"
