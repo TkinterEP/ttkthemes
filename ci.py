@@ -90,6 +90,7 @@ def ci_macos():
     command_string = "sudo -H $PIP install "
     for element in DEPENDENCIES + REQUIREMENTS + ["-U"]:
         command_string += element + " "
+    run_command(command_string)
     # Build a wheel
     run_command("$PYTHON setup.py bdist_wheel")
     assert check_wheel_existence()
