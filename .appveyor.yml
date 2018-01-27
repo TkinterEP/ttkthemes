@@ -13,11 +13,12 @@ install:
   - "%PYTHON%\\python.exe -m pip install setuptools pip wheel --upgrade"
 build: off
 test_script:
-  - "%PYTHON%\\python.exe setup.py install"
+  - "%PYTHON%\\python.exe setup.py bdist_wheel"
+  - "%PYTHON%\\python.exe -m pip install dist/*.whl"
+  - "rd /q /s ttkthemes"
   - "%PYTHON%\\python.exe -m nose --with-coverage --cover-package=ttkthemes --cover-xml"
 after_test:
   - "%PYTHON%\\Scripts\\codecov.exe -f C:\\projects\\ttk-themes\\coverage.xml"
-  - "%PYTHON%\\python.exe setup.py bdist_wheel"
 artifacts:
   - path: "dist/*.whl"
     name: "wheel-windows-%PYTHON%"
