@@ -13,8 +13,6 @@ install:
   - "%PYTHON%\\python.exe -m pip install setuptools pip wheel --upgrade"
 build: off
 test_script:
-  - "%PYTHON%\\python.exe setup.py install"
-  - "rd /s /q ttkthemes"
   - "%PYTHON%\\python.exe -m nose --with-coverage --cover-package=ttkthemes --cover-xml"
 after_test:
   - "%PYTHON%\\Scripts\\codecov.exe -f C:\\projects\\ttk-themes\\coverage.xml"

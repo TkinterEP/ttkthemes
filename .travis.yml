@@ -42,8 +42,6 @@ before_install:
     fi;
 
 script:
-  - $PIP install .
-  - rm -rf ttkthemes
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then $PYTHON $NOSE --with-coverage --cover-xml --cover-package=ttkthemes; fi;
 
 after_success:
