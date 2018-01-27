@@ -40,7 +40,7 @@ before_install:
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
       brew install $PYTHON pipenv || echo "Installed PipEnv";
       sudo -H $PIP install codecov coverage nose pip setuptools -U;
-      sudo -H $PIP install $DEPENDENCIES
+      sudo -H $PIP install $DEPENDENCIES;
     fi;
 
 script:
