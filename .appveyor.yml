@@ -8,17 +8,9 @@ environment:
     - PYTHON: "C:\\PYTHON35-x64"
     - PYTHON: "C:\\PYTHON36"
     - PYTHON: "C:\\PYTHON36-x64"
-install:
-  - "%PYTHON%\\python.exe -m pip install codecov coverage nose pillow numpy"
-  - "%PYTHON%\\python.exe -m pip install setuptools pip wheel --upgrade"
 build: off
 test_script:
-  - "%PYTHON%\\python.exe setup.py bdist_wheel"
-  - "%PYTHON%\\python.exe -m pip install C:\\projects\\ttk-themes\\dist\\*.whl"
-  - "rd /q /s ttkthemes"
-  - "%PYTHON%\\python.exe -m nose --with-coverage --cover-package=ttkthemes --cover-xml"
-after_test:
-  - "%PYTHON%\\Scripts\\codecov.exe -f C:\\projects\\ttk-themes\\coverage.xml"
+  - "%PYTHON%\\python.exe ci.py"
 artifacts:
   - path: "C:\\projects\\ttk-themes\\dist\\*.whl"
     name: "wheel-windows-%PYTHON%"

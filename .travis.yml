@@ -23,34 +23,8 @@ matrix:
     env: PYTHON=python3 PIP=pip3 NOSE="-m nose"
   allow_failures:
    - os: osx
-
-env: PACKAGES="python-tk python3-tk libtk-img" DEPENDENCIES="numpy pillow"
-
-before_install:
-  # Linux
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
-      export DISPLAY=:99.0;
-      sh -e /etc/init.d/xvfb start;
-      sleep 3;
-      sudo apt-get install $PACKAGES;
-      $PIP install codecov coverage nose pip setuptools -U;
-      $PIP install $DEPENDENCIES;
-    fi;
-  # macOS
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
-      brew install $PYTHON pipenv || echo "Installed PipEnv";
-      sudo -H $PIP install codecov coverage nose pip setuptools -U;
-      sudo -H $PIP install $DEPENDENCIES;
-    fi;
-
 script:
-  - $PYTHON setup.py bdist_wheel
-  - rm -rf ttkthemes
-  - $PIP install dist/*.whl
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then $PYTHON $NOSE --with-coverage --cover-xml --cover-package=ttkthemes; fi;
-
-after_success:
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then $PYTHON -m codecov -f coverage.xml; fi;
+  - $PYTHON ci.py
 
 deploy:
   provider: releases
