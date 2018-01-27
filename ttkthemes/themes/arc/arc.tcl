@@ -1,12 +1,8 @@
 #  Copyright (c) 2015 Sergei Golovan <sgolovan@nes.ru>
 #  Derived from https://github.com/horst3180/arc-theme/ under the GNU GPLv3
 #  Thus this is available under GNU GPLv3 also, as described in LICENSE
-package require Tk 8.6.0
 
 namespace eval ttk::theme::arc {
-
-    variable version 0.1
-    package provide ttk::theme::arc $version
 
     variable colors
     array set colors {
@@ -314,4 +310,6 @@ namespace eval ttk::theme::arc {
     }
 }
 
-# vim:ts=8:sw=4:sts=4:et
+variable version 0.1
+package provide ttk::theme::arc $version
+

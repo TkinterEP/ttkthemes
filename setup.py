@@ -1,17 +1,40 @@
-# Copyright (C) 2017 by RedFantom
-# Available under the license found in LICENSE
+"""
+Author: RedFantom
+License: GNU GPLv3
+Copyright (c) 2017-2018 RedFantom
+"""
 from setuptools import setup
 import os
+import sys
+from platform import architecture
+from shutil import copytree, rmtree
+
+
+platforms = {
+    "win32": "win",
+    "linux2": "linux"
+}
 
 
 def read(fname):
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
 
 
+if __name__ == '__main__':
+    # Set up TkImg library
+    prefix = sys.platform if sys.platform not in platforms else platforms[sys.platform]
+    arch = int(architecture()[0][:2])
+    current_dir = os.path.dirname(__file__)
+    tkimg_folder = os.path.join(current_dir, "tkimg", "{}{}".format(prefix, arch))
+    dest_dir = os.path.join(current_dir, "ttkthemes", "tkimg")
+    if os.path.exists(dest_dir):
+        rmtree(dest_dir)
+    copytree(tkimg_folder, dest_dir)
+
 setup(
     name='ttkthemes',
     packages=['ttkthemes'],
-    package_data={"ttkthemes": ["themes/*", "README.md", "LICENSE"]},
+    package_data={"ttkthemes": ["themes/*", "tkimg/*"]},
     version='1.5.2',
     description='A group of themes for the ttk extensions of Tkinter with a Tkinter.Tk wrapper',
     author='The ttkthemes authors',
@@ -31,5 +54,7 @@ setup(
                  'License :: OSI Approved :: GNU General Public License v3 (GPLv3)',
                  'Topic :: Software Development :: Libraries :: Tcl Extensions',
                  'Topic :: Software Development :: Libraries :: Python Modules'],
-    zip_safe=False
+    zip_safe=False,
+    install_requires=["pillow", "numpy"],
+    has_ext_modules=lambda: True,
 )
