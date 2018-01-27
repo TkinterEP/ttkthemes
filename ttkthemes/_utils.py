@@ -6,7 +6,14 @@ Copyright (c) 2017-2018 RedFantom
 import sys
 import os
 from shutil import rmtree
+from platform import architecture
 from tempfile import gettempdir
+
+
+platforms = {
+    "win32": "win",
+    "linux2": "linux"
+}
 
 
 def is_python_3():
@@ -45,4 +52,9 @@ def get_tkimg_directory():
     """
     Return an absolute path to the TkImg directory for current platform
     """
-    return os.path.join(os.path.dirname(__file__), "tkimg")
+    tkimg = os.path.join(os.path.dirname(__file__), "tkimg")
+    if not os.path.exists(os.path.join(tkimg, "pkgIndex.tcl")):
+        prefix = sys.platform if sys.platform not in platforms else platforms[sys.platform]
+        arch = architecture()[0]
+        tkimg = os.path.join(tkimg, "{}{}".format(prefix, arch))
+    return tkimg
