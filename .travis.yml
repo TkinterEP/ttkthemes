@@ -5,24 +5,27 @@ matrix:
   include:
   - os: linux
     python: '2.7'
-    env: PYTHON=python PIP="python -m pip" NOSE="-m nose"
   - os: linux
     python: '3.4'
-    env: PYTHON=python PIP="python -m pip" NOSE="-m nose"
   - os: linux
     python: '3.5'
-    env: PYTHON=python PIP="python -m pip" NOSE="-m nose"
   - os: linux
     python: '3.6'
-    env: PYTHON=python PIP="python -m pip" NOSE="-m nose"
   - os: osx
     language: generic
-    env: PYTHON=python PIP=pip2 NOSE="-m nose"
+    env: PYTHON=python
   - os: osx
     language: generic
-    env: PYTHON=python3 PIP=pip3 NOSE="-m nose"
+    env: PYTHON=python3
   allow_failures:
    - os: osx
+before_install:
+  # Linux
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
+      export DISPLAY=:99.0;
+      sh -e /etc/init.d/xvfb start;
+      sleep 3;
+    fi;
 script:
   - $PYTHON ci.py
 

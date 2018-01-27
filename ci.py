@@ -99,10 +99,7 @@ def ci_linux():
     """
     Setup Travis-CI linux for installation and testing
     """
-    os.system("export DISPLAY=:00.0;")
-    os.system("sh -e /etc/init.d/xvfb start;")
-    os.system("sleep 3;")
-    os.system("sudo apt-get install {}".format(PACKAGES))
+    run_command("sudo apt-get install {}".format(PACKAGES))
     ci()
 
 
