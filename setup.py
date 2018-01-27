@@ -21,26 +21,27 @@ def read(fname):
 
 
 if __name__ == '__main__':
-    current_dir = os.path.dirname(__file__)
-    if "sdist" not in sys.argv[1]:
-        # Set up TkImg library for bdist or install
-        prefix = sys.platform if sys.platform not in platforms else platforms[sys.platform]
-        arch = int(architecture()[0][:2])
-        tkimg_folder = os.path.join(current_dir, "tkimg", "{}{}".format(prefix, arch))
-        dest_dir = os.path.join(current_dir, "ttkthemes", "tkimg")
-    else:
-        # Set up TkImg library for sdist
-        tkimg_folder = os.path.join(current_dir, "tkimg")
-        dest_dir = os.path.join(current_dir, "ttkthemes", "tkimg")
-    if os.path.exists(dest_dir):
-        rmtree(dest_dir)
-    copytree(tkimg_folder, dest_dir)
+    if "pip" not in __file__:
+        current_dir = os.path.dirname(__file__)
+        if "sdist" not in sys.argv[1]:
+            # Set up TkImg library for bdist_wheel or bdist_wheel install
+            prefix = sys.platform if sys.platform not in platforms else platforms[sys.platform]
+            arch = int(architecture()[0][:2])
+            tkimg_folder = os.path.join(current_dir, "tkimg", "{}{}".format(prefix, arch))
+            dest_dir = os.path.join(current_dir, "ttkthemes", "tkimg")
+        else:
+            # Set up TkImg library for sdist
+            tkimg_folder = os.path.join(current_dir, "tkimg")
+            dest_dir = os.path.join(current_dir, "ttkthemes", "tkimg")
+        if os.path.exists(dest_dir):
+            rmtree(dest_dir)
+        copytree(tkimg_folder, dest_dir)
 
 setup(
     name='ttkthemes',
     packages=['ttkthemes'],
     package_data={"ttkthemes": ["themes/*", "tkimg/*"]},
-    version='2.0.2',
+    version='2.0.3',
     description='A group of themes for the ttk extensions of Tkinter with a Tkinter.Tk wrapper',
     author='The ttkthemes authors',
     author_email='redfantom@outlook.com',
