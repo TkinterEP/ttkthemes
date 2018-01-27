@@ -44,6 +44,7 @@ before_install:
     fi;
 
 script:
+<<<<<<< Updated upstream
   - $PYTHON setup.py bdist_wheel
   - $PIP install dist/*.whl
   - rm -rf ttkthemes

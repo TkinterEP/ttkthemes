@@ -20,5 +20,5 @@ test_script:
 after_test:
   - "%PYTHON%\\Scripts\\codecov.exe -f C:\\projects\\ttk-themes\\coverage.xml"
 artifacts:
-  - path: "dist/*.whl"
+  - path: "C:\\projects\\ttk-themes\\dist\\*.whl"
     name: "wheel-windows-%PYTHON%"
