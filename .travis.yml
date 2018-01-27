@@ -30,7 +30,7 @@ before_install:
       sh -e /etc/init.d/xvfb start;
       sleep 3;
     else
-      brew install python python3;
+      brew install python python3 || echo "Installed Python";
     fi;
 script:
   - $PYTHON ci.py
