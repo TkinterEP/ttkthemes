@@ -33,12 +33,12 @@ before_install:
       sh -e /etc/init.d/xvfb start;
       sleep 3;
       sudo apt-get install $PACKAGES;
-      $PIP install codecov coverage nose pip setuptools -U;
+      $PIP install codecov coverage nose pip setuptools pillow numpy -U;
     fi;
   # macOS
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
       brew install $PYTHON pipenv || echo "Installed PipEnv";
-      sudo -H $PIP install codecov coverage nose pip setuptools -U;
+      sudo -H $PIP install codecov coverage nose pip setuptools pillow numpy -U;
     fi;
 
 script:
