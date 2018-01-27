@@ -5,12 +5,16 @@ matrix:
   include:
   - os: linux
     python: '2.7'
+    env: PYTHON=python
   - os: linux
     python: '3.4'
+    env: PYTHON=python
   - os: linux
     python: '3.5'
+    env: PYTHON=python
   - os: linux
     python: '3.6'
+    env: PYTHON=python
   - os: osx
     language: generic
     env: PYTHON=python
