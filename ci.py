@@ -19,7 +19,10 @@ def run_command(command):
     :return: exit code
     """
     return_info = os.system(command)
-    return os.WEXITSTATUS(return_info)
+    if sys.platform == "win32":
+        return return_info
+    else:
+        return os.WEXITSTATUS(return_info)
 
 
 def check_wheel_existence():
@@ -34,8 +37,8 @@ def ci(python="python", codecov="codecov", coverage_file="coverage.xml"):
     # Upgrade pip and setuptools and install dependencies
     import pip
     pip.main(["install"] + DEPENDENCIES + REQUIREMENTS + ["-U"])
-    # Build the installation wheel and install the wheel
-    return_code = run_command("{} setup.py bdist_wheel install".format(python))
+    # Build the installation wheel
+    return_code = run_command("{} setup.py bdist_wheel".format(python))
     if return_code != 0:
         print("Building and installing wheel failed.")
         exit(return_code)
@@ -44,11 +47,19 @@ def ci(python="python", codecov="codecov", coverage_file="coverage.xml"):
     shutil.rmtree("ttkthemes")
     # Check if an artifact exists
     assert check_wheel_existence()
+    print("Wheel file exists.")
+    # Install the wheel file
+    wheel = [file for file in os.listdir("dist") if file.endswith(".whl")][0]
+    return_code = run_command("{} -m pip install {}".format(python, wheel))
+    if return_code != 0:
+        print("Installation of wheel failed.")
+        exit(return_code)
     # Run the tests
     return_code = run_command("{} -m nose --with-coverage --cover-xml --cover-package=ttkthemes".format(python))
     if return_code != 0:
         print("Tests failed.")
         exit(return_code)
+    print("Tests successful.")
     # Run codecov
     return_code = run_command("{} -f {}".format(codecov, coverage_file))
     if return_code != 0:
