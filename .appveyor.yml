@@ -14,7 +14,7 @@ install:
 build: off
 test_script:
   - "%PYTHON%\\python.exe setup.py bdist_wheel"
-  - "%PYTHON%\\python.exe -m pip install dist/*.whl"
+  - "%PYTHON%\\python.exe -m pip install C:\\projects\\ttk-themes\\dist\\*.whl"
   - "rd /q /s ttkthemes"
   - "%PYTHON%\\python.exe -m nose --with-coverage --cover-package=ttkthemes --cover-xml"
 after_test:

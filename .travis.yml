@@ -45,8 +45,8 @@ before_install:
 
 script:
   - $PYTHON setup.py bdist_wheel
-  - $PIP install dist/*.whl
   - rm -rf ttkthemes
+  - $PIP install dist/*.whl
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then $PYTHON $NOSE --with-coverage --cover-xml --cover-package=ttkthemes; fi;
 
 after_success:
