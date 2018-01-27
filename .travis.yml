@@ -17,10 +17,10 @@ matrix:
     env: PYTHON=python
   - os: osx
     language: generic
-    env: PYTHON=python
+    env: PYTHON=python PIP=pip2
   - os: osx
     language: generic
-    env: PYTHON=python3
+    env: PYTHON=python3 PIP=pip3
   allow_failures:
    - os: osx
 before_install:

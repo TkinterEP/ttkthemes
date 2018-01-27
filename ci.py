@@ -87,8 +87,9 @@ def ci_macos():
     Setup Travis-CI macOS for wheel building
     """
     run_command("brew install $PYTHON pipenv || echo \"Installed PipEnv\"")
-    import pip
-    pip.main(["install"] + DEPENDENCIES + REQUIREMENTS + ["-U"])
+    command_string = "sudo -H $PIP install "
+    for element in DEPENDENCIES + REQUIREMENTS + ["-U"]:
+        command_string += element + " "
     # Build a wheel
     run_command("$PYTHON setup.py bdist_wheel")
     assert check_wheel_existence()
