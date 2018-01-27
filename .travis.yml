@@ -33,15 +33,16 @@ before_install:
       sh -e /etc/init.d/xvfb start;
       sleep 3;
       sudo apt-get install $PACKAGES;
-      $PIP install codecov coverage nose pip setuptools pillow numpy -U;
+      $PIP install codecov coverage nose pip setuptools -U;
     fi;
   # macOS
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
       brew install $PYTHON pipenv || echo "Installed PipEnv";
-      sudo -H $PIP install codecov coverage nose pip setuptools pillow numpy -U;
+      sudo -H $PIP install codecov coverage nose pip setuptools -U;
     fi;
 
 script:
+  - $PIP install .
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then $PYTHON $NOSE --with-coverage --cover-xml --cover-package=ttkthemes; fi;
 
 after_success:
