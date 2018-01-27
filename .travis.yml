@@ -38,6 +38,7 @@ deploy:
     secure: jIWRWxe9KbnrHCYPv0LbGda57N/NeN2ns0C+ZWTzYQYeD11rSv4UKjq0RdzsXicA4XV1sN5bFG0bSdM9ap7NPblFmuFo2VF5hTyS3tv8E3oVHOexIfwb6HSoBHfd8ijhmLxJQ8f057WZE12xBeW4YYwhjCPf3wXEinkg3U1moKZz0FCuLdlALIOMg/qlMzX17w4jIgoU/aHRx0d/eLZBcTr4WNMgE91KK/BMyHrajG+oy8bM4M/Tf0ILynJLiUHMbONGHo43apnr+s4OllEsxZjh4Min25x9CUQzPSm4wFWGM2Ypa+3R+MnqmfYKhDQNW7Cj+4GArDdbaG2oK4BTJZ9wn6YcKVC7saU4vDHdpHrz/DdC0XAuvOobT+hUJcIOmJ5uoJp6H61719SvQmbLtaHvzEVEb66qPvXHGgJkEXhOtkfWQAX4p/2ipL9UMy8cP4lXNG0/ESkBsJj1JbIoh+w+jP8wGzBVuSYsV2ESefTvxRqg5lZqFUmvg+FIjbT2fQEl5G9CTx1nVQ6E91cOaVOZQuNMZ7/XHg90u5O8NsXwtJtYIvSlDgyAggSss7nvrpNq2ej9e2ZC+i7ESik/V6NxzG9CWV7aMXwV8+OUovInNZt2w1ZNpcijRGOzlEduB6MDeRKdq4r1+Zcljf6pwdH40gH4yR01dvc6s8WmmoI=
   file: "dist/*.whl"
   file_glob: true
+  skip_cleanup: true
   on:
     repo: RedFantom/ttkthemes
     tags: true
