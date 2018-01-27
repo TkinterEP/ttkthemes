@@ -13,4 +13,14 @@ test_script:
   - "%PYTHON%\\python.exe ci.py"
 artifacts:
   - path: "dist\\*.whl"
-    name: "wheel-windows-%PYTHON%"
+deploy:
+  provider: GitHub
+  auth_token:
+    secure: QimY++/91urL/oMJL/q2zYFqc1C7747HguEaIbPQovtC3zG8CK+TiCmFOCXy1D6e
+  artifact: dist/*.whl
+  draft: false
+  prerelease: false
+  force_update: true
+  on:
+    tag: true
+
