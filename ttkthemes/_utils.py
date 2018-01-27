@@ -55,6 +55,6 @@ def get_tkimg_directory():
     tkimg = os.path.join(os.path.dirname(__file__), "tkimg")
     if not os.path.exists(os.path.join(tkimg, "pkgIndex.tcl")):
         prefix = sys.platform if sys.platform not in platforms else platforms[sys.platform]
-        arch = architecture()[0]
+        arch = architecture()[0][:2]
         tkimg = os.path.join(tkimg, "{}{}".format(prefix, arch))
     return tkimg
