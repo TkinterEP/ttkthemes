@@ -12,5 +12,5 @@ build: off
 test_script:
   - "%PYTHON%\\python.exe ci.py"
 artifacts:
-  - path: "C:\\projects\\ttk-themes\\dist\\*.whl"
+  - path: "dist\\*.whl"
     name: "wheel-windows-%PYTHON%"
