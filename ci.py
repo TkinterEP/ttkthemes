@@ -9,7 +9,7 @@ import os
 import shutil
 
 DEPENDENCIES = ["numpy", "pillow"]
-REQUIREMENTS = ["codecov", "coverage", "nose", "setuptools", "pip"]
+REQUIREMENTS = ["codecov", "coverage", "nose", "setuptools", "pip", "wheel"]
 PACKAGES = "python-tk python3-tk libtk-img"
 
 
@@ -43,9 +43,7 @@ def ci(python="python", codecov="codecov", coverage_file="coverage.xml"):
     if return_code != 0:
         print("Building and installing wheel failed.")
         exit(return_code)
-    # Remove the ttkthemes directory
     assert os.path.exists(os.path.join("ttkthemes", "tkimg"))
-    shutil.rmtree("ttkthemes")
     # Check if an artifact exists
     assert check_wheel_existence()
     print("Wheel file exists.")
