@@ -8,17 +8,20 @@ environment:
     - PYTHON: "C:\\PYTHON35-x64"
     - PYTHON: "C:\\PYTHON36"
     - PYTHON: "C:\\PYTHON36-x64"
-install:
-  - "%PYTHON%\\python.exe -m pip install codecov coverage nose"
-  - "%PYTHON%\\python.exe -m pip install setuptools pip wheel --upgrade"
 build: off
 test_script:
-  - "%PYTHON%\\python.exe setup.py install"
-  - "rd /s /q ttkthemes"
-  - "%PYTHON%\\python.exe -m nose --with-coverage --cover-package=ttkthemes --cover-xml"
-after_test:
-  - "%PYTHON%\\Scripts\\codecov.exe -f C:\\projects\\ttk-themes\\coverage.xml"
-  - "%PYTHON%\\python.exe setup.py bdist_wheel"
+  - "%PYTHON%\\python.exe ci.py"
 artifacts:
-  - path: "dist/*.whl"
-    name: "wheel-windows-%PYTHON%"
+  - path: "dist\\*.whl"
+deploy:
+  provider: GitHub
+  auth_token:
+    secure: QimY++/91urL/oMJL/q2zYFqc1C7747HguEaIbPQovtC3zG8CK+TiCmFOCXy1D6e
+  artifact: dist/*.whl
+  draft: false
+  prerelease: false
+  force_update: true
+  on:
+    branch: master
+    appveyor_repo_tag: true
+

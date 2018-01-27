@@ -35,7 +35,7 @@ setup(
     name='ttkthemes',
     packages=['ttkthemes'],
     package_data={"ttkthemes": ["themes/*", "tkimg/*"]},
-    version='1.5.2',
+    version='2.0.0',
     description='A group of themes for the ttk extensions of Tkinter with a Tkinter.Tk wrapper',
     author='The ttkthemes authors',
     author_email='redfantom@outlook.com',

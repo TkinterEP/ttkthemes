@@ -5,56 +5,40 @@ matrix:
   include:
   - os: linux
     python: '2.7'
-    env: PYTHON=python PIP="python -m pip" NOSE="-m nose"
+    env: PYTHON=python NUMBER="27" OS="linux"
   - os: linux
     python: '3.4'
-    env: PYTHON=python PIP="python -m pip" NOSE="-m nose"
+    env: PYTHON=python NUMBER="34" OS="linux"
   - os: linux
     python: '3.5'
-    env: PYTHON=python PIP="python -m pip" NOSE="-m nose"
+    env: PYTHON=python NUMBER="35" OS="linux"
   - os: linux
     python: '3.6'
-    env: PYTHON=python PIP="python -m pip" NOSE="-m nose"
+    env: PYTHON=python NUMBER="36" OS="linux"
   - os: osx
     language: generic
-    env: PYTHON=python PIP=pip2 NOSE="-m nose"
-  - os: osx
-    language: generic
-    env: PYTHON=python3 PIP=pip3 NOSE="-m nose"
+    env: PYTHON=python3 PIP=pip3 NUMBER="36" OS="darwin"
   allow_failures:
    - os: osx
-
-env: PACKAGES="python-tk python3-tk libtk-img"
-
 before_install:
   # Linux
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
       export DISPLAY=:99.0;
       sh -e /etc/init.d/xvfb start;
       sleep 3;
-      sudo apt-get install $PACKAGES;
-      $PIP install codecov coverage nose pip setuptools -U;
+    else
+      brew install python python3 || echo "Installed Python";
     fi;
-  # macOS
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
-      brew install $PYTHON pipenv || echo "Installed PipEnv";
-      sudo -H $PIP install codecov coverage nose pip setuptools -U;
-    fi;
-
 script:
-  - $PIP install .
-  - rm -rf ttkthemes
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then $PYTHON $NOSE --with-coverage --cover-xml --cover-package=ttkthemes; fi;
-
-after_success:
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then $PYTHON -m codecov -f coverage.xml; fi;
-  - $PYTHON setup.py bdist_wheel
+  - $PYTHON ci.py
 
 deploy:
   provider: releases
   api_key:
     secure: jIWRWxe9KbnrHCYPv0LbGda57N/NeN2ns0C+ZWTzYQYeD11rSv4UKjq0RdzsXicA4XV1sN5bFG0bSdM9ap7NPblFmuFo2VF5hTyS3tv8E3oVHOexIfwb6HSoBHfd8ijhmLxJQ8f057WZE12xBeW4YYwhjCPf3wXEinkg3U1moKZz0FCuLdlALIOMg/qlMzX17w4jIgoU/aHRx0d/eLZBcTr4WNMgE91KK/BMyHrajG+oy8bM4M/Tf0ILynJLiUHMbONGHo43apnr+s4OllEsxZjh4Min25x9CUQzPSm4wFWGM2Ypa+3R+MnqmfYKhDQNW7Cj+4GArDdbaG2oK4BTJZ9wn6YcKVC7saU4vDHdpHrz/DdC0XAuvOobT+hUJcIOmJ5uoJp6H61719SvQmbLtaHvzEVEb66qPvXHGgJkEXhOtkfWQAX4p/2ipL9UMy8cP4lXNG0/ESkBsJj1JbIoh+w+jP8wGzBVuSYsV2ESefTvxRqg5lZqFUmvg+FIjbT2fQEl5G9CTx1nVQ6E91cOaVOZQuNMZ7/XHg90u5O8NsXwtJtYIvSlDgyAggSss7nvrpNq2ej9e2ZC+i7ESik/V6NxzG9CWV7aMXwV8+OUovInNZt2w1ZNpcijRGOzlEduB6MDeRKdq4r1+Zcljf6pwdH40gH4yR01dvc6s8WmmoI=
-  file: dist/*.whl
+  file: "dist/*.whl"
+  file_glob: true
+  skip_cleanup: true
   on:
     repo: RedFantom/ttkthemes
     tags: true
