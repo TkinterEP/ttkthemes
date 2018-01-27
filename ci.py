@@ -18,6 +18,7 @@ def run_command(command):
     :param command: command to run on os.system
     :return: exit code
     """
+    print("Running system command: ", command)
     return_info = os.system(command)
     if sys.platform == "win32":
         return return_info
@@ -50,10 +51,12 @@ def ci(python="python", codecov="codecov", coverage_file="coverage.xml"):
     print("Wheel file exists.")
     # Install the wheel file
     wheel = [file for file in os.listdir("dist") if file.endswith(".whl")][0]
+    print("Wheel file:", wheel)
     return_code = run_command("{} -m pip install {}".format(python, wheel))
     if return_code != 0:
         print("Installation of wheel failed.")
         exit(return_code)
+    print("Wheel file installed.")
     # Run the tests
     return_code = run_command("{} -m nose --with-coverage --cover-xml --cover-package=ttkthemes".format(python))
     if return_code != 0:
@@ -75,7 +78,7 @@ def ci_windows():
     just the general ci() is used.
     """
     ci(
-        python="%PYTHON%",
+        python="%PYTHON%\\python.exe",
         codecov="%PYTHON%\\Scripts\\codecov.exe",
         coverage_file="C:\\projects\\ttk-themes\\coverage.xml"
     )
