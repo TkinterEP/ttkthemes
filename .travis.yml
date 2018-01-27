@@ -34,7 +34,7 @@ before_install:
       sleep 3;
       sudo apt-get install $PACKAGES;
       $PIP install codecov coverage nose pip setuptools -U;
-      $PIP install $DEPENDENCIES
+      $PIP install $DEPENDENCIES;
     fi;
   # macOS
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
