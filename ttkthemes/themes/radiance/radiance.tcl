@@ -1,5 +1,12 @@
-# This software is copyrighted by the Regents of the University of California, Sun Microsystems, Inc., Scriptics
-# Corporation, and other parties.
+# This software is copyrighted by the Regents of the University of
+# California, Sun Microsystems, Inc., Scriptics Corporation, and other
+# parties.
+# Original version available under BSD-like license as in LICENSE.ORIG
+
+# Modified by RedFantom
+# Copyright (C) 2018 RedFantom
+# Modified version available under GNU GPLv3 only
+
 namespace eval ttk::theme::radiance {
 
     package provide ttk::theme::radiance 0.1
@@ -83,9 +90,9 @@ namespace eval ttk::theme::radiance {
         #ttk::style configure Treeview -fieldbackground white
         ttk::style configure Row -background "#efefef"
         ttk::style map Row -background [list \
-                                       {focus selected} "#71869e" \
-                                       selected "#969286" \
-                                       alternate white]
+            {focus selected} "#71869e" \
+            selected "#969286" \
+            alternate white]
         ttk::style map Item -foreground [list selected white]
         ttk::style map Cell -foreground [list selected white]
 
@@ -308,9 +315,9 @@ ttk::style configure Toolbutton -anchor center
         ## Progressbar.
         #
         ttk::style element create Horizontal.Progressbar.pbar image $I(progress-h) \
-            -border {2 2 1 1}
+            -border {5 2 5 1} -padding 1
         ttk::style element create Vertical.Progressbar.pbar image $I(progress-v) \
-            -border {2 2 1 1}
+            -border {5 2 5 1} -padding 1
 
         ttk::style configure TProgressbar -bordercolor $colors(-troughborder)
 
