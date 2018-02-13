@@ -17,4 +17,5 @@ source [file join $themesdir winxpblue winxpblue.tcl]
 source [file join $themesdir black black.tcl]
 if {![catch {package present Img}]} {
     source [file join $themesdir arc arc.tcl]
+    source [file join $themesdir ubuntu ubuntu.tcl]
 }
