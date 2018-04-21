@@ -34,10 +34,18 @@ class Example(ThemedTk):
         self.scroll = ttk.Scrollbar(self, orient=tk.VERTICAL)
         self.checked = ttk.Checkbutton(self, text="Checked", variable=tk.BooleanVar(value=True))
         self.unchecked = ttk.Checkbutton(self, text="Unchecked")
+        self.tree = ttk.Treeview(self, height=4, show=("tree",))
+        self.setup_tree()
         # Grid widgets
         self.grid_widgets()
         # Bind screenshot button
         self.bind("<F10>", self.screenshot)
+
+    def setup_tree(self):
+        """Setup an example Treeview"""
+        self.tree.insert("", tk.END, text="Example 1", iid="1")
+        self.tree.insert("", tk.END, text="Example 2", iid="2")
+        self.tree.insert("2", tk.END, text="Example Child")
 
     def grid_widgets(self):
         """Put widgets in the grid"""
@@ -50,7 +58,8 @@ class Example(ThemedTk):
         self.radio_two.grid(row=4, column=2, **sticky)
         self.checked.grid(row=5, column=1, **sticky)
         self.unchecked.grid(row=5, column=2, **sticky)
-        self.scroll.grid(row=1, column=3, rowspan=5, **sticky)
+        self.tree.grid(row=6, column=1, columnspan=2, **sticky)
+        self.scroll.grid(row=1, column=3, rowspan=6, **sticky)
 
     def screenshot(self, *args):
         """Take a screenshot, crop and save"""
