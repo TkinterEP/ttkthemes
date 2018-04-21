@@ -20,8 +20,8 @@ namespace eval ttk::theme::blue {
 	-frame  	"#6699cc"
 	-lighter	"#bcd2e8"
 	-window	 	"#e6f3ff"
-	-selectbg	"#ffff33"
-	-selectfg	"#000000"
+	-selectbg	"#2d2d66"
+	-selectfg	"#ffffff"
 	-disabledfg	"#666666"
     }
 
@@ -151,6 +151,10 @@ namespace eval ttk::theme::blue {
 	::ttk::style element create Vertical.Progress.bar \
 	    image $I(sb-vthumb) -border 2
 
+	# Treeview
+	::ttk::style map Treeview \
+	    -background [list selected $colors(-selectbg)] \
+	    -foreground [list selected $colors(-selectfg)]
     }
     
 }
