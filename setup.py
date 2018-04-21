@@ -61,6 +61,6 @@ setup(
                  'Topic :: Software Development :: Libraries :: Tcl Extensions',
                  'Topic :: Software Development :: Libraries :: Python Modules'],
     zip_safe=False,
-    install_requires=["pillow", "numpy"],
+    install_requires=["pillow"],
     has_ext_modules=lambda: True,
 )

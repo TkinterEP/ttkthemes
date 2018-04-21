@@ -24,14 +24,6 @@ def shift_hue(image, hue):
     return img.convert("RGBA")
 
 
-def shift_hue_numpy(image, hue):
-    from numpy import array, uint8
-    hue = (hue - 1.0) * 180
-    hsv_array = array(image.copy().convert("HSV"))
-    hsv_array[..., 0] += uint8(int(hue))
-    return Image.fromarray(hsv_array, "HSV").convert("RGBA")
-
-
 def make_transparent(image):
     """Turn all black pixels in an image into transparent ones"""
     data = image.copy().getdata()
