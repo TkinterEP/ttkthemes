@@ -189,6 +189,11 @@ namespace eval ttk::theme::aquativo {
     # Labelframes
     
     ::ttk::style configure TLabelframe -borderwidth 2 -relief groove
+
+    # Treeview
+    ::ttk::style map Treeview \
+        -background [list selected #85cafc] \
+        -foreground [list selected #000000]
   }
 }
 

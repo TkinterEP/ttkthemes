@@ -38,12 +38,12 @@ namespace eval ttk::theme::radiance {
             -selectbg       "#ed7442"
             -selectfg       "#ffffff"
             -disabledfg     "#9e928a"
-        -entryfocus     "#6f9dc6"
-        -tabbg          "#c9c1bc"
-        -tabborder      "#b5aca7"
-        -troughcolor    "#d7cbbe"
-        -troughborder   "#ae9e8e"
-        -checklight     "#f5f3f0"
+            -entryfocus     "#6f9dc6"
+            -tabbg          "#c9c1bc"
+            -tabborder      "#b5aca7"
+            -troughcolor    "#d7cbbe"
+            -troughborder   "#ae9e8e"
+            -checklight     "#f5f3f0"
             -text           "#62564f"
     }
 
@@ -86,7 +86,7 @@ namespace eval ttk::theme::radiance {
                  active $I(tree-h) \
                 ] \
             -border 4 -sticky ew
-##PhG: TODO: check this
+        # Older Tk versions
         #ttk::style configure Treeview -fieldbackground white
         ttk::style configure Row -background "#efefef"
         ttk::style map Row -background [list \
@@ -95,6 +95,10 @@ namespace eval ttk::theme::radiance {
             alternate white]
         ttk::style map Item -foreground [list selected white]
         ttk::style map Cell -foreground [list selected white]
+        # Newer Tk versions
+        ttk::style map Treeview \
+            -background [list selected $colors(-selectbg)] \
+            -foreground [list selected $colors(-selectfg)]
 
 
         ## Buttons.

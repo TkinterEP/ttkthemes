@@ -26,11 +26,11 @@ ttk::style theme create winxpblue -settings {
     # gtkrc has #ece9d8 for background, notebook_active looks like #efebde
 
     ttk::style map "." -foreground {
-	disabled	#565248
+	disabled    	#565248
     } -background {
         disabled	#e3e1dd
-	pressed		#bab5ab
-	active		#c1d2ee
+	pressed		    #bab5ab
+	active  		#c1d2ee
     }
 
     ## Buttons, checkbuttons, radiobuttons, menubuttons:
@@ -94,6 +94,12 @@ ttk::style theme create winxpblue -settings {
     ttk::style element create downarrow image $I(arrow_down_normal) -sticky {}
     ttk::style element create leftarrow image $I(arrow_left_normal) -sticky {}
     ttk::style element create rightarrow image $I(arrow_right_normal) -sticky {}
+
+    ## Treeview
+    #
+    ttk::style map Treeview \
+        -background [list selected #c1d2ee] \
+        -foreground [list selected #000000]
 }
 }
 

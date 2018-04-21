@@ -198,7 +198,8 @@ namespace eval ::ttk::theme::elegance {
         ::ttk::style element create Treeheading.cell \
             image [list $I(list-header) pressed $I(list-header-prelight)] \
             -border {4 10} -padding 4 -sticky ewns
-            
+        ::ttk::style map Treeview \
+            -background [list selected $colors(-selectbg)] \
+            -foreground [list selected $colors(-selectfg)]
     }
-
 }
