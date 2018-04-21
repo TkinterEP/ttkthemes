@@ -330,6 +330,12 @@ namespace eval ttk::theme::clearlooks {
         #ttk::style element create hseparator image $I(sep-h)
         #ttk::style element create vseparator image $I(sep-v)
 
+        ## Treeview
+        #
+        ttk::style map Treeview \
+            -background [list selected $colors(-selectbg)] \
+            -foreground [list selected $colors(-selectfg)]
+
     }
 }
 
