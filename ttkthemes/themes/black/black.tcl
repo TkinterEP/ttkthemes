@@ -32,7 +32,7 @@ namespace eval ttk::theme::black {
   array set colors {
     -disabledfg	"DarkGrey"
     -frame  	"#424242"
-    -dark	"#222222"
+    -dark	    "#222222"
     -darker 	"#121212"
     -darkest	"black"
     -lighter	"#626262"
@@ -100,6 +100,10 @@ namespace eval ttk::theme::black {
     $styleCmd configure TreeCtrl \
         -background gray30 -itembackground {gray60 gray50} \
         -itemfill white -itemaccentfill yellow
+
+    $styleCmd map Treeview \
+        -background [list selected $colors(-selectbg)] \
+        -foreground [list selected $colors(-selectfg)]
   }
 }
 
