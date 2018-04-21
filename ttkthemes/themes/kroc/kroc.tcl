@@ -22,6 +22,9 @@ namespace eval ttk::kroc {
 	    ::ttk::style configure . -font TkDefaultFont -borderwidth 1
         ::ttk::style map . -background [list active #694418]
         ::ttk::style map . -foreground [list disabled #B2B2B2 active #FFE7CB]
+        ::ttk::style map Treeview \
+            -background [list selected #000000] \
+            -foreground [list selected #ffffff]
         
         ::ttk::style configure TButton -padding "10 4"
         
