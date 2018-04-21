@@ -3,7 +3,6 @@ Author: RedFantom
 License: GNU GPLv3
 Copyright (c) 2017-2018 RedFantom
 """
-from PIL import Image
 
 
 def shift_hue(image, hue):
@@ -14,13 +13,14 @@ def shift_hue(image, hue):
     """
     hue = (hue - 1.0) * 180
     img = image.copy().convert("HSV")
-    if not isinstance(img, Image.Image):
-        raise ValueError()
-    data = image.copy().convert("HSV").load()
+    pixels = img.load()
     for i in range(img.width):
         for j in range(img.height):
-            h, s, v = data[i, j]
-            data[i, j] = (int(hue + h), s, v)
+            h, s, v = pixels[i, j]
+            h = abs(int(h + hue))
+            if h > 255:
+                h -= 255
+            pixels[i, j] = (h, s, v)
     return img.convert("RGBA")
 
 
