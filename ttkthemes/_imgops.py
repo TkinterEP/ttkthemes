@@ -4,7 +4,6 @@ License: GNU GPLv3
 Copyright (c) 2017-2018 RedFantom
 """
 from PIL import Image
-from numpy import array, uint8
 
 
 def shift_hue(image, hue):
@@ -13,6 +12,20 @@ def shift_hue(image, hue):
     :param image: PIL Image to perform operation on
     :param hue: value between 0 and 2.0
     """
+    hue = (hue - 1.0) * 180
+    img = image.copy().convert("HSV")
+    if not isinstance(img, Image.Image):
+        raise ValueError()
+    data = image.copy().convert("HSV").load()
+    for i in range(img.width):
+        for j in range(img.height):
+            h, s, v = data[i, j]
+            data[i, j] = (int(hue + h), s, v)
+    return img.convert("RGBA")
+
+
+def shift_hue_numpy(image, hue):
+    from numpy import array, uint8
     hue = (hue - 1.0) * 180
     hsv_array = array(image.copy().convert("HSV"))
     hsv_array[..., 0] += uint8(int(hue))
