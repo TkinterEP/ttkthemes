@@ -52,9 +52,19 @@ def get_tkimg_directory():
     """
     Return an absolute path to the TkImg directory for current platform
     """
+    # Binary Distribution
     tkimg = os.path.join(os.path.dirname(__file__), "tkimg")
     if not os.path.exists(os.path.join(tkimg, "pkgIndex.tcl")):
+        # Source Distribution
         prefix = sys.platform if sys.platform not in platforms else platforms[sys.platform]
         arch = architecture()[0][:2]
         tkimg = os.path.join(tkimg, "{}{}".format(prefix, arch))
+        if not os.path.exists(tkimg):
+            # Plain repository clone without having run bdist_wheel
+            tkimg = os.path.realpath(
+                os.path.join(
+                    os.path.dirname(__file__),
+                    "..",
+                    "tkimg",
+                    "{}{}".format(prefix, arch)))
     return tkimg
