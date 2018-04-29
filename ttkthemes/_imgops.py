@@ -3,8 +3,6 @@ Author: RedFantom
 License: GNU GPLv3
 Copyright (c) 2017-2018 RedFantom
 """
-from PIL import Image
-from numpy import array, uint8
 
 
 def shift_hue(image, hue):
@@ -14,9 +12,16 @@ def shift_hue(image, hue):
     :param hue: value between 0 and 2.0
     """
     hue = (hue - 1.0) * 180
-    hsv_array = array(image.copy().convert("HSV"))
-    hsv_array[..., 0] += uint8(int(hue))
-    return Image.fromarray(hsv_array, "HSV").convert("RGBA")
+    img = image.copy().convert("HSV")
+    pixels = img.load()
+    for i in range(img.width):
+        for j in range(img.height):
+            h, s, v = pixels[i, j]
+            h = abs(int(h + hue))
+            if h > 255:
+                h -= 255
+            pixels[i, j] = (h, s, v)
+    return img.convert("RGBA")
 
 
 def make_transparent(image):
