@@ -12,6 +12,14 @@ class TestUtils(TestCase):
     def test_is_python_3(self):
         self.assertIsInstance(utils.is_python_3(), bool)
 
+    def assertPathEquals(self, a, b):
+        if hasattr(os.path, 'samefile'):
+            self.assertTrue(os.path.samefile(a, b))
+        else:
+            # on windows, os.path.normcase lowercases because 'ASD' and 'asd'
+            # should be treated equally
+            self.assertEqual(os.path.normcase(a), path.normcase(b))
+
     def test_temporary_chdir(self):
         dir1 = os.getcwd()
         with utils.temporary_chdir(utils.get_temp_directory()):
