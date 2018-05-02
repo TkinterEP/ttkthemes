@@ -25,14 +25,14 @@ class TestUtils(TestCase):
         with utils.temporary_chdir(utils.get_temp_directory()):
             dir2 = os.getcwd()
         dir3 = os.getcwd()
-        self.assertTrue(os.path.samefile(dir1, dir3))
-        self.assertTrue(os.path.samefile(dir2, utils.get_temp_directory()))
+        self.assertPathEquals(dir1, dir3)
+        self.assertPathEquals(dir2, utils.get_temp_directory())
 
         with self.assertRaises(RuntimeError):
             with utils.temporary_chdir(utils.get_temp_directory()):
                 raise RuntimeError("oh no")
         dir4 = os.getcwd()
-        self.assertTrue(os.path.samefile(dir1, dir4))
+        self.assertPathEquals(dir1, dir4)
 
     def test_get_file_directory(self):
         directory = utils.get_file_directory()
