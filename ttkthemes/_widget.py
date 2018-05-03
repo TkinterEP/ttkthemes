@@ -37,16 +37,14 @@ class ThemedWidget(object):
                                being initialized as ThemedWidget
         """
         self.tk = tk_interpreter
+
         # Change working directory temporarily to allow Tcl to work
-        prev_folder = os.getcwd()
-        os.chdir(utils.get_file_directory())
-        # Load the themes
-        self.folder = os.path.dirname(os.path.realpath(__file__)).replace("\\", "/")
-        self.tk.call("lappend", "auto_path", "[%s]" % self.folder + "/themes")
-        self._img_support = self._load_tkimg()
-        self.tk.eval("source themes/pkgIndex.tcl")
-        # Change back working directory
-        os.chdir(prev_folder)
+        with utils.temporary_chdir(utils.get_file_directory()):
+            # Load the themes
+            self.folder = os.path.dirname(os.path.realpath(__file__)).replace("\\", "/")
+            self.tk.call("lappend", "auto_path", "[%s]" % self.folder + "/themes")
+            self._img_support = self._load_tkimg()
+            self.tk.eval("source themes/pkgIndex.tcl")
 
     def set_theme(self, theme_name):
         """
@@ -110,12 +108,10 @@ class ThemedWidget(object):
         image_directory = os.path.join(output_dir, advanced_name, advanced_name)
         self._setup_images(image_directory, brightness, saturation, hue, preserve_transparency)
         # Load the new theme
-        prev_folder = os.getcwd()
-        os.chdir(output_dir)
-        self.tk.call("lappend", "auto_path", "[{}]".format(output_dir))
-        self.tk.eval("source pkgIndex.tcl")
-        self.set_theme(advanced_name)
-        os.chdir(prev_folder)
+        with utils.temporary_chdir(output_dir):
+            self.tk.call("lappend", "auto_path", "[{}]".format(output_dir))
+            self.tk.eval("source pkgIndex.tcl")
+            self.set_theme(advanced_name)
 
     @staticmethod
     def _setup_advanced_theme(theme_name, output_dir, advanced_name):
@@ -208,12 +204,11 @@ class ThemedWidget(object):
         if not os.path.exists(tkimg_folder):
             raise RuntimeError("Unsupported platform and/or architecture")
         pkg_index = os.path.join(tkimg_folder, "pkgIndex.tcl")
-        prev_folder = os.getcwd()
-        os.chdir(tkimg_folder)
-        self.tk.call("lappend", "auto_path", "[{}]".format(tkimg_folder))
-        self.tk.eval("source {}".format(os.path.relpath(pkg_index, os.getcwd())))
-        self.tk.call("package", "require", "Img")
-        os.chdir(prev_folder)
+
+        with utils.temporary_chdir(tkimg_folder):
+            self.tk.call("lappend", "auto_path", "[{}]".format(tkimg_folder))
+            self.tk.eval("source {}".format(os.path.relpath(pkg_index, os.getcwd())))
+            self.tk.call("package", "require", "Img")
         return True
 
     @property
