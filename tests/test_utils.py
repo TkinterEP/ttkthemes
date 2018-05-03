@@ -18,7 +18,7 @@ class TestUtils(TestCase):
         else:
             # on windows, os.path.normcase lowercases because 'ASD' and 'asd'
             # should be treated equally
-            self.assertEqual(os.path.normcase(a), path.normcase(b))
+            self.assertEqual(os.path.normcase(a), os.path.normcase(b))
 
     def test_temporary_chdir(self):
         dir1 = os.getcwd()
