@@ -13,8 +13,8 @@ created by various authors.
 
 ## License
     ttkthemes: A group of themes for the ttk extensions of Tcl
-    Copyright (C) 2017 RedFantom
-    Copyright (C) 2017 Akuli
+    Copyright (C) 2017-2018 RedFantom
+    Copyright (C) 2017-2018 Akuli
     Copyright (C) 2004 Pat Thoyts
     Copyright (C) 2004 David Zolli
     Copyright (C) 2007-2008 Mats Bengsston

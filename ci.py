@@ -6,9 +6,8 @@ Copyright (c) 2017-2018 RedFantom
 # Standard library imports only
 import sys
 import os
-import shutil
 
-DEPENDENCIES = ["numpy", "pillow"]
+DEPENDENCIES = ["pillow"]
 REQUIREMENTS = ["codecov", "coverage", "nose", "setuptools", "pip", "wheel"]
 PACKAGES = "python-tk python3-tk libtk-img"
 
