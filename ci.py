@@ -54,6 +54,7 @@ def ci(python="python", codecov="codecov", coverage_file="coverage.xml"):
     print("Wheel file exists.")
     # Install the wheel file
     wheel = [file for file in os.listdir("dist") if file.endswith((".whl", ".tar.gz"))][0]
+    wheel = os.path.join("dist", wheel)
     print("Wheel file:", wheel)
     return_code = run_command("{} -m pip install {}".format(python, wheel))
     if return_code != 0:
