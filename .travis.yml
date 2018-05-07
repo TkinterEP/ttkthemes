@@ -17,7 +17,7 @@ matrix:
     env: PYTHON=python NUMBER="36" OS="linux"
   - os: osx
     language: generic
-    env: PYTHON=python PIP=pip NUMBER="36" OS="darwin"
+    env: PYTHON=python PIP=pip3 NUMBER="36" OS="darwin"
   allow_failures:
    - os: osx
 before_install:

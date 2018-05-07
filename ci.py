@@ -87,7 +87,7 @@ def ci_macos():
     """
     run_command("brew install $PYTHON pipenv || echo \"Installed PipEnv\"")
     command_string = "sudo -H $PIP install "
-    for element in DEPENDENCIES + REQUIREMENTS + ["-U"]:
+    for element in DEPENDENCIES + REQUIREMENTS + ["-U", "-I"]:
         command_string += element + " "
     run_command(command_string)
     # Build a wheel
