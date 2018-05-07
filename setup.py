@@ -24,7 +24,7 @@ if __name__ == '__main__':
     current_dir = os.path.dirname(__file__)
     dest_dir = os.path.join(current_dir, "ttkthemes", "tkimg")
 
-    if os.path.isdir(os.path.join(current_dir, "ttkthemes")):
+    if os.path.exists(os.path.join(current_dir, "tkimg")):
         # ttkthemes source is in the ttkthemes/ folder and tkimg needs to
         # be copied there
         if "sdist" not in sys.argv[1]:

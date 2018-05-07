@@ -6,10 +6,15 @@ Copyright (c) 2017-2018 RedFantom
 # Standard library imports only
 import sys
 import os
+from shutil import rmtree
 
 DEPENDENCIES = ["pillow"]
 REQUIREMENTS = ["codecov", "coverage", "nose", "setuptools", "pip", "wheel"]
 PACKAGES = "python-tk python3-tk libtk-img"
+
+SDIST = os.environ.get("SDIST", "false") == "true"
+
+TO_DELETE = ["ttkthemes", "tkimg"]
 
 
 def run_command(command):
@@ -27,7 +32,7 @@ def run_command(command):
 
 def check_wheel_existence():
     """Return True if a wheel is built"""
-    return len([file for file in os.listdir("dist") if file.endswith(".whl")]) != 0
+    return len([file for file in os.listdir("dist") if file.endswith((".whl", ".tar.gz"))]) != 0
 
 
 def ci(python="python", codecov="codecov", coverage_file="coverage.xml"):
@@ -38,7 +43,8 @@ def ci(python="python", codecov="codecov", coverage_file="coverage.xml"):
     import pip
     pip.main(["install"] + DEPENDENCIES + REQUIREMENTS + ["-U"])
     # Build the installation wheel
-    return_code = run_command("{} setup.py bdist_wheel".format(python))
+    dist_type = "bdist_wheel" if not SDIST else "sdist"
+    return_code = run_command("{} setup.py {}".format(python, dist_type))
     if return_code != 0:
         print("Building and installing wheel failed.")
         exit(return_code)
@@ -47,14 +53,17 @@ def ci(python="python", codecov="codecov", coverage_file="coverage.xml"):
     assert check_wheel_existence()
     print("Wheel file exists.")
     # Install the wheel file
-    wheel = [file for file in os.listdir("dist") if file.endswith(".whl")][0]
+    wheel = [file for file in os.listdir("dist") if file.endswith((".whl", ".tar.gz"))][0]
     print("Wheel file:", wheel)
     return_code = run_command("{} -m pip install {}".format(python, wheel))
     if return_code != 0:
         print("Installation of wheel failed.")
         exit(return_code)
     print("Wheel file installed.")
-    # Run the tests
+    # Remove all non-essential files
+    for to_delete in TO_DELETE:
+        rmtree(to_delete)
+    # Run the tests on the installed ttkthemes
     return_code = run_command("{} -m nose --with-coverage --cover-xml --cover-package=ttkthemes".format(python))
     if return_code != 0:
         print("Tests failed.")
