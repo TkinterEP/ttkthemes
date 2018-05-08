@@ -12,7 +12,7 @@ build: off
 test_script:
   - "%PYTHON%\\python.exe ci.py"
 artifacts:
-  - path: "dist\\*.whl"
+  - path: "/dist/.*.whl"
 deploy:
   provider: GitHub
   auth_token:
