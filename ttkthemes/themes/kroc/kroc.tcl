@@ -25,6 +25,7 @@ namespace eval ttk::kroc {
         ::ttk::style map Treeview \
             -background [list selected #000000] \
             -foreground [list selected #ffffff]
+        ::ttk::style configure Treeview -fieldbackground #FFE7CB
         
         ::ttk::style configure TButton -padding "10 4"
         

@@ -104,6 +104,8 @@ namespace eval ttk::theme::black {
     $styleCmd map Treeview \
         -background [list selected $colors(-selectbg)] \
         -foreground [list selected $colors(-selectfg)]
+
+    $styleCmd configure Treeview -fieldbackground $colors(-lighter)
   }
 }
 
