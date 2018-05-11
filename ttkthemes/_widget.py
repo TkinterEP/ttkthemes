@@ -27,6 +27,7 @@ class ThemedWidget(object):
         "kroc",
         "plastik",
         "radiance",
+        "ubuntu",
         "winxpblue"
     ]
 
