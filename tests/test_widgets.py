@@ -5,7 +5,6 @@ Copyright (c) 2017-2018 RedFantom
 """
 from __future__ import print_function
 from unittest import TestCase
-import time
 from ttkthemes import ThemedTk
 from ttkthemes._utils import is_python_3
 if is_python_3():
@@ -46,16 +45,20 @@ class TestThemedWidgets(TestCase):
         try:
             import signal
         except ImportError:
+            pass
+        if "signal" not in locals() or not hasattr(signal, "alarm"):
             return
         for theme in self.window.themes:
             self.window.set_theme(theme)
             for widget in self.WIDGETS:
                 window = ThemedTk(theme=theme)
                 signal.alarm(5)
+                print("Testing {}: {}".format(theme, widget), end=" - ", flush=True)
                 getattr(ttk, widget)(window).pack()
                 window.update()
                 window.destroy()
                 signal.alarm(0)
+                print("SUCCESS", flush=True)
 
     def tearDown(self):
         self.window.destroy()
