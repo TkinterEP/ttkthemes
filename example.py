@@ -77,5 +77,5 @@ class Example(ThemedTk):
 
 if __name__ == '__main__':
     example = Example()
-    example.set_theme_advanced("arc", saturation=1.2, hue=1.4, brightness=0.99)
+    example.set_theme_advanced("ubuntu", hue=0.4)
     example.mainloop()
