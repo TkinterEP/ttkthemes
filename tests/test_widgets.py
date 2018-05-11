@@ -13,13 +13,9 @@ else:
     import ttk
 
 
-def printf(*args, **kwargs):
-    if is_python_3():
-        kwargs["flush"] = True
-        print(*args, **kwargs)
-    else:
-        print(*args, **kwargs)
-        sys.stdout.flush()
+def printf(string, end="\n"):
+    sys.__stdout__.write(string + end)
+    sys.__stdout__.flush()
 
 
 class TestThemedWidgets(TestCase):
