@@ -267,14 +267,14 @@ namespace eval ttk::theme::equilux {
             ] -padding {0 2 0 0} -border 2
 
         ttk::style element create Horizontal.Progressbar.trough \
-            image $images(trough-progressbar_v) -border {5 1 5 1} -padding 1
+            image $images(trough-progressbar-horiz) -border {5 1 5 1} -padding 1
         ttk::style element create Horizontal.Progressbar.pbar \
-            image $images(progressbar_v) -border {4 0 4 0}
+            image $images(progressbar-horiz) -border {4 0 4 0}
 
         ttk::style element create Vertical.Progressbar.trough \
-            image $images(trough-progressbar) -border {1 5 1 5} -padding 1
+            image $images(trough-progressbar-vert) -border {1 5 1 5} -padding 1
         ttk::style element create Vertical.Progressbar.pbar \
-            image $images(progressbar) -border {0 4 0 4}
+            image $images(progressbar-vert) -border {0 4 0 4}
 
         ttk::style element create Treeview.field \
             image $images(treeview) -border 1
