@@ -28,10 +28,10 @@ namespace eval ttk::theme::blue {
     ::ttk::style theme create blue -settings {
 
 	::ttk::style configure . \
-	    -borderwidth 	1 \
-	    -background 	$colors(-frame) \
+	    -borderwidth 	    1 \
+	    -background 	    $colors(-frame) \
 	    -fieldbackground	$colors(-window) \
-	    -troughcolor	$colors(-lighter) \
+	    -troughcolor	    $colors(-lighter) \
 	    -selectbackground	$colors(-selectbg) \
 	    -selectforeground	$colors(-selectfg) \
 	    ;
@@ -156,6 +156,6 @@ namespace eval ttk::theme::blue {
 	    -background [list selected $colors(-selectbg)] \
 	    -foreground [list selected $colors(-selectfg)]
     }
-    
+    ::ttk::style configure Treeview -fieldbackground $colors(-window)
 }
 
