@@ -17,7 +17,7 @@ platforms = {
 @contextlib.contextmanager
 def temporary_chdir(new_dir):
     """
-    Like os.chdir(), but always restores the old working directory.
+    Like os.chdir(), but always restores the old working directory
 
     For example, code like this...
 
