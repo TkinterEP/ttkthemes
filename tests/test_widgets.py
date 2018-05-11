@@ -3,7 +3,7 @@ Author: RedFantom
 License: GNU GPLv3
 Copyright (c) 2017-2018 RedFantom
 """
-from __future__ import print_function
+import sys
 from unittest import TestCase
 from ttkthemes import ThemedTk
 from ttkthemes._utils import is_python_3
@@ -11,6 +11,15 @@ if is_python_3():
     from tkinter import ttk
 else:
     import ttk
+
+
+def printf(*args, **kwargs):
+    if is_python_3():
+        kwargs["flush"] = True
+        print(*args, **kwargs)
+    else:
+        print(*args, **kwargs)
+        sys.stdout.flush()
 
 
 class TestThemedWidgets(TestCase):
@@ -39,7 +48,6 @@ class TestThemedWidgets(TestCase):
 
     def setUp(self):
         self.window = ThemedTk()
-        self.sys_exit = False
 
     def test_widget_creation(self):
         try:
@@ -53,12 +61,12 @@ class TestThemedWidgets(TestCase):
             for widget in self.WIDGETS:
                 window = ThemedTk(theme=theme)
                 signal.alarm(5)
-                print("Testing {}: {}".format(theme, widget), end=" - ", flush=True)
+                printf("Testing {}: {}".format(theme, widget), end=" - ")
                 getattr(ttk, widget)(window).pack()
                 window.update()
                 window.destroy()
                 signal.alarm(0)
-                print("SUCCESS", flush=True)
+                printf("SUCCESS")
 
     def tearDown(self):
         self.window.destroy()
