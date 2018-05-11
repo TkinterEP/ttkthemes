@@ -187,7 +187,7 @@ namespace eval ttk::theme::equilux {
             -sticky {}
 
         ttk::style element create Entry.field \
-            image [list $images(entry-border-bg-solid) \
+            image [list $images(entry-border-bg) \
                         focus $images(entry-active) \
                         disabled $images(entry-border-disabled)] \
             -border 3 -padding {6 4} -sticky news

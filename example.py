@@ -56,7 +56,7 @@ class Example(ThemedTk):
         sticky = {"sticky": "nswe"}
         self.label.grid(row=1, column=1, columnspan=2, **sticky)
         self.dropdown.grid(row=2, column=1, **sticky)
-        # self.entry.grid(row=2, column=2, **sticky)
+        self.entry.grid(row=2, column=2, **sticky)
         self.button.grid(row=3, column=1, columnspan=2, **sticky)
         self.radio_one.grid(row=4, column=1, **sticky)
         self.radio_two.grid(row=4, column=2, **sticky)
@@ -64,8 +64,8 @@ class Example(ThemedTk):
         self.unchecked.grid(row=5, column=2, **sticky)
         self.scroll.grid(row=1, column=3, rowspan=8, **sticky, padx=5)
         self.tree.grid(row=6, column=1, columnspan=2, **sticky)
-        # self.scale_entry.grid(row=7, column=1, columnspan=2, **sticky)
-        # self.combo.grid(row=8, column=1, columnspan=2, **sticky)
+        self.scale_entry.grid(row=7, column=1, columnspan=2, **sticky)
+        self.combo.grid(row=8, column=1, columnspan=2, **sticky)
 
     def screenshot(self, *args):
         """Take a screenshot, crop and save"""
