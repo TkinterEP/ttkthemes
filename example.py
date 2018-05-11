@@ -11,6 +11,8 @@ else:
     import Tkinter as tk
     import ttk
 from ttkthemes import ThemedTk
+from ttkwidgets import ScaleEntry
+from ttkwidgets.autocomplete import AutocompleteCombobox
 from PIL import Image
 
 
@@ -36,6 +38,8 @@ class Example(ThemedTk):
         self.unchecked = ttk.Checkbutton(self, text="Unchecked")
         self.tree = ttk.Treeview(self, height=4, show=("tree",))
         self.setup_tree()
+        self.scale_entry = ScaleEntry(self, from_=0, to=50, orient=tk.HORIZONTAL, compound=tk.RIGHT)
+        self.combo = AutocompleteCombobox(self, completevalues=["something", "something else"])
         # Grid widgets
         self.grid_widgets()
         # Bind screenshot button
@@ -52,14 +56,16 @@ class Example(ThemedTk):
         sticky = {"sticky": "nswe"}
         self.label.grid(row=1, column=1, columnspan=2, **sticky)
         self.dropdown.grid(row=2, column=1, **sticky)
-        self.entry.grid(row=2, column=2, **sticky)
+        # self.entry.grid(row=2, column=2, **sticky)
         self.button.grid(row=3, column=1, columnspan=2, **sticky)
         self.radio_one.grid(row=4, column=1, **sticky)
         self.radio_two.grid(row=4, column=2, **sticky)
         self.checked.grid(row=5, column=1, **sticky)
         self.unchecked.grid(row=5, column=2, **sticky)
+        self.scroll.grid(row=1, column=3, rowspan=8, **sticky, padx=5)
         self.tree.grid(row=6, column=1, columnspan=2, **sticky)
-        self.scroll.grid(row=1, column=3, rowspan=6, **sticky)
+        # self.scale_entry.grid(row=7, column=1, columnspan=2, **sticky)
+        # self.combo.grid(row=8, column=1, columnspan=2, **sticky)
 
     def screenshot(self, *args):
         """Take a screenshot, crop and save"""
