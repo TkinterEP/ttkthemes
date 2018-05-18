@@ -33,6 +33,8 @@ class TestThemedStyle(unittest.TestCase):
         for theme in ThemedStyle.pixmap_themes:
             window = tk.Tk()
             style = ThemedStyle(window)
+            if not style.img_support:
+                break
             style.set_theme_advanced(theme, brightness=0.2, saturation=1.3, hue=1.4)
             window.destroy()
         return

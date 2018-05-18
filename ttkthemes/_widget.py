@@ -37,6 +37,7 @@ class ThemedWidget(object):
                                being initialized as ThemedWidget
         """
         self.tk = tk_interpreter
+        self.img_support = False
 
         # Change working directory temporarily to allow Tcl to work
         with utils.temporary_chdir(utils.get_file_directory()):

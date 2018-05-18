@@ -38,6 +38,8 @@ class TestThemedTk(unittest.TestCase):
             self.tk.update()
 
     def test_custom_theme(self):
+        if not self.tk.img_support:
+            return
         for theme in self.tk.pixmap_themes:
             tk = ThemedTk()
             tk.set_theme_advanced(theme, brightness=0.2, saturation=1.4, hue=1.8)
