@@ -89,7 +89,7 @@ def get_tkimg_directory():
     Return an absolute path to the TkImg directory for current platform
     """
     # Binary Distribution
-    tkimg = os.path.join(os.path.dirname(__file__), "tkimg")
+    tkimg = os.path.abspath("tkimg")
     if not os.path.exists(os.path.join(tkimg, "pkgIndex.tcl")):
         # Source Distribution
         prefix = sys.platform if sys.platform not in platforms else platforms[sys.platform]
