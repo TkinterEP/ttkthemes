@@ -3,18 +3,32 @@ Author: RedFantom
 License: GNU GPLv3
 Copyright (c) 2017-2018 RedFantom
 """
-# Standard library imports only
-import sys
 import os
 from shutil import rmtree
+import sys
 
 DEPENDENCIES = ["pillow"]
-REQUIREMENTS = ["codecov", "coverage", "nose", "setuptools", "pip", "wheel"]
+REQUIREMENTS = ["codecov", "coverage", "nose", "setuptools", "pip", "wheel", "semantic_version"]
 PACKAGES = "python-tk python3-tk libtk-img"
 
 SDIST = os.environ.get("SDIST", "false") == "true"
 
 TO_DELETE = ["ttkthemes", "tkimg"]
+
+
+class Version(object):
+    """
+    Parses a semantic version string.
+    """
+    def __init__(self, string):
+        """
+        :param string: semantic version string (major.minor.patch)
+        """
+        self.major, self.minor, self.patch = map(int, string.split("."))
+        self.version = (self.major, self.minor, self.patch)
+
+    def __ge__(self, other):
+        return all(elem1 >= elem2 for elem1, elem2 in zip(self.version, other.version))
 
 
 def run_command(command):
@@ -39,8 +53,15 @@ def ci(python="python", codecov="codecov", coverage_file="coverage.xml"):
     """
     Run the most common CI tasks
     """
-    # Upgrade pip and setuptools and install dependencies
-    import pip._internal as pip
+
+    # Import pip
+    from pip import __version__ as pip_version
+    if Version(pip_version) >= Version("10.0.0"):
+        import pip._internal as pip
+    else:
+        import pip
+
+    # Install requirements with pip
     pip.main(["install"] + DEPENDENCIES + REQUIREMENTS + ["-U"])
     # Build the installation wheel
     dist_type = "bdist_wheel" if not SDIST else "sdist"
