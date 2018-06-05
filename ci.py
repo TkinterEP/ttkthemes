@@ -40,7 +40,7 @@ def ci(python="python", codecov="codecov", coverage_file="coverage.xml"):
     Run the most common CI tasks
     """
     # Upgrade pip and setuptools and install dependencies
-    import pip
+    import pip._internal as pip
     pip.main(["install"] + DEPENDENCIES + REQUIREMENTS + ["-U"])
     # Build the installation wheel
     dist_type = "bdist_wheel" if not SDIST else "sdist"
