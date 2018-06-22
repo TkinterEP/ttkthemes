@@ -3,12 +3,8 @@ Author: RedFantom
 License: GNU GPLv3
 Copyright (c) 2017-2018 RedFantom
 """
-import sys
 from ._widget import ThemedWidget
-if sys.version_info.major is 2:
-    import ttk
-else:
-    from tkinter import ttk
+from ._tkinter import ttk
 
 
 class ThemedStyle(ttk.Style, ThemedWidget):

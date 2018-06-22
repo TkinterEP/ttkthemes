@@ -16,11 +16,6 @@ platforms = {
 }
 
 
-def is_python_3():
-    """Check interpreter version"""
-    return sys.version_info.major == 3
-
-
 @contextlib.contextmanager
 def temporary_chdir(new_dir):
     """

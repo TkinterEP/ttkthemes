@@ -3,12 +3,8 @@ Author: RedFantom
 License: GNU GPLv3
 Copyright (c) 2017-2018 RedFantom
 """
-from ._utils import is_python_3
 from ._widget import ThemedWidget
-if is_python_3():
-    import tkinter as tk
-else:
-    import Tkinter as tk
+from ._tkinter import tk
 
 
 class ThemedTk(tk.Tk, ThemedWidget):

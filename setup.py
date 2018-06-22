@@ -13,13 +13,11 @@ from setuptools import setup
 
 
 if TkVersion <= 8.5:
-    # Search for a suitable distribution of tkimg
     try:
-        from pip import main
+        import tkimg
     except ImportError:
-        from pip._internal import main
-    if main(["install", "tkimg"]) != 0:
-        print("PNG-themes are not supported on this platform.")
+        print("With this version of Tk, PNG-based themes are only "
+              "available with python-tkimg")
 
 
 def read(fname):
