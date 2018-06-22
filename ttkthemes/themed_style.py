@@ -30,7 +30,6 @@ class ThemedStyle(ttk.Style, ThemedWidget):
         # Set the initial theme
         if theme is not None and theme in self.get_themes():
             self.set_theme(theme)
-        return
 
     def theme_use(self, theme_name=None):
         """

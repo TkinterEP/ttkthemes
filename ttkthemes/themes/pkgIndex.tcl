@@ -1,6 +1,6 @@
-# This file was written by RedFantom
-# Copyright (C) 2017 RedFantom
-# This file is available under the GNU GPLv3 as described in LICENSE
+# Author: RedFantom
+# License: GNU GPLv3
+# Copyright (c) 2017-2018 RedFantom
 
 set themesdir [file join [pwd] [file dirname [info script]]]
 lappend auto_path $themesdir
@@ -15,7 +15,3 @@ source [file join $themesdir aquativo aquativo.tcl]
 source [file join $themesdir keramik keramik.tcl]
 source [file join $themesdir winxpblue winxpblue.tcl]
 source [file join $themesdir black black.tcl]
-if {![catch {package present Img}]} {
-    source [file join $themesdir arc arc.tcl]
-    source [file join $themesdir ubuntu ubuntu.tcl]
-}

@@ -30,4 +30,3 @@ class ThemedTk(tk.Tk, ThemedWidget):
         # Set initial theme
         if theme is not None and theme in self.get_themes():
             self.set_theme(theme)
-        return
