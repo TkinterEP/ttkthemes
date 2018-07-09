@@ -26,6 +26,8 @@ class TestThemedStyle(unittest.TestCase):
             self.assertEqual(style.theme_use(), item)
 
     def test_custom_theme(self):
+        if not ThemedStyle().png_support:
+            return
         for theme in ThemedStyle.pixmap_themes:
             window = tk.Tk()
             style = ThemedStyle(window)
