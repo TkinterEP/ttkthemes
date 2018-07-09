@@ -4,11 +4,9 @@ License: GNU GPLv3
 Copyright (c) 2017-2018 RedFantom
 """
 import contextlib
-import sys
 import os
 from shutil import rmtree
 from tempfile import gettempdir
-
 
 platforms = {
     "win32": "win",
