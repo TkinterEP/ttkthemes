@@ -3,13 +3,9 @@ Author: RedFantom
 License: GNU GPLv3
 Copyright (c) 2017-2018 RedFantom
 """
+from ttkthemes._tkinter import ttk
 from ttkthemes.themed_tk import ThemedTk
-from tests._utils import is_python_3
 import unittest
-if is_python_3():
-    from tkinter import ttk
-else:
-    import ttk
 
 
 class TestThemedTk(unittest.TestCase):
