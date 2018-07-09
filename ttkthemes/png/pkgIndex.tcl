@@ -4,3 +4,4 @@
 set themesdir [file join [pwd] [file dirname [info script]]]
 source [file join $themesdir arc arc.tcl]
 source [file join $themesdir ubuntu ubuntu.tcl]
+source [file join $themesdir equilux equilux.tcl]
