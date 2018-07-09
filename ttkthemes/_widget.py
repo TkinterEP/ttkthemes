@@ -88,8 +88,11 @@ class ThemedWidget(object):
 
         Applies the given modifiers to the images of the theme given and
         then creates a theme from these new images with the name
-        'advanced' and then applies this theme.
+        'advanced' and then applies this theme. Is not available without
+        support for PNG-based themes, then raises RuntimeError.
         """
+        if not self.png_support:
+            raise RuntimeError("PNG-based themes are not supported in the environment")
         # Check if the theme is a pixmap theme
         if theme_name not in self.pixmap_themes:
             raise ValueError("Theme is not a valid pixmap theme")
