@@ -13,7 +13,7 @@ PACKAGES = "python-tk python3-tk libtk-img"
 
 SDIST = os.environ.get("SDIST", "false") == "true"
 
-TO_DELETE = ["ttkthemes", "tkimg"]
+TO_DELETE = ["ttkthemes"]
 
 
 class Version(object):
@@ -69,7 +69,6 @@ def ci(python="python", codecov="codecov", coverage_file="coverage.xml"):
     if return_code != 0:
         print("Building and installing wheel failed.")
         exit(return_code)
-    assert os.path.exists(os.path.join("ttkthemes", "tkimg"))
     # Check if an artifact exists
     assert check_wheel_existence()
     print("Wheel file exists.")
