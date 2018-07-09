@@ -9,14 +9,11 @@ import os
 
 
 class TestUtils(TestCase):
-    def test_is_python_3(self):
-        self.assertIsInstance(utils.is_python_3(), bool)
-
     def assertPathEquals(self, a, b):
         if hasattr(os.path, 'samefile'):
             self.assertTrue(os.path.samefile(a, b))
         else:
-            # on windows, os.path.normcase lowercases because 'ASD' and 'asd'
+            # On windows, os.path.normcase lowercases because 'ASD' and 'asd'
             # should be treated equally
             self.assertEqual(os.path.normcase(a), os.path.normcase(b))
 
@@ -30,7 +27,7 @@ class TestUtils(TestCase):
 
         with self.assertRaises(RuntimeError):
             with utils.temporary_chdir(utils.get_temp_directory()):
-                raise RuntimeError("oh no")
+                raise RuntimeError()
         dir4 = os.getcwd()
         self.assertPathEquals(dir1, dir4)
 
@@ -45,7 +42,7 @@ class TestUtils(TestCase):
     def test_get_themes_directory(self):
         themes = ["blue", "plastik", "keramik", "aquativo",
                   "clearlooks", "elegance", "kroc", "radiance",
-                  "winxpblue", "black", "arc"]
+                  "winxpblue", "black"]
         folders = os.listdir(utils.get_themes_directory())
         for theme in themes:
             self.assertTrue(theme in folders)

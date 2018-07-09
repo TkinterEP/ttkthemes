@@ -6,7 +6,7 @@ Copyright (c) 2017-2018 RedFantom
 import sys
 from unittest import TestCase
 from ttkthemes import ThemedTk
-from ttkthemes._utils import is_python_3
+from tests._utils import is_python_3
 if is_python_3():
     from tkinter import ttk
 else:

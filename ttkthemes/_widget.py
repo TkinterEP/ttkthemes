@@ -113,8 +113,7 @@ class ThemedWidget(object):
             self.tk.eval("source pkgIndex.tcl")
             self.set_theme(advanced_name)
 
-    @staticmethod
-    def _setup_advanced_theme(theme_name, output_dir, advanced_name):
+    def _setup_advanced_theme(self, theme_name, output_dir, advanced_name):
         """
         Setup all the files required to enable an advanced theme.
 
@@ -126,7 +125,8 @@ class ThemedWidget(object):
         """Directories"""
         output_theme_dir = os.path.join(output_dir, advanced_name)
         output_images_dir = os.path.join(output_theme_dir, advanced_name)
-        input_theme_dir = os.path.join(utils.get_themes_directory(), theme_name)
+        input_theme_dir = os.path.join(
+            utils.get_themes_directory(theme_name, self.png_support), theme_name)
         input_images_dir = os.path.join(input_theme_dir, theme_name)
         advanced_pkg_dir = os.path.join(utils.get_file_directory(), "advanced")
         """Directory creation"""
@@ -190,4 +190,3 @@ class ThemedWidget(object):
             image.close()
         for file_name in (item for item in os.listdir(directory) if item.endswith(".gif")):
             os.remove(os.path.join(directory, file_name))
-        return

@@ -4,8 +4,8 @@ License: GNU GPLv3
 Copyright (c) 2017-2018 RedFantom
 """
 from ttkthemes.themed_tk import ThemedTk
+from tests._utils import is_python_3
 import unittest
-from ttkthemes._utils import is_python_3
 if is_python_3():
     from tkinter import ttk
 else:

@@ -63,9 +63,15 @@ def get_temp_directory():
     return directory
 
 
-def get_themes_directory():
+def get_themes_directory(theme_name=None, png=False):
     """Return an absolute path the to /themes directory"""
-    return os.path.join(get_file_directory(), "themes")
+    dir_themes = os.path.join(get_file_directory(), "themes")
+    if theme_name is None:
+        return dir_themes
+    if theme_name in os.listdir(dir_themes):
+        return dir_themes
+    dir = "png" if png is True else "gif"
+    return os.path.join(get_file_directory(), dir)
 
 
 def create_directory(directory):
