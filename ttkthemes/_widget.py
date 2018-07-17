@@ -12,6 +12,7 @@ import ttkthemes._imgops as imgops
 # Project Modules
 from ttkthemes import _utils as utils
 from ._tkinter import tk
+from ._utils import get_file_directory
 
 
 class ThemedWidget(object):
@@ -34,9 +35,11 @@ class ThemedWidget(object):
 
     def __init__(self, tk_interpreter):
         """
-        Loads themes into tk interpreter
+        Initialize attributes and call _load_themes
         :param tk_interpreter: tk interpreter for tk.Widget that is
-                               being initialized as ThemedWidget
+            being initialized as ThemedWidget. Even if this Widget is
+            just a single widget, the changes affect all widgets with
+            the same parent Tk instance.
         """
         self.tk = tk_interpreter
 
@@ -50,15 +53,21 @@ class ThemedWidget(object):
                 self.png_support = True
             except (ImportError, tk.TclError):
                 pass
+        self._load_themes()
 
-        # Load the themes
+    def _load_themes(self):
+        """Load the themes into the Tkinter interpreter"""
         with utils.temporary_chdir(utils.get_file_directory()):
-            # Load the themes
-            self.folder = os.path.dirname(os.path.realpath(__file__)).replace("\\", "/")
-            self.tk.call("lappend", "auto_path", "[%s]" % self.folder + "/themes")
+            self._append_theme_dir("themes")
             self.tk.eval("source themes/pkgIndex.tcl")
-            folder = "gif" if not self.png_support else "png"
-            self.tk.eval("source {}/pkgIndex.tcl".format(folder))
+            theme_dir = "gif" if not self.png_support else "png"
+            self._append_theme_dir(theme_dir)
+            self.tk.eval("source {}/pkgIndex.tcl".format(theme_dir))
+
+    def _append_theme_dir(self, name):
+        """Append a theme dir to the Tk interpreter auto_path"""
+        path = "[{}]".format(get_file_directory() + "/" + name)
+        self.tk.call("lappend", "auto_path", path)
 
     def set_theme(self, theme_name):
         """
