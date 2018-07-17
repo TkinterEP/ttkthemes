@@ -8,9 +8,9 @@ import os
 from shutil import copytree, rmtree
 # Packages
 from PIL import Image, ImageEnhance
-import ttkthemes._imgops as imgops
 # Project Modules
-from ttkthemes import _utils as utils
+from . import _utils as utils
+from . import _imgops as imgops
 from ._tkinter import tk
 from ._utils import get_file_directory
 
