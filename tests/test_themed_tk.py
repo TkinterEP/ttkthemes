@@ -3,7 +3,7 @@ Author: RedFantom
 License: GNU GPLv3
 Copyright (c) 2017-2018 RedFantom
 """
-from ttkthemes._tkinter import ttk
+from ttkthemes._tkinter import tk, ttk
 from ttkthemes.themed_tk import ThemedTk
 import unittest
 
@@ -41,3 +41,18 @@ class TestThemedTk(unittest.TestCase):
             tk.set_theme_advanced(theme, brightness=0.2, saturation=1.4, hue=1.8)
             tk.destroy()
         return
+
+    def test_toplevel_hook(self):
+        __init__toplevel = tk.Toplevel.__init__
+        self.tk.set_theme("black", True, False)
+        self.assertNotEqual(__init__toplevel, tk.Toplevel.__init__)
+        top = tk.Toplevel(self.tk)
+        color = ttk.Style(self.tk).lookup("TFrame", "background")
+        self.assertIsNotNone(color)
+        self.assertEqual(top.cget("background"), color)
+        top.destroy()
+
+    def test_tk_background(self):
+        self.tk.config(background="white")
+        self.tk.set_theme("black", False, True)
+        self.assertNotEqual(self.tk.cget("background"), "white")
