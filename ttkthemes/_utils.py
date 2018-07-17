@@ -4,22 +4,14 @@ License: GNU GPLv3
 Copyright (c) 2017-2018 RedFantom
 """
 import contextlib
-import sys
 import os
 from shutil import rmtree
-from platform import architecture
 from tempfile import gettempdir
-
 
 platforms = {
     "win32": "win",
     "linux2": "linux"
 }
-
-
-def is_python_3():
-    """Check interpreter version"""
-    return sys.version_info.major == 3
 
 
 @contextlib.contextmanager
@@ -71,9 +63,15 @@ def get_temp_directory():
     return directory
 
 
-def get_themes_directory():
+def get_themes_directory(theme_name=None, png=False):
     """Return an absolute path the to /themes directory"""
-    return os.path.join(get_file_directory(), "themes")
+    dir_themes = os.path.join(get_file_directory(), "themes")
+    if theme_name is None:
+        return dir_themes
+    if theme_name in os.listdir(dir_themes):
+        return dir_themes
+    dir = "png" if png is True else "gif"
+    return os.path.join(get_file_directory(), dir)
 
 
 def create_directory(directory):
@@ -82,25 +80,3 @@ def create_directory(directory):
         rmtree(directory)
     os.makedirs(directory)
     return directory
-
-
-def get_tkimg_directory():
-    """
-    Return an absolute path to the TkImg directory for current platform
-    """
-    # Binary Distribution
-    tkimg = os.path.abspath("tkimg")
-    if not os.path.exists(os.path.join(tkimg, "pkgIndex.tcl")):
-        # Source Distribution
-        prefix = sys.platform if sys.platform not in platforms else platforms[sys.platform]
-        arch = architecture()[0][:2]
-        tkimg = os.path.join(tkimg, "{}{}".format(prefix, arch))
-        if not os.path.exists(tkimg):
-            # Plain repository clone without having run bdist_wheel
-            tkimg = os.path.realpath(
-                os.path.join(
-                    os.path.dirname(__file__),
-                    "..",
-                    "tkimg",
-                    "{}{}".format(prefix, arch)))
-    return tkimg

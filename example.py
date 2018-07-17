@@ -62,7 +62,7 @@ class Example(ThemedTk):
         self.radio_two.grid(row=4, column=2, **sticky)
         self.checked.grid(row=5, column=1, **sticky)
         self.unchecked.grid(row=5, column=2, **sticky)
-        self.scroll.grid(row=1, column=3, rowspan=8, **sticky, padx=5)
+        self.scroll.grid(row=1, column=3, rowspan=8, padx=5, **sticky)
         self.tree.grid(row=6, column=1, columnspan=2, **sticky)
         self.scale_entry.grid(row=7, column=1, columnspan=2, **sticky)
         self.combo.grid(row=8, column=1, columnspan=2, **sticky)
@@ -83,5 +83,5 @@ class Example(ThemedTk):
 
 if __name__ == '__main__':
     example = Example()
-    example.set_theme_advanced("ubuntu", hue=0.4)
+    example.set_theme("equilux")
     example.mainloop()

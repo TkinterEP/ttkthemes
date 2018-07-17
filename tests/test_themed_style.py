@@ -3,13 +3,9 @@ Author: RedFantom
 License: GNU GPLv3
 Copyright (c) 2017-2018 RedFantom
 """
+from ttkthemes._tkinter import tk
 from ttkthemes.themed_style import ThemedStyle
 import unittest
-from ttkthemes._utils import is_python_3
-if is_python_3():
-    import tkinter as tk
-else:
-    import Tkinter as tk
 
 
 class TestThemedStyle(unittest.TestCase):
@@ -30,6 +26,8 @@ class TestThemedStyle(unittest.TestCase):
             self.assertEqual(style.theme_use(), item)
 
     def test_custom_theme(self):
+        if not ThemedStyle().png_support:
+            return
         for theme in ThemedStyle.pixmap_themes:
             window = tk.Tk()
             style = ThemedStyle(window)

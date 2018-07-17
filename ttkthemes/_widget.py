@@ -5,12 +5,14 @@ Copyright (c) 2017-2018 RedFantom
 """
 # Standard library
 import os
-from shutil import copytree, rmtree, copyfile
+from shutil import copytree, rmtree
 # Packages
 from PIL import Image, ImageEnhance
 import ttkthemes._imgops as imgops
-# Own modules
+# Project Modules
 from ttkthemes import _utils as utils
+from ._tkinter import tk
+from ._utils import get_file_directory
 
 
 class ThemedWidget(object):
@@ -33,19 +35,39 @@ class ThemedWidget(object):
 
     def __init__(self, tk_interpreter):
         """
-        Loads themes into tk interpreter
+        Initialize attributes and call _load_themes
         :param tk_interpreter: tk interpreter for tk.Widget that is
-                               being initialized as ThemedWidget
+            being initialized as ThemedWidget. Even if this Widget is
+            just a single widget, the changes affect all widgets with
+            the same parent Tk instance.
         """
         self.tk = tk_interpreter
 
         # Change working directory temporarily to allow Tcl to work
+        self.png_support = True
+        if tk.TkVersion <= 8.5:
+            self.png_support = False
+            try:
+                from tkimg import load_tkimg_into_interpreter
+                load_tkimg_into_interpreter(self.tk)
+                self.png_support = True
+            except (ImportError, tk.TclError):
+                pass
+        self._load_themes()
+
+    def _load_themes(self):
+        """Load the themes into the Tkinter interpreter"""
         with utils.temporary_chdir(utils.get_file_directory()):
-            # Load the themes
-            self.folder = os.path.dirname(os.path.realpath(__file__)).replace("\\", "/")
-            self.tk.call("lappend", "auto_path", "[%s]" % self.folder + "/themes")
-            self._img_support = self._load_tkimg()
+            self._append_theme_dir("themes")
             self.tk.eval("source themes/pkgIndex.tcl")
+            theme_dir = "gif" if not self.png_support else "png"
+            self._append_theme_dir(theme_dir)
+            self.tk.eval("source {}/pkgIndex.tcl".format(theme_dir))
+
+    def _append_theme_dir(self, name):
+        """Append a theme dir to the Tk interpreter auto_path"""
+        path = "[{}]".format(get_file_directory() + "/" + name)
+        self.tk.call("lappend", "auto_path", path)
 
     def set_theme(self, theme_name):
         """
@@ -71,29 +93,15 @@ class ThemedWidget(object):
                            preserve_transparency=True, output_dir=None,
                            advanced_name="advanced"):
         """
-        Load an advanced theme that is customized upon runtime. Requires
-        write permission into a temporary directory that is used to
-        temporarily store the custom theme. Only available with Img
-        library support (Tk 8.6 or higher, Python 3 unless you have
-        compiled Tk yourself).
-        :param theme_name: pixmap theme name to base the new theme on
-        :param brightness: brightness modifier for the pixmaps
-        :param saturation: saturation modifier for the pixmaps
-        :param hue: hue modifier for the pixmaps, limited to 0.0-2.0
-        :param preserve_transparency: When True, all black pixels in the
-            resulting images will be set to transparent instead, as
-            transparency is lost during RGBA->HSV conversion. Has no
-            effect when not changing hue.
-        :param output_dir: directory to put the theme in. By default,
-            a volatile temporary directory is used
-        :param advanced_name: Name to give to the new theme
-        :raises: RuntimeError when PNG images are not supported by Tk.
-            This usually applies to Python 2 platforms.
-        :raises: ValueError is theme is not available or valid
-        :raises: RuntimeError when the same name is used twice
+        Load an advanced theme that is dynamically created
+
+        Applies the given modifiers to the images of the theme given and
+        then creates a theme from these new images with the name
+        'advanced' and then applies this theme. Is not available without
+        support for PNG-based themes, then raises RuntimeError.
         """
-        if not self.img_support:
-            raise RuntimeError("PNG images are not supported by your Tkinter installation")
+        if not self.png_support:
+            raise RuntimeError("PNG-based themes are not supported in the environment")
         # Check if the theme is a pixmap theme
         if theme_name not in self.pixmap_themes:
             raise ValueError("Theme is not a valid pixmap theme")
@@ -114,19 +122,20 @@ class ThemedWidget(object):
             self.tk.eval("source pkgIndex.tcl")
             self.set_theme(advanced_name)
 
-    @staticmethod
-    def _setup_advanced_theme(theme_name, output_dir, advanced_name):
+    def _setup_advanced_theme(self, theme_name, output_dir, advanced_name):
         """
-        Setup all the files required to enable an advanced theme. Copies
-        all the files over and creates the required directories if they
-        do not exist.
+        Setup all the files required to enable an advanced theme.
+
+        Copies all the files over and creates the required directories
+        if they do not exist.
         :param theme_name: theme to copy the files over from
         :param output_dir: output directory to place the files in
         """
         """Directories"""
         output_theme_dir = os.path.join(output_dir, advanced_name)
         output_images_dir = os.path.join(output_theme_dir, advanced_name)
-        input_theme_dir = os.path.join(utils.get_themes_directory(), theme_name)
+        input_theme_dir = os.path.join(
+            utils.get_themes_directory(theme_name, self.png_support), theme_name)
         input_images_dir = os.path.join(input_theme_dir, theme_name)
         advanced_pkg_dir = os.path.join(utils.get_file_directory(), "advanced")
         """Directory creation"""
@@ -165,12 +174,11 @@ class ThemedWidget(object):
     @staticmethod
     def _setup_images(directory, brightness, saturation, hue, preserve_transparency):
         """
-        Perform operations on the images found in the folder provided
-        as a parameter. Used to modify images of the advanced theme.
-        :param directory: absolute path to writable directory with images
-        :param brightness: brightness modifier
-        :param saturation: saturation modifier
-        :param hue: hue modifier
+        Apply modifiers to the images of a theme
+
+        Modifies the images using the PIL.ImageEnhance module. Using
+        this function, theme images are modified to given them a
+        unique look and feel. Works best with PNG-based images.
         """
         for file_name in os.listdir(directory):
             with open(os.path.join(directory, file_name), "rb") as fi:
@@ -191,27 +199,3 @@ class ThemedWidget(object):
             image.close()
         for file_name in (item for item in os.listdir(directory) if item.endswith(".gif")):
             os.remove(os.path.join(directory, file_name))
-        return
-
-    def _load_tkimg(self):
-        """
-        Load the TkImg library from the tkimg folder for the current
-        tk interpreter. Required for PNG support on Python 2, but also
-        used on Python 3 as the theme files have been modified to
-        support Img.
-        :raise: tk.TclError if evaluation fails
-        """
-        tkimg_folder = utils.get_tkimg_directory()
-        if not os.path.exists(tkimg_folder):
-            raise RuntimeError("Unsupported platform and/or architecture")
-        pkg_index = os.path.join(tkimg_folder, "pkgIndex.tcl")
-
-        with utils.temporary_chdir(tkimg_folder):
-            self.tk.call("lappend", "auto_path", "[{}]".format(tkimg_folder))
-            self.tk.eval("source {}".format(os.path.relpath(pkg_index, os.getcwd())))
-            self.tk.call("package", "require", "Img")
-        return True
-
-    @property
-    def img_support(self):
-        return self._img_support

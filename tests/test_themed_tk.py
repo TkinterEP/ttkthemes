@@ -3,13 +3,9 @@ Author: RedFantom
 License: GNU GPLv3
 Copyright (c) 2017-2018 RedFantom
 """
+from ttkthemes._tkinter import ttk
 from ttkthemes.themed_tk import ThemedTk
 import unittest
-from ttkthemes._utils import is_python_3
-if is_python_3():
-    from tkinter import ttk
-else:
-    import ttk
 
 
 class TestThemedTk(unittest.TestCase):
@@ -38,6 +34,8 @@ class TestThemedTk(unittest.TestCase):
             self.tk.update()
 
     def test_custom_theme(self):
+        if not self.tk.png_support:
+            return
         for theme in self.tk.pixmap_themes:
             tk = ThemedTk()
             tk.set_theme_advanced(theme, brightness=0.2, saturation=1.4, hue=1.8)
