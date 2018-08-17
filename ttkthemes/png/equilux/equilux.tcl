@@ -279,7 +279,7 @@ namespace eval ttk::theme::equilux {
         ttk::style element create Treeview.field \
             image $images(treeview) -border 1
         ttk::style element create Treeheading.cell \
-            image [list $images(notebook) pressed $images(notebook)] \
+            image [list $images(tree-heading) pressed $images(tree-heading-active)] \
             -border 1 -padding 4 -sticky ewns
 
         ttk::style element create Treeitem.indicator \
