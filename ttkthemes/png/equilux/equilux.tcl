@@ -309,6 +309,6 @@ namespace eval ttk::theme::equilux {
     }
 }
 
-variable version 1.0
+variable version 1.1
 package provide ttk::theme::equilux $version
 
