@@ -24,7 +24,11 @@ class Version(object):
         """
         :param string: semantic version string (major.minor.patch)
         """
-        self.major, self.minor, self.patch = map(int, string.split("."))
+        elements = tuple(map(int, string.split(".")))
+        if len(elements) == 3:
+            self.major, self.minor, self.patch = elements
+        else:
+            (self.major, self.minor), self.patch = elements, 0
         self.version = (self.major, self.minor, self.patch)
 
     def __ge__(self, other):
