@@ -190,7 +190,7 @@ namespace eval ttk::theme::equilux {
             image [list $images(entry-border-bg) \
                         focus $images(entry-active) \
                         disabled $images(entry-border-disabled)] \
-            -border 3 -padding {6 4} -sticky news
+            -border 4 -padding {6 4} -sticky news
 
         ttk::style element create Labelframe.border image $images(labelframe) \
             -border 4 -padding 4 -sticky news
