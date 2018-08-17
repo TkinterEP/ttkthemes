@@ -27,6 +27,11 @@ class Example(ThemedTk):
         ThemedTk.__init__(self)
         self.set_theme(theme)
         # Create widgets
+        self.menu = tk.Menu(self, tearoff=False)
+        self.sub_menu = tk.Menu(self.menu, tearoff=False)
+        self.sub_menu.add_command(label="Exit", command=self.destroy)
+        self.menu.add_cascade(menu=self.sub_menu, label="General")
+        self.config(menu=self.menu)
         self.label = ttk.Label(self, text="This is an example label.")
         self.dropdown = ttk.OptionMenu(self, tk.StringVar(), "First value")
         self.entry = ttk.Entry(self, textvariable=tk.StringVar(value="Default entry value."))
@@ -36,10 +41,11 @@ class Example(ThemedTk):
         self.scroll = ttk.Scrollbar(self, orient=tk.VERTICAL)
         self.checked = ttk.Checkbutton(self, text="Checked", variable=tk.BooleanVar(value=True))
         self.unchecked = ttk.Checkbutton(self, text="Unchecked")
-        self.tree = ttk.Treeview(self, height=4, show=("tree",))
+        self.tree = ttk.Treeview(self, height=4, show=("tree", "headings"))
         self.setup_tree()
         self.scale_entry = ScaleEntry(self, from_=0, to=50, orient=tk.HORIZONTAL, compound=tk.RIGHT)
         self.combo = AutocompleteCombobox(self, completevalues=["something", "something else"])
+        self.progress = ttk.Progressbar(self, maximum=100, value=50)
         # Grid widgets
         self.grid_widgets()
         # Bind screenshot button
@@ -50,6 +56,7 @@ class Example(ThemedTk):
         self.tree.insert("", tk.END, text="Example 1", iid="1")
         self.tree.insert("", tk.END, text="Example 2", iid="2")
         self.tree.insert("2", tk.END, text="Example Child")
+        self.tree.heading("#0", text="Example heading")
 
     def grid_widgets(self):
         """Put widgets in the grid"""
@@ -66,6 +73,7 @@ class Example(ThemedTk):
         self.tree.grid(row=6, column=1, columnspan=2, **sticky)
         self.scale_entry.grid(row=7, column=1, columnspan=2, **sticky)
         self.combo.grid(row=8, column=1, columnspan=2, **sticky)
+        self.progress.grid(row=9, column=1, columnspan=2, padx=5, pady=5, **sticky)
 
     def screenshot(self, *args):
         """Take a screenshot, crop and save"""

@@ -145,8 +145,8 @@ namespace eval ttk::theme::equilux {
                 active              $images(checkbox-unchecked) \
                 selected            $images(checkbox-checked) \
                 {disabled selected} $images(checkbox-checked-insensitive) \
-            ] -width 22 -sticky w
-
+            ] -width 22 -sticky w -padding {0 0 25 0}
+        # Radiobutton
         ttk::style element create Radiobutton.indicator image [list $images(radio-unchecked) \
                 disabled            $images(radio-unchecked-insensitive) \
                 {active selected}   $images(radio-checked) \
@@ -154,7 +154,7 @@ namespace eval ttk::theme::equilux {
                 active              $images(radio-unchecked) \
                 selected            $images(radio-checked) \
                 {disabled selected} $images(radio-checked-insensitive) \
-            ] -width 22 -sticky w
+            ] -width 22 -sticky w -padding {0 0 25 0}
 
         ttk::style element create Horizontal.Scrollbar.trough image $images(trough-scrollbar-horiz)
         ttk::style element create Horizontal.Scrollbar.thumb \
@@ -190,7 +190,7 @@ namespace eval ttk::theme::equilux {
             image [list $images(entry-border-bg) \
                         focus $images(entry-active) \
                         disabled $images(entry-border-disabled)] \
-            -border 3 -padding {6 4} -sticky news
+            -border 4 -padding {6 4} -sticky news
 
         ttk::style element create Labelframe.border image $images(labelframe) \
             -border 4 -padding 4 -sticky news
@@ -264,22 +264,22 @@ namespace eval ttk::theme::equilux {
             image [list $images(tab-top) \
                         selected    $images(tab-top-active) \
                         active      $images(tab-top-hover) \
-            ] -padding {0 2 0 0} -border 2
+            ] -padding {0 2 0 0} -border 3
 
         ttk::style element create Horizontal.Progressbar.trough \
-            image $images(trough-progressbar-horiz) -border {5 1 5 1} -padding 1
+            image $images(progressbar-horiz-bg) -border {2 2 2 2} -padding 1
         ttk::style element create Horizontal.Progressbar.pbar \
             image $images(progressbar-horiz) -border {4 0 4 0}
 
         ttk::style element create Vertical.Progressbar.trough \
-            image $images(trough-progressbar-vert) -border {1 5 1 5} -padding 1
+            image $images(progressbar-vert-bg) -border {2 2 2 2} -padding 1
         ttk::style element create Vertical.Progressbar.pbar \
             image $images(progressbar-vert) -border {0 4 0 4}
 
         ttk::style element create Treeview.field \
             image $images(treeview) -border 1
         ttk::style element create Treeheading.cell \
-            image [list $images(notebook) pressed $images(notebook)] \
+            image [list $images(tree-heading) pressed $images(tree-heading-active)] \
             -border 1 -padding 4 -sticky ewns
 
         ttk::style element create Treeitem.indicator \
@@ -290,9 +290,10 @@ namespace eval ttk::theme::equilux {
         ttk::style configure TButton -padding {8 4 8 4} -width -10 -anchor center
         ttk::style configure TMenubutton -padding {8 4 4 4}
         ttk::style configure Toolbutton -anchor center
-        ttk::style map TCheckbutton -background [list active $colors(-checklight)]
         ttk::style configure TCheckbutton -padding 3
-        ttk::style map TRadiobutton -background [list active $colors(-checklight)]
+        # Radiobutton and Checkbutton hover highlighting: disabled by default
+        # ttk::style map TRadiobutton -background [list active $colors(-checklight)]
+        # ttk::style map TCheckbutton -background [list active $colors(-checklight)]
         ttk::style configure TRadiobutton -padding 3
         ttk::style configure TNotebook -tabmargins {0 2 0 0}
         ttk::style configure TNotebook.Tab -padding {6 2 6 2} -expand {0 0 2}
@@ -308,6 +309,6 @@ namespace eval ttk::theme::equilux {
     }
 }
 
-variable version 1.0
+variable version 1.1
 package provide ttk::theme::equilux $version
 
