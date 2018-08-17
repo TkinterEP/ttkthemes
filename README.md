@@ -3,7 +3,6 @@
 [![Build Status](https://travis-ci.org/RedFantom/ttkthemes.svg?branch=master)](https://travis-ci.org/RedFantom/ttkthemes)
 [![codecov](https://codecov.io/gh/RedFantom/ttkthemes/branch/master/graph/badge.svg)](https://codecov.io/gh/RedFantom/ttkthemes)
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](http://www.gnu.org/licenses/gpl-3.0)
-[![License](https://img.shields.io/badge/License-BSD%202--Clause-orange.svg)](https://opensource.org/licenses/BSD-2-Clause)
 [![PyPI version](https://badge.fury.io/py/ttkthemes.svg)](https://pypi.python.org/pypi/ttkthemes)
 
 A group of themes for the ttk extenstions for Tkinter gathered together by RedFantom and 
@@ -38,10 +37,6 @@ created by various authors.
 Please note that while you can use some themes **only** under GPLv3 and that my code is also
 available **only** under GPLv3, some themes, of which the files have a header explicitly stating
 this, are also available under the BSD-like 2-clause Tcl license.
-
-This library also includes `TkImg 1.4.7`, of which the homepage is located
-[here](https://sourceforge.net/projects/tkimg/). Note that this library is
-available under the license terms as specified in `tkimg/LICENSE`.
 
 ## Usage
 For more information about how to use this project in your own programs, please check out the
