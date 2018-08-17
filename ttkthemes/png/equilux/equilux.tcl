@@ -264,7 +264,7 @@ namespace eval ttk::theme::equilux {
             image [list $images(tab-top) \
                         selected    $images(tab-top-active) \
                         active      $images(tab-top-hover) \
-            ] -padding {0 2 0 0} -border 2
+            ] -padding {0 2 0 0} -border 3
 
         ttk::style element create Horizontal.Progressbar.trough \
             image $images(progressbar-horiz-bg) -border {2 2 2 2} -padding 1
