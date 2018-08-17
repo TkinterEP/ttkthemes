@@ -290,9 +290,10 @@ namespace eval ttk::theme::equilux {
         ttk::style configure TButton -padding {8 4 8 4} -width -10 -anchor center
         ttk::style configure TMenubutton -padding {8 4 4 4}
         ttk::style configure Toolbutton -anchor center
-        ttk::style map TCheckbutton -background [list active $colors(-checklight)]
         ttk::style configure TCheckbutton -padding 3
-        ttk::style map TRadiobutton -background [list active $colors(-checklight)]
+        # Radiobutton and Checkbutton hover highlighting: disabled by default
+        # ttk::style map TRadiobutton -background [list active $colors(-checklight)]
+        # ttk::style map TCheckbutton -background [list active $colors(-checklight)]
         ttk::style configure TRadiobutton -padding 3
         ttk::style configure TNotebook -tabmargins {0 2 0 0}
         ttk::style configure TNotebook.Tab -padding {6 2 6 2} -expand {0 0 2}
