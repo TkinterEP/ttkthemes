@@ -145,8 +145,8 @@ namespace eval ttk::theme::equilux {
                 active              $images(checkbox-unchecked) \
                 selected            $images(checkbox-checked) \
                 {disabled selected} $images(checkbox-checked-insensitive) \
-            ] -width 22 -sticky w
-
+            ] -width 22 -sticky w -padding {0 0 25 0}
+        # Radiobutton
         ttk::style element create Radiobutton.indicator image [list $images(radio-unchecked) \
                 disabled            $images(radio-unchecked-insensitive) \
                 {active selected}   $images(radio-checked) \
@@ -154,7 +154,7 @@ namespace eval ttk::theme::equilux {
                 active              $images(radio-unchecked) \
                 selected            $images(radio-checked) \
                 {disabled selected} $images(radio-checked-insensitive) \
-            ] -width 22 -sticky w
+            ] -width 22 -sticky w -padding {0 0 25 0}
 
         ttk::style element create Horizontal.Scrollbar.trough image $images(trough-scrollbar-horiz)
         ttk::style element create Horizontal.Scrollbar.thumb \
