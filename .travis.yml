@@ -9,9 +9,10 @@ matrix:
   - os: linux
     python: '3.4'
     env: PYTHON=python NUMBER="34" OS="linux"
-  - os: linux
-    python: '3.5'
-    env: PYTHON=python NUMBER="35" OS="linux"
+  # Linux: Python 3.5 Disabled, see build #325
+  # - os: linux
+  #   python: '3.5'
+  #   env: PYTHON=python NUMBER="35" OS="linux"
   - os: linux
     python: '3.6'
     env: PYTHON=python NUMBER="36" OS="linux"
