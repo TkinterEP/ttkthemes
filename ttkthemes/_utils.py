@@ -69,6 +69,11 @@ def get_themes_directory(theme_name=None, png=False):
     return os.path.join(get_file_directory(), dir)
 
 
+def get_fonts_directory():
+    """Return an absolute path to the fonts directory"""
+    return os.path.join(get_file_directory(), "fonts")
+
+
 def create_directory(directory):
     """Create directory but first delete it if it exists"""
     if os.path.exists(directory):

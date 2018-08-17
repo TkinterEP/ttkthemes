@@ -5,6 +5,10 @@ Copyright (c) 2017-2018 RedFantom
 """
 import tkinter as tk
 from tkinter import ttk
+# Standard Library
+import os
+# Project Modules
+from ._utils import get_fonts_directory
 from ._widget import ThemedWidget
 
 
@@ -40,6 +44,10 @@ class ThemedTk(tk.Tk, ThemedWidget):
       higher UI performance than other themes.
     """
 
+    FONTS = {
+        "adapta": "roboto"
+    }
+
     def __init__(self, *args, **kwargs):
         """
         :param theme: Theme to set upon initialization. If theme is not
@@ -61,6 +69,12 @@ class ThemedTk(tk.Tk, ThemedWidget):
         tk.Tk.__init__(self, *args, **kwargs)
         # Initialize as ThemedWidget
         ThemedWidget.__init__(self, self.tk, gif_override)
+        # Attempt to load extrafont and fonts in ./fonts
+        try:
+            self._load_fonts()
+            self.font_support = True
+        except (tk.TclError, ImportError):
+            self.font_support = False
         # Set initial theme
         if theme is not None and theme in self.get_themes():
             self.set_theme(theme, self._toplevel, self._themebg)
@@ -73,11 +87,14 @@ class ThemedTk(tk.Tk, ThemedWidget):
         if self._themebg is not None and themebg is None:
             themebg = self._themebg
         ThemedWidget.set_theme(self, theme_name)
+        style = ttk.Style(self)
         color = self._get_bg_color()
         if themebg is True:
             self.config(background=color)
         if toplevel is True:
             self._setup_toplevel_hook(color)
+        if theme_name in self.FONTS and self.font_support:
+            style.configure(".", font=self.fonts[theme_name])
 
     def _get_bg_color(self):
         return ttk.Style(self).lookup("TFrame", "background", default="white")
@@ -130,3 +147,16 @@ class ThemedTk(tk.Tk, ThemedWidget):
 
     def __setitem__(self, k, v):
         return self.config(**{k: v})
+
+    def _load_fonts(self):
+        """Load the custom fonts using pyglet if it is available"""
+        import tkextrafont
+        tkextrafont.load_extrafont(self)
+        fonts_path = get_fonts_directory()
+        for folder in os.listdir(fonts_path):
+            font_path = os.path.join(fonts_path, folder)
+            for file in os.listdir(font_path):
+                if not file.endswith(".ttf"):
+                    continue
+                self.load_font(os.path.join(font_path, file))
+        return True
