@@ -25,6 +25,7 @@ class ThemedTk(tk.Tk, ThemedWidget):
       Simply sets the background color of the Tkinter window to the
       default TFrame background color specified by the theme.
     """
+
     def __init__(self, *args, **kwargs):
         """
         :param theme: Theme to set upon initialization. If theme is not
@@ -35,10 +36,11 @@ class ThemedTk(tk.Tk, ThemedWidget):
         theme = kwargs.pop("theme", None)
         toplevel = kwargs.pop("toplevel", False)
         background = kwargs.pop("background", False)
+        gif_override = kwargs.pop("gif_override", False)
         # Initialize as tk.Tk
         tk.Tk.__init__(self, *args, **kwargs)
         # Initialize as ThemedWidget
-        ThemedWidget.__init__(self, self.tk)
+        ThemedWidget.__init__(self, self.tk, gif_override)
         # Set initial theme
         if theme is not None and theme in self.get_themes():
             self.set_theme(theme, toplevel, background)

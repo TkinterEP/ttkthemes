@@ -33,7 +33,7 @@ class ThemedWidget(object):
         "winxpblue"
     ]
 
-    def __init__(self, tk_interpreter):
+    def __init__(self, tk_interpreter, gif_override=False):
         """
         Initialize attributes and call _load_themes
         :param tk_interpreter: tk interpreter for tk.Widget that is
@@ -44,8 +44,8 @@ class ThemedWidget(object):
         self.tk = tk_interpreter
 
         # Change working directory temporarily to allow Tcl to work
-        self.png_support = True
-        if tk.TkVersion <= 8.5:
+        self.png_support = True and not gif_override
+        if tk.TkVersion <= 8.5 and not gif_override:
             self.png_support = False
             try:
                 from tkimg import load_tkimg_into_interpreter

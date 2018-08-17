@@ -19,10 +19,11 @@ class ThemedStyle(ttk.Style, ThemedWidget):
                       theme is not available, fails silently.
         """
         theme = kwargs.pop("theme", None)
+        gif_override = kwargs.pop("gif_override", False)
         # Initialize as ttk.Style
         ttk.Style.__init__(self, *args, **kwargs)
         # Initialize as ThemedObject
-        ThemedWidget.__init__(self, self.tk)
+        ThemedWidget.__init__(self, self.tk, gif_override)
         # Set the initial theme
         if theme is not None and theme in self.get_themes():
             self.set_theme(theme)
