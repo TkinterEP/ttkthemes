@@ -104,4 +104,5 @@ class Example(ThemedTk):
 
 if __name__ == '__main__':
     example = Example()
+    example.set_theme("scidblue")
     example.mainloop()
