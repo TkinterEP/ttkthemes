@@ -22,7 +22,7 @@ foreach { t } { blue mint green purple sand pink grey } {
     }
 
     variable I
-    array set I [LoadImages [file join [file dirname [info script]] scid$t] *.png]
+    array set I [LoadImages [file join [file dirname [info script]] scid$t] *.gif]
 
     variable colors
     array set colors {
