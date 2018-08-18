@@ -74,7 +74,7 @@ namespace eval ttk::theme::radiance {
             ;
 
 
-#        ttk::style configure Frame.border -relief groove
+        # ttk::style configure Frame.border -relief groove
 
         ## Treeview.
         #
@@ -87,7 +87,7 @@ namespace eval ttk::theme::radiance {
                 ] \
             -border 4 -sticky ew
         # Older Tk versions
-        #ttk::style configure Treeview -fieldbackground white
+        # ttk::style configure Treeview -fieldbackground white
         ttk::style configure Row -background "#efefef"
         ttk::style map Row -background [list \
             {focus selected} "#71869e" \
@@ -114,7 +114,6 @@ namespace eval ttk::theme::radiance {
                 }
             }
         }
-#PhG = OK! except selection box
         ttk::style element create Button.button image \
             [list $I(button-n) \
                  pressed $I(button-p) \
@@ -162,14 +161,14 @@ namespace eval ttk::theme::radiance {
 
         ## Menubuttons.
         #
-        #ttk::style configure TMenubutton -relief raised -padding {10 2}
-# 	ttk::style element create Menubutton.border image $I(toolbutton-n) \
-# 	    -map [list \
-#                       pressed $I(toolbutton-p) \
-#                       selected $I(toolbutton-p) \
-#                       active $I(toolbutton-a) \
-#                       disabled $I(toolbutton-n)] \
-# 	    -border {4 7 4 7} -sticky nsew
+        # ttk::style configure TMenubutton -relief raised -padding {10 2}
+        # ttk::style element create Menubutton.border image $I(toolbutton-n) \
+        #    -map [list \
+        #         pressed $I(toolbutton-p) \
+        #         selected $I(toolbutton-p) \
+        #         active $I(toolbutton-a) \
+        #         disabled $I(toolbutton-n)] \
+ 	    #    -border {4 7 4 7} -sticky nsew
 
         ttk::style element create Menubutton.border image \
              [list $I(button-n) \
@@ -182,8 +181,8 @@ namespace eval ttk::theme::radiance {
 
         ## Toolbar buttons.
         #
-###PhG added
-ttk::style configure Toolbutton -anchor center
+
+        ttk::style configure Toolbutton -anchor center
         ttk::style configure Toolbutton -padding -5 -relief flat
         ttk::style configure Toolbutton.label -padding 0 -relief flat
 
@@ -234,8 +233,8 @@ ttk::style configure Toolbutton -anchor center
 
         ## Notebooks.
         #
-#         ttk::style element create tab image $I(tab-a) -border {2 2 2 0} \
-#             -map [list selected $I(tab-n)]
+        # ttk::style element create tab image $I(tab-a) -border {2 2 2 0} \
+        #     -map [list selected $I(tab-n)]
 
         ttk::style configure TNotebook.Tab -padding {6 2 6 2}
         ttk::style map TNotebook.Tab \
@@ -333,19 +332,19 @@ ttk::style configure Toolbutton -anchor center
 
         ## Paned window parts.
         #
-#         ttk::style element create hsash image $I(hseparator-n) -border {2 0} \
-#             -map [list {active !disabled} $I(hseparator-a)]
-#         ttk::style element create vsash image $I(vseparator-n) -border {0 2} \
-#             -map [list {active !disabled} $I(vseparator-a)]
+        # ttk::style element create hsash image $I(hseparator-n) -border {2 0} \
+        #     -map [list {active !disabled} $I(hseparator-a)]
+        # ttk::style element create vsash image $I(vseparator-n) -border {0 2} \
+        #    -map [list {active !disabled} $I(vseparator-a)]
 
         ttk::style configure Sash -sashthickness 6 -gripcount 16
 
 
         ## Separator.
         #
-        #ttk::style element create separator image $I(sep-h)
-        #ttk::style element create hseparator image $I(sep-h)
-        #ttk::style element create vseparator image $I(sep-v)
+        # ttk::style element create separator image $I(sep-h)
+        # ttk::style element create hseparator image $I(sep-h)
+        # ttk::style element create vseparator image $I(sep-v)
 
     }
 }
