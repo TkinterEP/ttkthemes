@@ -40,9 +40,18 @@ class TestUtils(TestCase):
         self.assertTrue(os.path.exists(utils.get_temp_directory()))
 
     def test_get_themes_directory(self):
-        themes = ["blue", "plastik", "keramik", "aquativo",
-                  "clearlooks", "elegance", "kroc", "radiance",
-                  "winxpblue", "black"]
+        themes = [
+            "aquativo",
+            "black",
+            "blue",
+            "clearlooks",
+            "elegance",
+            "keramik",
+            "kroc",
+            "plastik",
+            "radiance",
+            "winxpblue",
+        ]
         folders = os.listdir(utils.get_themes_directory())
         for theme in themes:
             self.assertTrue(theme in folders)

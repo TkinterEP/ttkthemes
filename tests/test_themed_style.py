@@ -4,7 +4,7 @@ License: GNU GPLv3
 Copyright (c) 2017-2018 RedFantom
 """
 from ttkthemes._tkinter import tk
-from ttkthemes.themed_style import ThemedStyle
+from ttkthemes import ThemedStyle, THEMES
 import unittest
 
 
@@ -17,10 +17,7 @@ class TestThemedStyle(unittest.TestCase):
 
     def test_themed_style_themes(self):
         style = ThemedStyle(self.window)
-        themes = ["blue", "plastik", "keramik", "aquativo",
-                  "clearlooks", "elegance", "kroc", "radiance",
-                  "winxpblue", "keramik_alt", "black", "arc"]
-        for item in themes:
+        for item in THEMES:
             style.theme_use(item)
             self.assertTrue(item in style.themes)
             self.assertEqual(style.theme_use(), item)

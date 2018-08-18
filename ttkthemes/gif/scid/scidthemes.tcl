@@ -4,11 +4,14 @@
 # Copyright (c) 2018 RedFantom
 # Edited for indents, spaces instead of tabs and formatting
 
-package provide ttk::theme::scidthemes 0.9.1
 foreach { t } { blue mint green purple sand pink grey } {
     set ::tks $t
+
+    package provide ttk::theme::scid$t 0.9.1
+
     namespace eval ttk::theme::scid$t {
-        set t $::tks
+
+    set t $::tks
     proc LoadImages {imgdir {patterns {*.gif}}} {
         foreach pattern $patterns {
             foreach file [glob -directory $imgdir $pattern] {

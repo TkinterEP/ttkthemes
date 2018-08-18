@@ -29,13 +29,6 @@ class ThemedWidget(object):
         "kroc",
         "plastik",
         "radiance",
-        "scidblue",
-        "scidgreen",
-        "scidgrey",
-        "scidmint",
-        "scidpink",
-        "scidpurple",
-        "scidsand",
         "ubuntu",
         "winxpblue"
     ]
