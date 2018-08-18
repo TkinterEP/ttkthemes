@@ -1,12 +1,20 @@
+# Available under GNU GPLv2, or at your option any later version
+# For full License text of GNU GPLv2, see GPLv2.txt in this folder
+# See LICENSE.md for more important information
+
 # smog.tcl - Copyright (C) 2005 Jelco Huijser jelco@user.sourceforge.net
 # Based on sriv.tcl by Pat Thoyts <patthoyts@users.sourceforge.net>
 # Images loosely based on the Mac OS X Aluminum Alloytheme  
-# smog.tcl,v 0.1 2005/08/18 Jelco Huijser
-# Edited by RedFantom to support ttk instead of tile and formatting
+# smog.tcl, v0.1 2005/08/18 Jelco Huijser
+
+# smog.tcl, v0.1.1 2018/08/18 RedFantom
+# Modified for ttk support, formatting, indentation
+# TODO: Implement support for OptionMenu widget
+# TODO: Improve Treeview heading
 
 namespace eval ttk::theme::smog {
 
-    package provide ttk::theme::smog 0.1
+    package provide ttk::theme::smog 0.1.1
 
     set imgdir [file join [file dirname [info script]] smog]
     proc LoadImages {imgdir {patterns {*.gif}}} {
@@ -45,7 +53,7 @@ namespace eval ttk::theme::smog {
 	    -disabledforeground	$colors(-disabledfg)
 	ttk::style map . -foreground [list disabled $colors(-disabledfg)]
 
-	## Buttons.
+	## Buttons
 	#
 	ttk::style configure TButton -padding "7 0"
 	ttk::style layout TButton {
@@ -80,7 +88,7 @@ namespace eval ttk::theme::smog {
 
 	ttk::style configure TMenubutton -relief raised -padding {9 2}
 
-	## Toolbar buttons.
+	## Toolbar buttons
 	#
 	ttk::style configure Toolbutton \
 	     -width 0 -relief flat -borderwidth 1 -padding 4 \
@@ -95,7 +103,7 @@ namespace eval ttk::theme::smog {
 	    active  	raised
 	}
 
-	## Entry widgets.
+	## Entry widgets
 	#
 	ttk::style configure TEntry \
 	     -selectborderwidth 1 -padding 2 -insertwidth 2 -font TkTextFont
@@ -103,7 +111,7 @@ namespace eval ttk::theme::smog {
 	     -selectborderwidth 1 -padding 2 -insertwidth 2 -font TkTextFont
 	ttk::style configure TButton -padding {5 0} -font {Helvetica -12 bold}
 
-	## Notebooks.
+	## Notebooks
 	#
     ttk::style element create tab image \
         [list $I(tab-n) \
@@ -117,7 +125,7 @@ namespace eval ttk::theme::smog {
 	    -background [list selected $colors(-frame) active $colors(-lighter)] \
 	    -padding [list selected {4 4 4 2}]
 
-	## Scrollbars.
+	## Scrollbars
 	#
 	ttk::style layout Vertical.TScrollbar {
 	    Scrollbar.trough -children {
