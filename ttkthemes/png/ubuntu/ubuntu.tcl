@@ -7,7 +7,7 @@ namespace eval ttk::theme::ubuntu {
 
     package provide ttk::theme::ubuntu 1.0
 
-    proc LoadImages {imgdir {patterns {*.gif}}} {
+    proc LoadImages {imgdir {patterns {*.png}}} {
         foreach pattern $patterns {
             foreach file [glob -directory $imgdir $pattern] {
                 set img [file tail [file rootname $file]]

@@ -17,7 +17,7 @@ foreach { t } { blue mint green purple sand pink grey } {
             foreach file [glob -directory $imgdir $pattern] {
                 set img [file tail [file rootname $file]]
                 if {![info exists images($img)]} {
-                    set images($img) [image create photo -file $file]
+                    set images($img) [image create photo -file $file -format png]
                 }
             }
         }
