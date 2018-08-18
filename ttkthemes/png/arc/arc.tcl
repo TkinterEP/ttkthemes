@@ -32,19 +32,16 @@ namespace eval ttk::theme::arc {
             -background $colors(-bg) \
             -foreground $colors(-fg) \
             -troughcolor $colors(-bg) \
-            -selectbackground $colors(-selectbg) \
-            -selectforeground $colors(-selectfg) \
-            -fieldbackground $colors(-window) \
+            -selectbg $colors(-selectbg) \
+            -selectfg $colors(-selectfg) \
+            -fieldbg $colors(-window) \
             -font TkDefaultFont \
             -borderwidth 1 \
             -focuscolor $colors(-focuscolor)
 
         ttk::style map . -foreground [list disabled $colors(-disabledfg)]
 
-        #
-        # Layouts:
-        #
-
+        # Layouts
         ttk::style layout TButton {
             Button.button -children {
                 Button.focus -children {
@@ -117,10 +114,7 @@ namespace eval ttk::theme::arc {
             }
         }
 
-        #
-        # Elements:
-        #
-
+        # Elements
         ttk::style element create Button.button image [list $I(button) \
                 pressed     $I(button-active) \
                 active      $I(button-hover) \
@@ -159,7 +153,8 @@ namespace eval ttk::theme::arc {
                         disabled            $I(slider-horiz-insens) \
             ] -border 6 -sticky ew
 
-        ttk::style element create Vertical.Scrollbar.trough image $I(trough-scrollbar-vert)
+        ttk::style element create Vertical.Scrollbar.trough image $I(trough-scrollbar-vert) \
+            -border {8 4 8 4}
         ttk::style element create Vertical.Scrollbar.thumb \
             image [list $I(slider-vert) \
                         {pressed !disabled} $I(slider-vert-active) \

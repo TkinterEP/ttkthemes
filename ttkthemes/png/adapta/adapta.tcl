@@ -9,15 +9,15 @@ namespace eval ttk::theme::adapta {
     # Widget colors
     variable colors
     array set colors {
-        -fg             "#a6a6a6"
-        -bg             "#464646"
-        -disabledbg     "#2e2e2e"
-        -disabledfg     "#999999"
-        -selectbg       "#414141"
-        -selectfg       "#a6a6a6"
-        -window         "#373737"
-        -focuscolor     "#bebebe"
-        -checklight     "#e6e6e6"
+        -foreground     "#000000"
+        -background     "#fafbfc"
+        -disabledbg     "#fafbfc"
+        -disabledfg     "#c3c5d6"
+        -selectbg       "#00bcd4"
+        -selectfg       "#ffffff"
+        -window         "#fafbfc"
+        -focuscolor     "#1ee9b7"
+        -checklight     "#1ee9b7"
     }
 
     # Function to load images from subdirectory
@@ -35,9 +35,9 @@ namespace eval ttk::theme::adapta {
     ttk::style theme create adapta -parent default -settings {
         # Configure basic style settings
         ttk::style configure . \
-            -background $colors(-bg) \
-            -foreground $colors(-fg) \
-            -troughcolor $colors(-bg) \
+            -background $colors(-background) \
+            -foreground $colors(-foreground) \
+            -troughcolor $colors(-background) \
             -selectbackground $colors(-selectbg) \
             -selectforeground $colors(-selectfg) \
             -fieldbackground $colors(-window) \
@@ -181,18 +181,28 @@ namespace eval ttk::theme::adapta {
             ] -border 6 -sticky ns
 
         # Scales
-        # ttk::style element create Horizontal.Scale.trough \
-        #     image [list $images(trough-horizontal-active) disabled $images(trough-horizontal)] \
-        #     -border {8 5 8 5} -padding 0
-        # ttk::style element create Horizontal.Scale.slider \
-        #     image [list $images(slider) disabled $images(slider-insensitive) active $images(slider-prelight)] \
-        #     -sticky {}
-        # ttk::style element create Vertical.Scale.trough \
-        #     image [list $images(trough-vertical-active) disabled $images(trough-vertical)] \
-        #     -border {5 8 5 8} -padding 0
-        # ttk::style element create Vertical.Scale.slider \
-        #     image [list $images(slider) disabled $images(slider-insensitive) active $images(slider-prelight)] \
-        #     -sticky {}
+        ttk::style element create Horizontal.Scale.trough \
+            image [list $images(scale-horiz-bg) \
+                        disabled $images(scale-horiz-bg-insensitive) \
+            ] \
+            -border {8 5 8 5} -padding 0
+        ttk::style element create Horizontal.Scale.slider \
+            image [list $images(scale-slider) \
+                        disabled $images(scale-slider-insensitive) \
+                        active $images(scale-slider-hover) \
+            ] \
+            -sticky {}
+        ttk::style element create Vertical.Scale.trough \
+            image [list $images(scale-vert-bg) \
+                        disabled $images(scale-vert-bg-insensitive) \
+            ] \
+            -border {5 8 5 8} -padding 0
+        ttk::style element create Vertical.Scale.slider \
+            image [list $images(scale-slider) \
+                        disabled $images(scale-slider-insensitive) \
+                        active $images(scale-slider-hover)
+            ] \
+            -sticky {}
 
         # Entry
         ttk::style element create Entry.field \
@@ -236,10 +246,10 @@ namespace eval ttk::theme::adapta {
                         disabled  $images(combo-button-insensitive) \
           ] -border 4 -padding {0 10 6 10}
         ttk::style element create Combobox.arrow \
-            image [list $images(arrow-down-alt) \
-                        active    $images(arrow-down-alt-hover) \
-                        pressed   $images(arrow-down-alt-hover) \
-                        disabled  $images(arrow-down-alt-insensitive) \
+            image [list $images(button-unshade) \
+                        active    $images(button-unshade-prelight) \
+                        pressed   $images(button-unshade-pressed) \
+                        disabled  $images(button-unshade) \
           ]  -sticky e -width 15
 
         # Spinbox
@@ -247,10 +257,10 @@ namespace eval ttk::theme::adapta {
         #     image [list $images(combo-entry) focus $images(combo-entry-active)] \
         #     -border 4 -padding {6 0 0 0} -sticky news
         # ttk::style element create Spinbox.uparrow \
-        #     image [list $images(up-background) \
-        #                 pressed   $images(up-background-active) \
-        #                 active    $images(up-background-hover) \
-        #                 disabled  $images(up-background-disable) \
+        #     image [list $images(up-bg) \
+        #                 pressed   $images(up-bg-active) \
+        #                 active    $images(up-bg-hover) \
+        #                 disabled  $images(up-bg-disable) \
         #     ] -width 20 -border {0 2 3 0} -padding {0 5 6 2}
         # ttk::style element create Spinbox.symuparrow \
         #     image [list $images(arrow-up-small) \
@@ -259,10 +269,10 @@ namespace eval ttk::theme::adapta {
         #                 disabled  $images(arrow-up-small-insens) \
         #     ]
         # ttk::style element create Spinbox.downarrow \
-        #     image [list $images(down-background) \
-        #                 pressed   $images(down-background-active) \
-        #                 active    $images(down-background-hover) \
-        #                 disabled  $images(down-background-disable) \
+        #     image [list $images(down-bg) \
+        #                 pressed   $images(down-bg-active) \
+        #                 active    $images(down-bg-hover) \
+        #                 disabled  $images(down-bg-disable) \
         #     ] -width 20 -border {0 0 3 2} -padding {0 2 6 5}
         # ttk::style element create Spinbox.symdownarrow \
         #     image [list $images(arrow-down) \
@@ -313,7 +323,7 @@ namespace eval ttk::theme::adapta {
         ttk::style configure TNotebook -tabmargins {0 2 0 0}
         ttk::style configure TNotebook.Tab -padding {6 2 6 2} -expand {0 0 2}
         ttk::style map TNotebook.Tab -expand [list selected {1 2 4 2}]
-        ttk::style configure TSeparator -background $colors(-bg)
+        ttk::style configure TSeparator -background $colors(-background)
 
         # Treeview
         ttk::style configure Treeview -background $colors(-window)
