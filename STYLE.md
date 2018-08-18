@@ -65,6 +65,9 @@ All colors defined for the theme should be defined in a single array
 of colors at the start of the theme, after the `package provide` line 
 and before loading images.
 
+Color arrays should be formatted in such a way that all color 
+identifiers start on the same column. See `black.tcl` for an example.
+
 For older themes that were a work in progress originally, dead code 
 should be tested and if deemed necessary removed. Code for Tk versions
 earlier than Tk 8.5 may also be removed, as Tk 8.5 is the minimum
