@@ -3,6 +3,7 @@ Author: RedFantom
 License: GNU GPLv3
 Copyright (c) 2018 RedFantom
 """
+import os
 import sys
 if sys.version_info.major == 3:
     import tkinter as tk
@@ -10,7 +11,7 @@ if sys.version_info.major == 3:
 else:
     import Tkinter as tk
     import ttk
-from ttkthemes import ThemedTk
+from ttkthemes import ThemedTk, THEMES
 from ttkwidgets import ScaleEntry
 from ttkwidgets.autocomplete import AutocompleteCombobox
 from PIL import Image
@@ -50,6 +51,7 @@ class Example(ThemedTk):
         self.grid_widgets()
         # Bind screenshot button
         self.bind("<F10>", self.screenshot)
+        self.bind("<F9>", self.screenshot_themes)
 
     def setup_tree(self):
         """Setup an example Treeview"""
@@ -78,6 +80,8 @@ class Example(ThemedTk):
     def screenshot(self, *args):
         """Take a screenshot, crop and save"""
         from mss import mss
+        if not os.path.exists("screenshots"):
+            os.makedirs("screenshots")
         box = {
             "top": self.winfo_y(),
             "left": self.winfo_x(),
@@ -86,10 +90,18 @@ class Example(ThemedTk):
         }
         screenshot = mss().grab(box)
         screenshot = Image.frombytes("RGB", screenshot.size, screenshot.rgb)
-        screenshot.save("screenshot.png")
+        screenshot.save("screenshots/{}.png".format(ttk.Style(self).theme_use()))
+
+    def screenshot_themes(self, *args):
+        """Take a screenshot for all themes available"""
+        from time import sleep
+        for theme in THEMES:
+            example.set_theme(theme)
+            example.update()
+            sleep(0.05)
+            self.screenshot()
 
 
 if __name__ == '__main__':
     example = Example()
-    example.set_theme("equilux")
     example.mainloop()
