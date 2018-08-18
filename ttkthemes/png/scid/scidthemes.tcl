@@ -1,8 +1,11 @@
 # scidthemes - Copyright (C) 2018 Uwe Klimmek
-# Available under the BSD-like 2-clause Tcl License
-# See LICENSE.md
+# Available under the BSD-like 2-clause Tcl License, see LICENSE.md
+
 # Copyright (c) 2018 RedFantom
 # Edited for indents, spaces instead of tabs and formatting
+# Fixed the spacing of down arrow in Menubutton/OptionMenu
+# TODO: Fix alignment of down arrow in Menubutton/OptionMenu
+# TODO: Fix spacing on Combobox down arrow sides
 
 foreach { t } { blue mint green purple sand pink grey } {
     set ::tks $t
@@ -140,7 +143,7 @@ foreach { t } { blue mint green purple sand pink grey } {
         ttk::style element create Menubutton.indicator image \
             [list $I(menuarrow-a) \
                 disabled $I(menuarrow-d) \
-            ] -sticky e -border {15 0 0 0}
+            ] -sticky e -border {15 0 0 0} -padding 0
         ttk::style element create Menubutton.border image \
             [list $I(button-n) \
                  selected $I(button-p) \
