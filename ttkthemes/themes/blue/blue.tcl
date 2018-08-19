@@ -28,8 +28,8 @@ namespace eval ttk::theme::blue {
         -background         $colors(-frame) \
         -fieldbackground    $colors(-window) \
         -troughcolor        $colors(-lighter) \
-        -selectbackground    $colors(-selectbg) \
-        -selectforeground    $colors(-selectfg)
+        -selectbackground   $colors(-selectbg) \
+        -selectforeground   $colors(-selectfg)
 
     ttk::style map . -foreground [list disabled $colors(-disabledfg)]
 

@@ -6,6 +6,8 @@
 # v1.0, 19/08/2018 RedFantom
 # Modify with a single procedure for loading images for all themes
 
+package require Tk 8.5
+
 proc load_images {theme_name {patterns {*.gif *.png}}} {
   # Load images for a given theme by theme name
   set theme_dir [file join [pwd] [file dirname [info script]]]

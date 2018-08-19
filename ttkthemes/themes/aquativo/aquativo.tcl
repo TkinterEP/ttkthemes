@@ -1,4 +1,4 @@
-# Theme Aquativo:
+# Theme Aquativo
 # Available under the BSD-like 2-clause Tcl License, see LICENSE
 
 # aquativo.tcl, v0.2 - Copyright (C) 2004 Pat Thoyts <patthoyts@users.sourceforge.net>
