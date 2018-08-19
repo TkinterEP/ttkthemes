@@ -91,7 +91,7 @@ namespace eval ttk::theme::clearlooks {
         selected $images(button-p) \
         active $images(button-a) \
         disabled $images(button-d) \
-      ] -border 4 -sticky ew
+      ] -border {3 4 3 4} -sticky nswe
 
     ## Checkbutton
     #
