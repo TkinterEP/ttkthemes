@@ -92,6 +92,9 @@ namespace eval ttk::theme::black {
     $styleCmd configure TNotebook.Tab \
         -padding {6 2 6 2}
 
+    $styleCmd map TNotebook.Tab -background [list \
+        selected $colors(-lighter)]
+
     # tk widgets.
     $styleCmd map Menu \
         -background [list active $colors(-lighter)] \
