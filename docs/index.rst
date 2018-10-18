@@ -1,7 +1,7 @@
 ttkthemes documentation
 =======================
 
-|Travis| |AppVeyor| |Codecov| |PyPI version| |LicenseGPL|
+|Travis| |AppVeyor| |Codecov| |PyPI version| |LicenseGPL| |Documentation|
 
 A group of themes for the ttk extenstions for Tkinter gathered together
 by RedFantom and created by various authors.
@@ -73,3 +73,5 @@ consider using the great ``radiance`` theme.
     :target: https://pypi.python.org/pypi/ttkthemes
 .. |Tcl| image:: https://camo.githubusercontent.com/52fe969a266a4b8fb1931ceede55238b04731837/68747470733a2f2f7777772e6773667061727365722e746b2f77702d636f6e74656e742f75706c6f6164732f323031372f30332f54636c2e546b5f2e706e67
     :alt: Tcl Logo
+.. |Documentation| image:: https://readthedocs.org/projects/ttkthemes/badge/?version=latest
+    :alt: Documentation
