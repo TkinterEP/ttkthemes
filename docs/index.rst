@@ -13,8 +13,9 @@ by RedFantom and created by various authors.
     :caption: Contents:
 
     authors
-    installation
     classes
+    example
+    installation
 
 License
 -------
