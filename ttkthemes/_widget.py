@@ -36,10 +36,13 @@ class ThemedWidget(object):
     def __init__(self, tk_interpreter, gif_override=False):
         """
         Initialize attributes and call _load_themes
+
         :param tk_interpreter: tk interpreter for tk.Widget that is
             being initialized as ThemedWidget. Even if this Widget is
             just a single widget, the changes affect all widgets with
             the same parent Tk instance.
+        :param gif_override: Force loading of GIF-themes even if
+            PNG-themes can be loaded
         """
         self.tk = tk_interpreter
 
@@ -73,6 +76,7 @@ class ThemedWidget(object):
         """
         Set new theme to use. Uses a direct tk call to allow usage
         of the themes supplied with this package.
+
         :param theme_name: name of theme to activate
         """
         self.tk.call("package", "require", "ttkthemes")
@@ -128,6 +132,7 @@ class ThemedWidget(object):
 
         Copies all the files over and creates the required directories
         if they do not exist.
+
         :param theme_name: theme to copy the files over from
         :param output_dir: output directory to place the files in
         """
