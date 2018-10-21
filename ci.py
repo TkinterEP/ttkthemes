@@ -53,21 +53,8 @@ def check_wheel_existence():
     return len([file for file in os.listdir("dist") if file.endswith((".whl", ".tar.gz"))]) != 0
 
 
-def ci(python="python", codecov="codecov", coverage_file="coverage.xml"):
-    """
-    Run the most common CI tasks
-    """
-
-    # Import pip
-    from pip import __version__ as pip_version
-    if Version(pip_version) >= Version("10.0.0"):
-        import pip._internal as pip
-    else:
-        import pip
-
-    # Install requirements with pip
-    pip.main(["install"] + DEPENDENCIES + REQUIREMENTS + ["-U"])
-    # Build the installation wheel
+def build_and_install_wheel():
+    """Build a binary distribution wheel and install it"""
     dist_type = "bdist_wheel" if not SDIST else "sdist"
     return_code = run_command("{} setup.py {}".format(python, dist_type))
     if return_code != 0:
@@ -85,9 +72,28 @@ def ci(python="python", codecov="codecov", coverage_file="coverage.xml"):
         print("Installation of wheel failed.")
         exit(return_code)
     print("Wheel file installed.")
-    # Remove all non-essential files
-    for to_delete in TO_DELETE:
-        rmtree(to_delete)
+
+
+def ci(python="python", codecov="codecov", coverage_file="coverage.xml", wheel=True):
+    """
+    Run the most common CI tasks
+    """
+
+    # Import pip
+    from pip import __version__ as pip_version
+    if Version(pip_version) >= Version("10.0.0"):
+        import pip._internal as pip
+    else:
+        import pip
+
+    # Install requirements with pip
+    pip.main(["install"] + DEPENDENCIES + REQUIREMENTS + ["-U"])
+    # Build the installation wheel
+    if wheel is True:
+        build_and_install_wheel()
+        # Remove all non-essential files
+        for to_delete in TO_DELETE:
+            rmtree(to_delete)
     # Run the tests on the installed ttkthemes
     return_code = run_command("{} -m nose --with-coverage --cover-xml --cover-package=ttkthemes".format(python))
     if return_code != 0:
@@ -111,7 +117,8 @@ def ci_windows():
     ci(
         python="%PYTHON%\\python.exe",
         codecov="%PYTHON%\\Scripts\\codecov.exe",
-        coverage_file="C:\\projects\\ttk-themes\\coverage.xml"
+        coverage_file="C:\\projects\\ttk-themes\\coverage.xml",
+        wheel=False
     )
 
 
