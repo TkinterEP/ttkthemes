@@ -53,7 +53,7 @@ def check_wheel_existence():
     return len([file for file in os.listdir("dist") if file.endswith((".whl", ".tar.gz"))]) != 0
 
 
-def build_and_install_wheel():
+def build_and_install_wheel(python):
     """Build a binary distribution wheel and install it"""
     dist_type = "bdist_wheel" if not SDIST else "sdist"
     return_code = run_command("{} setup.py {}".format(python, dist_type))
@@ -90,7 +90,7 @@ def ci(python="python", codecov="codecov", coverage_file="coverage.xml", wheel=T
     pip.main(["install"] + DEPENDENCIES + REQUIREMENTS + ["-U"])
     # Build the installation wheel
     if wheel is True:
-        build_and_install_wheel()
+        build_and_install_wheel(python)
         # Remove all non-essential files
         for to_delete in TO_DELETE:
             rmtree(to_delete)
