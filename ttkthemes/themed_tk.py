@@ -15,13 +15,13 @@ class ThemedTk(tk.Tk, ThemedWidget):
     used as a drop-in replacement for the normal Tk class. Additional
     options:
 
-    - Toplevel background color
+    - Toplevel background color:
       Hooks into the Toplevel.__init__ function to set a default window
       background color in the options passed. The hook is not removed
       after the window is destroyed, which is by design because creating
       multiple Tk instances should not be done in the first place.
 
-    - Tk background color
+    - Tk background color:
       Simply sets the background color of the Tkinter window to the
       default TFrame background color specified by the theme.
     """

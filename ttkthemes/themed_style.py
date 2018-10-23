@@ -31,8 +31,9 @@ class ThemedStyle(ttk.Style, ThemedWidget):
     def theme_use(self, theme_name=None):
         """
         Set a new theme to use or return current theme name
+
         :param theme_name: name of theme to use
-        :return: active theme name
+        :returns: active theme name
         """
         if theme_name is not None:
             self.set_theme(theme_name)
@@ -42,6 +43,7 @@ class ThemedStyle(ttk.Style, ThemedWidget):
         """
         Alias of get_themes() to allow for a drop-in replacement of the
         normal ttk.Style instance.
-        :return: Result of get_themes()
+
+        :returns: Result of get_themes()
         """
         return self.get_themes()
