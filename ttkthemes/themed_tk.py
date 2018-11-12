@@ -44,15 +44,20 @@ class ThemedTk(tk.Tk, ThemedWidget):
         # Set initial theme
         if theme is not None and theme in self.get_themes():
             self.set_theme(theme, toplevel, background)
+        elif theme is None and background is not None:
+            self.set_background(background)
         self.__init__toplevel = tk.Toplevel.__init__
+        
+    def set_background(self, background):
+        self.config(background=background)
+        ttk.Style(self).configure(".", background=background)
 
     def set_theme(self, theme_name, toplevel=False, background=False):
         """Redirect the set_theme call to also set Tk background color"""
         ThemedWidget.set_theme(self, theme_name)
         color = ttk.Style(self).lookup("TFrame", "background", default="white")
         if bool(background) is True:
-            self.config(background=background)
-            ttk.Style(self).configure(".", background=background)
+            self.set_background(background)
         else:
             self.config(background=color)
         if toplevel is True:
