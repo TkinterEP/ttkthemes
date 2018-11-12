@@ -56,7 +56,7 @@ class ThemedTk(tk.Tk, ThemedWidget):
         """Redirect the set_theme call to also set Tk background color"""
         ThemedWidget.set_theme(self, theme_name)
         color = ttk.Style(self).lookup("TFrame", "background", default="white")
-        if bool(background) is True:
+        if bool(background) is True and color == "#f5f6f7":
             self.set_background(background)
         else:
             self.config(background=color)
