@@ -168,7 +168,7 @@ namespace eval ttk::theme::adapta {
                         {pressed !disabled} $images(scroll-horiz-slider-active) \
                         {active !disabled}  $images(scroll-horiz-slider-hover) \
                         disabled            $images(scroll-horiz-slider-insensitive) \
-            ] -border 6 -sticky ew
+            ] -border 7 -sticky ew
         ttk::style element create Vertical.Scrollbar.trough \
             image [list $images(scroll-vert-bg) \
                         disabled $images(scroll-vert-bg-insensitive) \
@@ -178,14 +178,14 @@ namespace eval ttk::theme::adapta {
                         {pressed !disabled} $images(scroll-vert-slider-active) \
                         {active !disabled}  $images(scroll-vert-slider-hover) \
                         disabled            $images(scroll-vert-slider-insensitive) \
-            ] -border 6 -sticky ns
+            ] -border 7 -sticky ns
 
         # Scales
         ttk::style element create Horizontal.Scale.trough \
             image [list $images(scale-horiz-bg) \
                         disabled $images(scale-horiz-bg-insensitive) \
             ] \
-            -border {8 5 8 5} -padding 0
+            -border {10 5 10 5} -padding 0
         ttk::style element create Horizontal.Scale.slider \
             image [list $images(scale-slider) \
                         disabled $images(scale-slider-insensitive) \
@@ -196,7 +196,7 @@ namespace eval ttk::theme::adapta {
             image [list $images(scale-vert-bg) \
                         disabled $images(scale-vert-bg-insensitive) \
             ] \
-            -border {5 8 5 8} -padding 0
+            -border {5 10 5 10} -padding 0
         ttk::style element create Vertical.Scale.slider \
             image [list $images(scale-slider) \
                         disabled $images(scale-slider-insensitive) \
@@ -302,15 +302,17 @@ namespace eval ttk::theme::adapta {
             image $images(progress-bar) -border 0
 
         # Treeview
-        # ttk::style element create Treeview.field \
-        #     image $images(treeview) -border 1
-        # ttk::style element create Treeheading.cell \
-        #     image [list $images(notebook) pressed $images(notebook)] \
-        #     -border 1 -padding 4 -sticky ewns
+        ttk::style element create Treeview.field \
+            image $images(treeview) -border 1
+        ttk::style element create Treeheading.cell \
+            image [list $images(toolbutton) \
+                pressed $images(toolbutton-active) \
+                disabled $images(toolbutton-insensitive) \
+                active $images(toolbutton-hover)] \
+            -border {4 1 4 1} -padding 4 -sticky ewns
         # ttk::style element create Treeitem.indicator \
         #     image [list $images(plus) user2 $images(empty) user1 $images(minus)] \
         #     -width 15 -sticky w
-
 
         # Settings
         ttk::style configure TButton -padding {8 4 8 4} -width -10 -anchor center

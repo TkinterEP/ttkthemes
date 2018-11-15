@@ -43,8 +43,11 @@ class Example(ThemedTk):
         self.setup_tree()
         self.scale_entry = ScaleEntry(self, from_=0, to=50, orient=tk.HORIZONTAL, compound=tk.RIGHT)
         self.combo = AutocompleteCombobox(self, completevalues=["something", "something else"])
-        self.progress = ttk.Progressbar(self, maximum=100, value=50)
-        self.toolbutton = ttk.Button(self, text="Toolbutton", style="Toolbutton")
+        self.notebook = ttk.Notebook(self)
+        self.progress = ttk.Progressbar(self.notebook, maximum=100, value=50)
+        self.toolbutton = ttk.Button(self.notebook, text="Toolbutton", style="Toolbutton")
+        self.notebook.add(self.progress, text="Progressbar")
+        self.notebook.add(self.toolbutton, text="Toolbutton")
         # Grid widgets
         self.grid_widgets()
         # Bind screenshot button
@@ -73,8 +76,9 @@ class Example(ThemedTk):
         self.tree.grid(row=6, column=1, columnspan=2, padx=5, pady=(0, 5), **sticky)
         self.scale_entry.grid(row=7, column=1, columnspan=2, padx=5, pady=(0, 5), **sticky)
         self.combo.grid(row=8, column=1, columnspan=2, padx=5, pady=(0, 5), **sticky)
-        self.progress.grid(row=9, column=1, columnspan=2, padx=5, pady=5, **sticky)
-        self.toolbutton.grid(row=10, column=1, padx=5, pady=5, **sticky)
+        # self.progress.grid(row=9, column=1, columnspan=2, padx=5, pady=5, **sticky)
+        # self.toolbutton.grid(row=10, column=1, padx=5, pady=5, **sticky)
+        self.notebook.grid(row=11, column=1)
 
     def screenshot(self, *args):
         """Take a screenshot, crop and save"""
