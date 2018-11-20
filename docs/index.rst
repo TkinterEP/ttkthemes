@@ -16,6 +16,7 @@ by RedFantom and created by various authors.
     classes
     example
     installation
+    loading
 
 License
 -------
