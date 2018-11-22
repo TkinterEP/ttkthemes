@@ -44,7 +44,7 @@ class ThemedTk(tk.Tk, ThemedWidget):
         # Set initial theme
         if theme is not None and theme in self.get_themes():
             self.set_theme(theme, toplevel, background)
-        elif theme is None and background is not None:
+        elif theme is None and background is not None and theme in self.get_themes():
             self.set_background(background)
         self.__init__toplevel = tk.Toplevel.__init__
         
