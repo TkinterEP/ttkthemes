@@ -153,8 +153,7 @@ namespace eval ttk::theme::arc {
                         disabled            $I(slider-horiz-insens) \
             ] -border 6 -sticky ew
 
-        ttk::style element create Vertical.Scrollbar.trough image $I(trough-scrollbar-vert) \
-            -border {8 4 8 4}
+        ttk::style element create Vertical.Scrollbar.trough image $I(trough-scrollbar-vert)
         ttk::style element create Vertical.Scrollbar.thumb \
             image [list $I(slider-vert) \
                         {pressed !disabled} $I(slider-vert-active) \
