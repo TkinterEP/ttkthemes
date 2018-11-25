@@ -15,6 +15,7 @@ by RedFantom and created by various authors.
     authors
     classes
     example
+    themes
     installation
 
 License
