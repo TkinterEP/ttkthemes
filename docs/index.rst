@@ -16,6 +16,8 @@ by RedFantom and created by various authors.
     classes
     example
     themes
+    theming
+    licenses
     installation
 
 License
