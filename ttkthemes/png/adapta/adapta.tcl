@@ -222,12 +222,11 @@ namespace eval ttk::theme::adapta {
                         active   $images(button-hover) \
                         disabled $images(button-insensitive) \
             ] -sticky news -border 3 -padding {3 2}
-        # ttk::style element create Menubutton.indicator \
-        #     image [list $images(arrow-down) \
-        #                 active   $images(arrow-down-prelight) \
-        #                 pressed  $images(arrow-down-prelight) \
-        #                 disabled $images(arrow-down-insens) \
-        #     ] -sticky e -width 20
+        ttk::style element create Menubutton.indicator \
+            image [list $images(arrow-down) \
+                        active   $images(arrow-down-hover) \
+                        pressed  $images(arrow-down-hover) \
+            ] -sticky e -width 20
 
         # ComboBox
         ttk::style element create Combobox.field \
@@ -305,7 +304,7 @@ namespace eval ttk::theme::adapta {
         ttk::style element create Treeview.field \
             image $images(treeview) -border 1
         ttk::style element create Treeheading.cell \
-            image [list $images(toolbutton) \
+            image [list $images(toolbutton-hover) \
                 pressed $images(toolbutton-active) \
                 disabled $images(toolbutton-insensitive) \
                 active $images(toolbutton-hover)] \

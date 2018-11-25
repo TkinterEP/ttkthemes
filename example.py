@@ -5,7 +5,7 @@ Copyright (c) 2018 RedFantom
 """
 import os
 import tkinter as tk
-from tkinter import ttk, font
+from tkinter import ttk
 from ttkthemes import ThemedTk, THEMES
 from ttkwidgets import ScaleEntry
 from ttkwidgets.autocomplete import AutocompleteCombobox
@@ -16,7 +16,6 @@ class Example(ThemedTk):
     """
     Example that is used to create screenshots for new themes.
     """
-
     def __init__(self, theme="arc"):
         """
         :param theme: Theme to show off
@@ -29,9 +28,8 @@ class Example(ThemedTk):
         self.sub_menu.add_command(label="Exit", command=self.destroy)
         self.menu.add_cascade(menu=self.sub_menu, label="General")
         self.config(menu=self.menu)
-        self.label = ttk.Label(self, text="Using Font: {}\nFont support: {}".format(
-            font.Font(name=ttk.Style(self).lookup(".", "font"), exists=True).actual()["family"], self.font_support))
-        self.dropdown = ttk.OptionMenu(self, tk.StringVar(), "First value")
+        self.label = ttk.Label(self, text="This is an example label.")
+        self.dropdown = ttk.OptionMenu(self, tk.StringVar(), "First value", "Second Value")
         self.entry = ttk.Entry(self, textvariable=tk.StringVar(value="Default entry value."))
         self.button = ttk.Button(self, text="Button")
         self.radio_one = ttk.Radiobutton(self, text="Radio one", value=True)
@@ -43,11 +41,7 @@ class Example(ThemedTk):
         self.setup_tree()
         self.scale_entry = ScaleEntry(self, from_=0, to=50, orient=tk.HORIZONTAL, compound=tk.RIGHT)
         self.combo = AutocompleteCombobox(self, completevalues=["something", "something else"])
-        self.notebook = ttk.Notebook(self)
-        self.progress = ttk.Progressbar(self.notebook, maximum=100, value=50)
-        self.toolbutton = ttk.Button(self.notebook, text="Toolbutton", style="Toolbutton")
-        self.notebook.add(self.progress, text="Progressbar")
-        self.notebook.add(self.toolbutton, text="Toolbutton")
+        self.progress = ttk.Progressbar(self, maximum=100, value=50)
         # Grid widgets
         self.grid_widgets()
         # Bind screenshot button
@@ -64,21 +58,19 @@ class Example(ThemedTk):
     def grid_widgets(self):
         """Put widgets in the grid"""
         sticky = {"sticky": "nswe"}
-        self.label.grid(row=1, column=1, columnspan=2, padx=5, pady=5, **sticky)
-        self.dropdown.grid(row=2, column=1, padx=5, pady=(0, 5), **sticky)
-        self.entry.grid(row=2, column=2, padx=(0, 5), pady=(0, 5), **sticky)
-        self.button.grid(row=3, column=1, columnspan=2, padx=5, pady=(0, 5), **sticky)
-        self.radio_one.grid(row=4, column=1, padx=5, pady=(0, 5), **sticky)
-        self.radio_two.grid(row=4, column=2, padx=(0, 5), pady=(0, 5), **sticky)
-        self.checked.grid(row=5, column=1, padx=5, pady=(0, 5), **sticky)
-        self.unchecked.grid(row=5, column=2, padx=(0, 5), pady=(0, 5), **sticky)
-        self.scroll.grid(row=1, column=3, rowspan=10, padx=5, pady=5, **sticky)
-        self.tree.grid(row=6, column=1, columnspan=2, padx=5, pady=(0, 5), **sticky)
-        self.scale_entry.grid(row=7, column=1, columnspan=2, padx=5, pady=(0, 5), **sticky)
-        self.combo.grid(row=8, column=1, columnspan=2, padx=5, pady=(0, 5), **sticky)
-        # self.progress.grid(row=9, column=1, columnspan=2, padx=5, pady=5, **sticky)
-        # self.toolbutton.grid(row=10, column=1, padx=5, pady=5, **sticky)
-        self.notebook.grid(row=11, column=1)
+        self.label.grid(row=1, column=1, columnspan=2, **sticky)
+        self.dropdown.grid(row=2, column=1, **sticky)
+        self.entry.grid(row=2, column=2, **sticky)
+        self.button.grid(row=3, column=1, columnspan=2, **sticky)
+        self.radio_one.grid(row=4, column=1, **sticky)
+        self.radio_two.grid(row=4, column=2, **sticky)
+        self.checked.grid(row=5, column=1, **sticky)
+        self.unchecked.grid(row=5, column=2, **sticky)
+        self.scroll.grid(row=1, column=3, rowspan=8, padx=5, **sticky)
+        self.tree.grid(row=6, column=1, columnspan=2, **sticky)
+        self.scale_entry.grid(row=7, column=1, columnspan=2, **sticky)
+        self.combo.grid(row=8, column=1, columnspan=2, **sticky)
+        self.progress.grid(row=9, column=1, columnspan=2, padx=5, pady=5, **sticky)
 
     def screenshot(self, *args):
         """Take a screenshot, crop and save"""
