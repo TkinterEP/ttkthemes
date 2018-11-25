@@ -43,6 +43,7 @@ Modifying a theme
 -----------------
 In order to load an advanced theme, the following function is provided
 within any ``ThemedWidget``:
+
 .. code-block:: python
 
     def set_theme_advanced(
