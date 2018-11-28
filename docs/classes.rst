@@ -1,5 +1,5 @@
-Documentation
-=============
+Reference
+=========
 
 .. autoclass:: ttkthemes.themed_style.ThemedStyle
    :show-inheritance:
