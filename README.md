@@ -3,8 +3,8 @@
 [![Build Status](https://travis-ci.org/RedFantom/ttkthemes.svg?branch=master)](https://travis-ci.org/RedFantom/ttkthemes)
 [![codecov](https://codecov.io/gh/RedFantom/ttkthemes/branch/master/graph/badge.svg)](https://codecov.io/gh/RedFantom/ttkthemes)
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](http://www.gnu.org/licenses/gpl-3.0)
-[![License](https://img.shields.io/badge/License-BSD%202--Clause-orange.svg)](https://opensource.org/licenses/BSD-2-Clause)
 [![PyPI version](https://badge.fury.io/py/ttkthemes.svg)](https://pypi.python.org/pypi/ttkthemes)
+[![Doc Status](https://readthedocs.org/projects/ttkthemes/badge/?version=latest&style=flat)](https://ttkthemes.readthedocs.io/en/latest)
 
 A group of themes for the ttk extenstions for Tkinter gathered together by RedFantom and 
 created by various authors.
@@ -46,8 +46,9 @@ available under the license terms as specified in `tkimg/LICENSE`.
 
 ## Usage
 For more information about how to use this project in your own programs, please check out the
-[wiki](https://github.com/RedFantom/ttk-themes/wiki). You can also find example images of all
-themes there, so you can choose one easily.
+[documentation](https://ttkthemes.readthedocs.io/en/latest/) on ReadTheDocs. You can also find
+example images of the different included themes there, so you can choose one easily, as well
+as examples on usage.
   
 ## Recommendations
 The themes `plastik`, `clearlooks` and `elegance` are recommended to make your UI look nicer
