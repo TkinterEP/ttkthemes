@@ -3,17 +3,23 @@
 # Copyright (c) 2017-2018 RedFantom
 
 set themesdir [file join [pwd] [file dirname [info script]]]
-lappend auto_path $themesdir
-package provide ttkthemes 1.0
-source [file join $themesdir plastik plastik.tcl]
-source [file join $themesdir radiance radiance.tcl]
-source [file join $themesdir kroc kroc.tcl]
-source [file join $themesdir clearlooks clearlooks.tcl]
-source [file join $themesdir elegance elegance.tcl]
-source [file join $themesdir blue blue.tcl]
-source [file join $themesdir aquativo aquativo.tcl]
-source [file join $themesdir keramik keramik.tcl]
-source [file join $themesdir winxpblue winxpblue.tcl]
-source [file join $themesdir black black.tcl]
-source [file join $themesdir smog smog.tcl]
-source [file join $themesdir itft1 itft1.tcl]
+
+array set themes {
+  aquativo 0.0.1
+  black 0.1
+  blue 0.7
+  clearlooks 0.1
+  elegance 0.1
+  itft1 0.14
+  keramik 0.6.2
+  kroc 0.0.1
+  plastik 0.6.2
+  radiance 0.1
+  smog 0.1.1
+  winxpblue 0.6
+}
+
+foreach {theme version} [array get themes] {
+  package ifneeded ttk::theme::$theme $version \
+    [list source [file join $themesdir $theme $theme.tcl]]
+}

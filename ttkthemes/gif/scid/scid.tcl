@@ -1,8 +1,13 @@
 # scidthemes - Copyright (C) 2018 Uwe Klimmek
-# Available under the BSD-like 2-clause Tcl License
-# See LICENSE.md
+# Available under the BSD-like 2-clause Tcl License, see LICENSE.md
+
 # Copyright (c) 2018 RedFantom
 # Edited for indents, spaces instead of tabs and formatting
+# Fixed the spacing of down arrow in Menubutton/OptionMenu
+# TODO: Fix alignment of down arrow in Menubutton/OptionMenu
+# TODO: Fix spacing on Combobox down arrow sides
+
+package provide ttk::theme::scid 0.9.1
 
 foreach { t } { blue mint green purple sand pink grey } {
     set ::tks $t
@@ -12,12 +17,12 @@ foreach { t } { blue mint green purple sand pink grey } {
     namespace eval ttk::theme::scid$t {
 
     set t $::tks
-    proc LoadImages {imgdir {patterns {*.gif}}} {
+    proc LoadImages {imgdir {patterns {*.png}}} {
         foreach pattern $patterns {
             foreach file [glob -directory $imgdir $pattern] {
                 set img [file tail [file rootname $file]]
                 if {![info exists images($img)]} {
-                    set images($img) [image create photo -file $file]
+                    set images($img) [image create photo -file $file -format gif]
                 }
             }
         }
@@ -44,13 +49,15 @@ foreach { t } { blue mint green purple sand pink grey } {
         -troughborder   "#a7a7a7"
         -checklight     "#f5f5f5"
         -eborder        "#5464c4"
+        -foreground     "#202020"
+        -background     "#efefef"
     }
 
     ttk::style theme create scid$t -settings {
         ttk::style configure . \
         -borderwidth        1 \
         -background         $colors(-frame) \
-        -foreground         "#202020" \
+        -foreground         $colors(-foreground) \
         -bordercolor        $colors(-darkest) \
         -darkcolor          $colors(-dark) \
         -lightcolor         $colors(-lighter) \
@@ -73,7 +80,7 @@ foreach { t } { blue mint green purple sand pink grey } {
              pressed $I(tree-p) \
              active $I(tree-h) \
             ] -border 4 -sticky ew
-        ttk::style configure Row -background "#efefef"
+        ttk::style configure Row -background $colors(-background)
         ttk::style map Row -background \
             [list \
                 {focus selected} "#6474d4" \
@@ -140,7 +147,7 @@ foreach { t } { blue mint green purple sand pink grey } {
         ttk::style element create Menubutton.indicator image \
             [list $I(menuarrow-a) \
                 disabled $I(menuarrow-d) \
-            ] -sticky e -border {15 0 0 0}
+            ] -sticky e -border {15 0 0 0} -padding 0
         ttk::style element create Menubutton.border image \
             [list $I(button-n) \
                  selected $I(button-p) \
@@ -166,8 +173,8 @@ foreach { t } { blue mint green purple sand pink grey } {
             -padding {0 4 0 4 } \
             -insertwidth 1 \
             -fieldbackground white \
-            -selectbackground "#ffffff" \
-            -selectforeground "#202020"
+            -selectbackground $colors(-eborder) \
+            -selectforeground $colors(-foreground)
         ttk::style map TEntry \
             -fieldbackground [list readonly $colors(-frame)] \
             -bordercolor     [list focus $colors(-eborder)] \

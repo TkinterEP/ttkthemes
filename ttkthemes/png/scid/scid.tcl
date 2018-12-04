@@ -7,6 +7,8 @@
 # TODO: Fix alignment of down arrow in Menubutton/OptionMenu
 # TODO: Fix spacing on Combobox down arrow sides
 
+package provide ttk::theme::scid 0.9.1
+
 foreach { t } { blue mint green purple sand pink grey } {
     set ::tks $t
 

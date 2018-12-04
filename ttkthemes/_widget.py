@@ -32,6 +32,16 @@ class ThemedWidget(object):
         "ubuntu",
         "winxpblue"
     ]
+    PACKAGES = {
+        "keramik_alt": "keramik",
+        "scidblue": "scid",
+        "scidgreen": "scid",
+        "scidgrey": "scid",
+        "scidmint": "scid",
+        "scidpink": "scid",
+        "scidpurple": "scid",
+        "scidsand": "scid",
+    }
 
     def __init__(self, tk_interpreter, gif_override=False):
         """
@@ -79,12 +89,12 @@ class ThemedWidget(object):
 
         :param theme_name: name of theme to activate
         """
-        self.tk.call("package", "require", "ttkthemes")
+        package = theme_name if theme_name not in self.PACKAGES else self.PACKAGES[theme_name]
+        self.tk.call("package", "require", "ttk::theme::{}".format(package))
         self.tk.call("ttk::setTheme", theme_name)
 
     def get_themes(self):
         """Return a list of names of available themes"""
-        self.tk.call("package", "require", "ttkthemes")
         return list(self.tk.call("ttk::themes"))
 
     @property
