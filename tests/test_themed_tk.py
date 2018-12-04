@@ -19,7 +19,8 @@ class TestThemedTk(unittest.TestCase):
     def test_themes_available(self):
         available_themes = self.tk.get_themes()
         for theme in THEMES:
-            self.assertTrue(theme in available_themes)
+            if theme not in available_themes:
+                raise AssertionError("Theme {} not available".format(theme))
 
     def test_theme_setting(self):
         button = ttk.Button(self.tk)

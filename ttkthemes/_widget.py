@@ -43,6 +43,8 @@ class ThemedWidget(object):
         "scidsand": "scid",
     }
 
+    _EXCLUDED = {"scid"}
+
     def __init__(self, tk_interpreter, gif_override=False):
         """
         Initialize attributes and call _load_themes
@@ -76,6 +78,7 @@ class ThemedWidget(object):
             theme_dir = "gif" if not self.png_support else "png"
             self._append_theme_dir(theme_dir)
             self.tk.eval("source {}/pkgIndex.tcl".format(theme_dir))
+        self.tk.call("package", "require", "ttk::theme::scid")
 
     def _append_theme_dir(self, name):
         """Append a theme dir to the Tk interpreter auto_path"""
@@ -95,7 +98,7 @@ class ThemedWidget(object):
 
     def get_themes(self):
         """Return a list of names of available themes"""
-        return list(self.tk.call("ttk::themes"))
+        return list(set(self.tk.call("ttk::themes")) - self._EXCLUDED)
 
     @property
     def themes(self):
