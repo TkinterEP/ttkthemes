@@ -102,6 +102,13 @@ sticking to the normal Progressbar height.
 Theme ``ubuntu`` is equal to radiance, except is uses transparent elements in place of some
 white areas. Therefore, it looks a bit better when PNG-themes are available.
 
+Scid themes
+-----------
+|scidblue| |scidgreen| |scidgrey| |scidmint| |scidpink| |scidpurple| |scidsand|
+
+The scid themes form a group of themes that all share the same basic look but with
+differently colored accents.
+
 Smog
 ----
 |smog|
@@ -129,6 +136,13 @@ recommended, even for Windows XP applications.
 .. |kroc| image:: https://imgur.com/1SrLhKL.png
 .. |plastik| image:: https://imgur.com/21PjNzW.png
 .. |radiance| image:: https://imgur.com/CZczNBz.png
+.. |scidblue| image:: https://imgur.com/fFkNU6e.png
+.. |scidgreen| image:: https://imgur.com/5JjDoVb.png
+.. |scidgrey| image:: https://imgur.com/bx1ck8R.png
+.. |scidmint| image:: https://imgur.com/poW1Dr7.png
+.. |scidpink| image:: https://imgur.com/vJTyu5B.png
+.. |scidpurple| image:: https://imgur.com/rtPliD7.png
+.. |scidsand| image:: https://imgur.com/6CtUCAW.png
 .. |smog| image:: https://imgur.com/DFmThbK.png
 .. |ubuntu| image:: https://imgur.com/0WlZwfD.png
 .. |winxpblue| image:: https://imgur.com/3StdivF.png

@@ -27,5 +27,6 @@ Tcl-License Themes
 - ``plastik``: Copyright (C) 2004 Pat Thoyts
 - ``radiance``: Copyright Regents of the University of California,
   Sun Microsystems, Inc., Scriptics Corporation, and other parties
+- ``scid`` and all its derivates: Copyright (C) 2018 Uwe Klimmek
 - ``smog``: Copyright (C) 2005 Jelco Huijser
 - ``winxpblue``: Copyright (C) 2004 Pat Thoyts
