@@ -42,9 +42,11 @@ class ThemedWidget(object):
         "scidpink": "scid",
         "scidpurple": "scid",
         "scidsand": "scid",
+        "awlight": "awthemes",
+        "awdark": "awthemes",
     }
 
-    _EXCLUDED = {"scid"}
+    _EXCLUDED = {"scid", "awthemes"}
 
     def __init__(self, tk_interpreter, gif_override=False):
         """

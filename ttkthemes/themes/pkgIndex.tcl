@@ -6,6 +6,7 @@ set base_theme_dir [file join [pwd] [file dirname [info script]]]
 
 array set base_themes {
   aquativo 0.0.1
+  awthemes 2.3
   black 0.1
   blue 0.7
   clearlooks 0.1
