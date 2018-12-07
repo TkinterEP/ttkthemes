@@ -4,24 +4,23 @@ License: GNU GPLv3
 Copyright (c) 2017-2018 RedFantom
 """
 from ttkthemes._tkinter import tk, ttk
-from ttkthemes.themed_tk import ThemedTk
+from ttkthemes import ThemedTk, THEMES
 import unittest
 
 
 class TestThemedTk(unittest.TestCase):
+
     def setUp(self):
         self.tk = ThemedTk()
-        self.themes = ["blue", "plastik", "keramik", "aquativo",
-                       "clearlooks", "elegance", "kroc", "radiance",
-                       "winxpblue", "keramik_alt", "black", "arc"]
 
     def tearDown(self):
         self.tk.destroy()
 
     def test_themes_available(self):
         available_themes = self.tk.get_themes()
-        for theme in self.themes:
-            self.assertTrue(theme in available_themes)
+        for theme in THEMES:
+            if theme not in available_themes:
+                raise AssertionError("Theme {} not available".format(theme))
 
     def test_theme_setting(self):
         button = ttk.Button(self.tk)

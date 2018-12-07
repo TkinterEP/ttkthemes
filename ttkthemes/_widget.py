@@ -33,6 +33,19 @@ class ThemedWidget(object):
         "winxpblue"
     ]
 
+    PACKAGES = {
+        "keramik_alt": "keramik",
+        "scidblue": "scid",
+        "scidgreen": "scid",
+        "scidgrey": "scid",
+        "scidmint": "scid",
+        "scidpink": "scid",
+        "scidpurple": "scid",
+        "scidsand": "scid",
+    }
+
+    _EXCLUDED = {"scid"}
+
     def __init__(self, tk_interpreter, gif_override=False):
         """
         Initialize attributes and call _load_themes
@@ -66,6 +79,7 @@ class ThemedWidget(object):
             theme_dir = "gif" if not self.png_support else "png"
             self._append_theme_dir(theme_dir)
             self.tk.eval("source {}/pkgIndex.tcl".format(theme_dir))
+        self.tk.call("package", "require", "ttk::theme::scid")
 
     def _append_theme_dir(self, name):
         """Append a theme dir to the Tk interpreter auto_path"""
@@ -79,13 +93,13 @@ class ThemedWidget(object):
 
         :param theme_name: name of theme to activate
         """
-        self.tk.call("package", "require", "ttkthemes")
+        package = theme_name if theme_name not in self.PACKAGES else self.PACKAGES[theme_name]
+        self.tk.call("package", "require", "ttk::theme::{}".format(package))
         self.tk.call("ttk::setTheme", theme_name)
 
     def get_themes(self):
         """Return a list of names of available themes"""
-        self.tk.call("package", "require", "ttkthemes")
-        return list(self.tk.call("ttk::themes"))
+        return list(set(self.tk.call("ttk::themes")) - self._EXCLUDED)
 
     @property
     def themes(self):
