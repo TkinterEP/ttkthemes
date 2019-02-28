@@ -41,10 +41,6 @@ Please note that while you can use some themes **only** under GPLv3 and that my 
 available **only** under GPLv3, some themes, of which the files have a header explicitly stating
 this, are also available under the BSD-like 2-clause Tcl license.
 
-This library also includes `TkImg 1.4.7`, of which the homepage is located
-[here](https://sourceforge.net/projects/tkimg/). Note that this library is
-available under the license terms as specified in `tkimg/LICENSE`.
-
 ## Usage
 For more information about how to use this project in your own programs, please check out the
 [documentation](https://ttkthemes.readthedocs.io/en/latest/) on ReadTheDocs. You can also find
