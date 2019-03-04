@@ -23,7 +23,7 @@ class Example(ThemedTk):
     Example that is used to create screenshots for new themes.
     """
     def __init__(self):
-        ThemedTk.__init__(self)
+        ThemedTk.__init__(self, themebg=True)
         # Create widgets
         self.menu = tk.Menu(self, tearoff=False)
         self.sub_menu = tk.Menu(self.menu, tearoff=False)
@@ -101,5 +101,5 @@ class Example(ThemedTk):
 
 if __name__ == '__main__':
     example = Example()
-    example.set_theme("scidblue")
+    example.set_theme("equilux")
     example.mainloop()

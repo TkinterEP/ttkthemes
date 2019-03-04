@@ -106,6 +106,11 @@ class ThemedWidget(object):
         """Property alias of get_themes()"""
         return self.get_themes()
 
+    @property
+    def current_theme(self):
+        """Property to get the currently enabled theme"""
+        return self.tk.eval("return $ttk::currentTheme")
+
     def set_theme_advanced(self, theme_name, brightness=1.0,
                            saturation=1.0, hue=1.0,
                            preserve_transparency=True, output_dir=None,
