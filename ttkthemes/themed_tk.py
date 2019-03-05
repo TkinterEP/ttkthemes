@@ -77,17 +77,22 @@ class ThemedTk(tk.Tk, ThemedWidget):
 
     def config(self, kw=None, **kwargs):
         """Configure redirect to support additional options"""
-        background = kwargs.pop("themebg", self._themebg)
+        themebg = kwargs.pop("themebg", self._themebg)
         toplevel = kwargs.pop("toplevel", self._toplevel)
         theme = kwargs.pop("theme", self.current_theme)
         color = self._get_bg_color()
-        if background != self._themebg:
-            self.configure(bg="white")
+        if themebg != self._themebg:
+            if themebg is False:
+                self.configure(bg="white")
+            else:
+                self.configure(bg=color)
+            self._themebg = themebg
         if toplevel != self._toplevel:
             if toplevel is True:
                 self._setup_toplevel_hook(color)
             else:
                 tk.Toplevel.__init__ = self.__init__toplevel
+            self._toplevel = toplevel
         if theme != self.current_theme:
             self.set_theme(theme)
         return tk.Tk.config(self, kw, **kwargs)

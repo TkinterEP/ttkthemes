@@ -55,3 +55,26 @@ class TestThemedTk(unittest.TestCase):
         self.tk.config(background="white")
         self.tk.set_theme("black", False, True)
         self.assertNotEqual(self.tk.cget("background"), "white")
+
+    def test_config_cget(self):
+        self.tk.config(theme="equilux")
+        self.assertEqual(self.tk.cget("theme"), self.tk.current_theme)
+        self.assertEqual(self.tk.cget("theme"), "equilux")
+
+        self.tk.config(themebg=True)
+        self.assertTrue(self.tk.cget("themebg"))
+        before = self.tk.cget("bg")
+        self.tk.config(themebg=False)
+        self.assertFalse(self.tk.cget("themebg"))
+        after = self.tk.cget("bg")
+        self.assertNotEqual(before, after)
+
+        self.tk.config(toplevel=False)
+        self.assertFalse(self.tk.cget("toplevel"))
+        orig = tk.Toplevel.__init__
+        self.tk.config(toplevel=True)
+        self.assertTrue(self.tk.cget("toplevel"))
+        self.assertNotEqual(orig, tk.Toplevel.__init__)
+
+        self.tk.configure(toplevel=False)
+        self.assertEqual(tk.Toplevel.__init__, orig)
