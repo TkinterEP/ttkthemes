@@ -66,13 +66,13 @@ class TestThemedTk(unittest.TestCase):
         before = self.tk.cget("bg")
         self.tk.config(themebg=False)
         self.assertFalse(self.tk.cget("themebg"))
-        after = self.tk.cget("bg")
+        after = self.tk["bg"]
         self.assertNotEqual(before, after)
 
         self.tk.config(toplevel=False)
         self.assertFalse(self.tk.cget("toplevel"))
         orig = tk.Toplevel.__init__
-        self.tk.config(toplevel=True)
+        self.tk["toplevel"] = True
         self.assertTrue(self.tk.cget("toplevel"))
         self.assertNotEqual(orig, tk.Toplevel.__init__)
 

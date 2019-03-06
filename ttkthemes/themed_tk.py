@@ -29,6 +29,11 @@ class ThemedTk(tk.Tk, ThemedWidget):
     - Tk background color ``themebg``:
       Simply sets the background color of the Tkinter window to the
       default TFrame background color specified by the theme.
+
+    - GIF theme override ``gif_override``:
+      Forces ttkthemes to load the GIF version of themes that also
+      provide a PNG version even if the PNG version can be loaded. Can
+      only be set at object initialization.
     """
 
     def __init__(self, *args, **kwargs):
@@ -76,7 +81,7 @@ class ThemedTk(tk.Tk, ThemedWidget):
         tk.Toplevel.__init__ = __toplevel__
 
     def config(self, kw=None, **kwargs):
-        """Configure redirect to support additional options"""
+        """configure redirect to support additional options"""
         themebg = kwargs.pop("themebg", self._themebg)
         toplevel = kwargs.pop("toplevel", self._toplevel)
         theme = kwargs.pop("theme", self.current_theme)
@@ -97,9 +102,6 @@ class ThemedTk(tk.Tk, ThemedWidget):
             self.set_theme(theme)
         return tk.Tk.config(self, kw, **kwargs)
 
-    def configure(self, kw=None, **kwargs):
-        return self.config(kw, **kwargs)
-
     def cget(self, k):
         """cget redirect to support additional options"""
         if k == "themebg":
@@ -109,3 +111,12 @@ class ThemedTk(tk.Tk, ThemedWidget):
         elif k == "theme":
             return self.current_theme
         return tk.Tk.cget(self, k)
+
+    def configure(self, kw=None, **kwargs):
+        return self.config(kw, **kwargs)
+
+    def __getitem__(self, k):
+        return self.cget(k)
+
+    def __setitem__(self, k, v):
+        return self.config(**{k: v})
