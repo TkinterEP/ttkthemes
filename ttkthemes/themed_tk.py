@@ -55,8 +55,6 @@ class ThemedTk(tk.Tk, ThemedWidget):
         background = kwargs.pop("background", None)
         if isinstance(background, bool):
             self._themebg = self._themebg or background
-        else:
-            kwargs["background"] = background
         gif_override = kwargs.pop("gif_override", False)
         # Initialize as tk.Tk
         tk.Tk.__init__(self, *args, **kwargs)
