@@ -10,7 +10,7 @@ environment:
     - PYTHON: "C:\\PYTHON36-x64"
 build: off
 before_test:
-  - "%PYTHON%\\python.exe -m pip install --upgrade pip"
+  - "%PYTHON%\\python.exe -m pip install --upgrade pip==9.0.3"
 test_script:
   - "%PYTHON%\\python.exe ci.py"
 artifacts:
