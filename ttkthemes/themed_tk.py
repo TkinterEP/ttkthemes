@@ -17,8 +17,8 @@ class ThemedTk(tk.Tk, ThemedWidget):
 
     - Initial theme ``theme``:
       Sets the initial theme to the theme specified. If the theme is
-      not available, fails silenty (there is no indication that the
-      theme is not set other than
+      not available, fails silently (there is no indication that the
+      theme is not set other than it not appearing to the user).
 
     - Toplevel background color ``toplevel``:
       Hooks into the Toplevel.__init__ function to set a default window
@@ -27,25 +27,34 @@ class ThemedTk(tk.Tk, ThemedWidget):
       multiple Tk instances should not be done in the first place.
 
     - Tk background color ``themebg``:
-      Simply sets the background color of the Tkinter window to the
-      default TFrame background color specified by the theme.
+      Set the default background color of a Tk window to the default
+      theme background color. For example: The background of windows
+      may take on a dark color for dark themes. Backwards-compatible
+      with the ``background`` keyword argument of v2.3.0 and earlier.
 
     - GIF theme override ``gif_override``:
       Forces ttkthemes to load the GIF version of themes that also
       provide a PNG version even if the PNG version can be loaded. Can
-      only be set at object initialization.
+      only be set at object initialization. GIF themes may provide a
+      higher UI performance than other themes.
     """
 
     def __init__(self, *args, **kwargs):
         """
         :param theme: Theme to set upon initialization. If theme is not
             available, fails silently.
-        :param toplevel: Control Toplevel background color option
-        :param background: Control Tk background color option
+        :param toplevel: Control Toplevel background color option,
+            see class documentation for details.
+        :param themebg: Control Tk background color option, see
+            class documentation for details.
         """
         theme = kwargs.pop("theme", None)
         self._toplevel = kwargs.pop("toplevel", None)
         self._themebg = kwargs.pop("themebg", None)
+        # Backwards compatibility with ttkthemes v2.3.0
+        background = kwargs.pop("background", None)
+        if isinstance(background, bool):
+            self._themebg = self._themebg or background
         gif_override = kwargs.pop("gif_override", False)
         # Initialize as tk.Tk
         tk.Tk.__init__(self, *args, **kwargs)
