@@ -111,9 +111,9 @@ namespace eval ttk::theme::breeze {
 
         ttk::style element create Button.button image [list $I(button) \
                 pressed     $I(button-focus) \
-                {active focus}       $I(button-focus) \
-                active      $I(button-active) \
-                focus       $I(button-focus) \
+                {active focus}       $I(button-active) \
+                active      $I(button-hover) \
+                focus       $I(button-hover) \
                 disabled    $I(button-insensitive) \
             ] -border 3 -sticky ewns
 
