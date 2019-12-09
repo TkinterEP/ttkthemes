@@ -99,7 +99,7 @@ boasts the native look of Ubuntu's radiance theme, making for a good choice  whe
 this platform. Large Progressbar widgets (namely in height) may look a bit mutated, so try
 sticking to the normal Progressbar height.
 
-Theme ``ubuntu`` is equal to radiance, except is uses transparent elements in place of some
+Theme ``ubuntu`` is equal to radiance, except it uses transparent elements in place of some
 white areas. Therefore, it looks a bit better when PNG-themes are available.
 
 Scid themes
@@ -125,7 +125,7 @@ recommended, even for Windows XP applications.
 .. _equilux: https://github.com/ddnexus/equilux-theme
 .. |aquativo| image:: https://imgur.com/RUH48LL.png
 .. |arc| image:: https://imgur.com/nmjPIYl.png
-.. |black| image:: https://imgur.com/5vs2aw4
+.. |black| image:: https://imgur.com/5vs2aw4.png
 .. |blue| image:: https://imgur.com/vA5jBiA.png
 .. |clearlooks| image:: https://imgur.com/ujVt54x.png
 .. |elegance| image:: https://imgur.com/nGlluzL.png
