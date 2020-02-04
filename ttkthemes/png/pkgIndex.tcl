@@ -1,6 +1,8 @@
 # Author: RedFantom
 # License: GNU GPLv3
-# Copyright (c) 2017-2018 RedFantom
+# Copyright (c) 2017-2019 RedFantom
+
+package require Tk 8.6
 set png_theme_dir [file join [pwd] [file dirname [info script]]]
 
 array set png_themes {
