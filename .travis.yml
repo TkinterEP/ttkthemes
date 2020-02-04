@@ -30,6 +30,7 @@ before_install:
     else
       brew install python python3 || echo "Installed Python";
     fi;
+  - $PYTHON -m pip install --upgrade pip setuptools
 script:
   - $PYTHON ci.py
 

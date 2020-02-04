@@ -10,7 +10,7 @@ environment:
     - PYTHON: "C:\\PYTHON38-x64"
 build: off
 before_test:
-  - "%PYTHON%\\python.exe -m pip install --upgrade pip==9.0.3"
+  - "%PYTHON%\\python.exe -m pip install --upgrade pip setuptools"
 test_script:
   - "%PYTHON%\\python.exe ci.py"
 artifacts:
