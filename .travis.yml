@@ -1,5 +1,8 @@
 language: python
 sudo: required
+services:
+  - xvfb
+dist: xenial
 matrix:
   include:
   - os: linux
@@ -23,13 +26,6 @@ matrix:
   allow_failures:
    - os: osx
 before_install:
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
-      export DISPLAY=:99.0;
-      sh -e /etc/init.d/xvfb start;
-      sleep 3;
-    else
-      brew install python python3 || echo "Installed Python";
-    fi;
   - $PYTHON -m pip install --upgrade pip setuptools
 script:
   - $PYTHON ci.py
