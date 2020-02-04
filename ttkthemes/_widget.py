@@ -11,7 +11,6 @@ from PIL import Image, ImageEnhance
 # Project Modules
 from . import _utils as utils
 from . import _imgops as imgops
-from ._tkinter import tk
 from ._utils import get_file_directory
 
 
@@ -60,15 +59,7 @@ class ThemedWidget(object):
         self.tk = tk_interpreter
 
         # Change working directory temporarily to allow Tcl to work
-        self.png_support = True and not gif_override
-        if tk.TkVersion <= 8.5 and not gif_override:
-            self.png_support = False
-            try:
-                from tkimg import load_tkimg_into_interpreter
-                load_tkimg_into_interpreter(self.tk)
-                self.png_support = True
-            except (ImportError, tk.TclError):
-                pass
+        self.png_support = not gif_override
         self._load_themes()
 
     def _load_themes(self):

@@ -13,11 +13,8 @@ from setuptools import setup
 
 
 if TkVersion <= 8.5:
-    try:
-        import tkimg
-    except ImportError:
-        print("With this version of Tk, PNG-based themes are only "
-              "available with python-tkimg")
+    message = "This version of ttkthemes does not support Tk 8.5 and earlier. Please install an earlier version."
+    raise RuntimeError(message)
 
 
 def read(fname):
