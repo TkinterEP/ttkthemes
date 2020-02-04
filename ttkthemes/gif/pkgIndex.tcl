@@ -5,6 +5,7 @@ set gif_theme_dir [file join [pwd] [file dirname [info script]]]
 
 array set gif_themes {
   arc 0.1
+  breeze 0.6
   equilux 1.1
   scid 0.9.1
   ubuntu 1.0
