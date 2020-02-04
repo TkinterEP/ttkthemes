@@ -122,21 +122,6 @@ def ci_windows():
     )
 
 
-def ci_macos():
-    """
-    Setup Travis-CI macOS for wheel building
-    """
-    run_command("brew install $PYTHON pipenv || echo \"Installed PipEnv\"")
-    command_string = "sudo -H $PIP install "
-    for element in DEPENDENCIES + REQUIREMENTS + ["-U"]:
-        command_string += element + " "
-    run_command(command_string)
-    # Build a wheel
-    run_command("sudo -H $PYTHON setup.py bdist_wheel")
-    assert check_wheel_existence()
-    exit(0)
-
-
 def ci_linux():
     """
     Setup Travis-CI linux for installation and testing
@@ -151,8 +136,6 @@ if __name__ == '__main__':
         ci_windows()
     elif "linux" in sys.platform:   # linux2 on Python 2, linux on Python 3
         ci_linux()
-    elif sys.platform == "darwin":
-        ci_macos()
     else:
         raise RuntimeError("Invalid platform: ", sys.platform)
 

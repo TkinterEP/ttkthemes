@@ -20,11 +20,6 @@ matrix:
   - os: linux
     python: '3.8'
     env: PYTHON=python NUMBER="36" OS="linux"
-  - os: osx
-    language: generic
-    env: PYTHON=python3 PIP=pip3 NUMBER="36" OS="darwin"
-  allow_failures:
-   - os: osx
 before_install:
   - $PYTHON -m pip install --upgrade pip setuptools
 script:
