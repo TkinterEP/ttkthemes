@@ -1,16 +1,16 @@
 environment:
   matrix:
-    - PYTHON: "C:\\PYTHON27"
-    - PYTHON: "C:\\PYTHON27-x64"
-    - PYTHON: "C:\\PYTHON34"
-    - PYTHON: "C:\\PYTHON34-x64"
     - PYTHON: "C:\\PYTHON35"
     - PYTHON: "C:\\PYTHON35-x64"
     - PYTHON: "C:\\PYTHON36"
     - PYTHON: "C:\\PYTHON36-x64"
+    - PYTHON: "C:\\PYTHON37"
+    - PYTHON: "C:\\PYTHON37-x64"
+    - PYTHON: "C:\\PYTHON38"
+    - PYTHON: "C:\\PYTHON38-x64"
 build: off
 before_test:
-  - "%PYTHON%\\python.exe -m pip install --upgrade pip==9.0.3"
+  - "%PYTHON%\\python.exe -m pip install --upgrade pip setuptools"
 test_script:
   - "%PYTHON%\\python.exe ci.py"
 artifacts:

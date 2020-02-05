@@ -4,7 +4,8 @@ License: GNU GPLv3
 Copyright (c) 2017-2018 RedFantom
 """
 from ._widget import ThemedWidget
-from ._tkinter import ttk
+import tkinter as tk
+from tkinter import ttk
 
 
 class ThemedStyle(ttk.Style, ThemedWidget):

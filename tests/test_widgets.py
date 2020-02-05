@@ -6,7 +6,7 @@ Copyright (c) 2017-2018 RedFantom
 import sys
 from unittest import TestCase
 from ttkthemes import ThemedTk
-from ttkthemes._tkinter import ttk
+from tkinter import ttk
 
 
 def printf(string, end="\n"):

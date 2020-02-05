@@ -8,11 +8,6 @@ import os
 from shutil import rmtree
 from tempfile import gettempdir
 
-platforms = {
-    "win32": "win",
-    "linux2": "linux"
-}
-
 
 @contextlib.contextmanager
 def temporary_chdir(new_dir):

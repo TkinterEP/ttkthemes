@@ -3,7 +3,8 @@ Author: RedFantom
 License: GNU GPLv3
 Copyright (c) 2017-2018 RedFantom
 """
-from ._tkinter import tk, ttk
+import tkinter as tk
+from tkinter import ttk
 from ._widget import ThemedWidget
 
 
