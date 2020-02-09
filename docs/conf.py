@@ -26,7 +26,7 @@ author = 'The ttkthemes authors'
 # The short X.Y version
 version = ''
 # The full version, including alpha/beta/rc tags
-release = 'v2.2.0'
+release = 'v3.0.0'
 
 
 # -- General configuration ---------------------------------------------------
