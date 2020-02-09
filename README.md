@@ -11,7 +11,7 @@ created by various authors.
 
 ## License
     ttkthemes: A group of themes for the ttk extensions of Tcl
-    Copyright (C) 2017-2018 RedFantom
+    Copyright (C) 2017-2020 RedFantom
     Copyright (C) 2017-2018 Akuli
     Copyright (C) 2004 Pat Thoyts
     Copyright (C) 2004 David Zolli
