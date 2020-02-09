@@ -16,7 +16,6 @@ THEMES = [
     "elegance",
     "equilux",
     "itft1",
-    "equilux",
     "keramik",
     "kroc",
     "plastik",

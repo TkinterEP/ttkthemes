@@ -38,6 +38,10 @@ A theme that does live up to its name. This theme will burn your eyes out being 
 Everything is blue, though in some widgets there is a nice color gradient. This theme was
 also created by Pat Thoyts in 2004.
 
+Breeze
+------
+|breeze|
+
 Clearlooks
 ----------
 |clearlooks|
@@ -127,6 +131,7 @@ recommended, even for Windows XP applications.
 .. |arc| image:: https://imgur.com/nmjPIYl.png
 .. |black| image:: https://imgur.com/5vs2aw4.png
 .. |blue| image:: https://imgur.com/vA5jBiA.png
+.. |breeze| image:: https://imgur.com/5nK3ykn.png
 .. |clearlooks| image:: https://imgur.com/ujVt54x.png
 .. |elegance| image:: https://imgur.com/nGlluzL.png
 .. |equilux| image:: https://imgur.com/UahDaHl.png

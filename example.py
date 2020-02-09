@@ -92,13 +92,13 @@ class Example(ThemedTk):
         """Take a screenshot for all themes available"""
         from time import sleep
         for theme in THEMES:
-            example.set_theme(theme)
-            example.update()
+            self.set_theme(theme)
+            self.update()
             sleep(0.05)
             self.screenshot()
 
 
 if __name__ == '__main__':
     example = Example()
-    example.set_theme("breeze")
+    example.set_theme("smog")
     example.mainloop()
