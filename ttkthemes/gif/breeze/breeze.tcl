@@ -317,7 +317,10 @@ namespace eval ttk::theme::breeze {
         # Treeview
         ttk::style configure Treeview -background white
         ttk::style configure Treeview.Item -padding {2 0 0 0}
-        
+        ttk::style map Treeview \
+            -background [list selected $colors(-selectbg)] \
+            -foreground [list selected $colors(-selectfg)]
+
         # Some defaults for non ttk-widgets so that they fit
         # to the breeze theme, too
         tk_setPalette background [ttk::style lookup . -background] \
