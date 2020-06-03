@@ -1,6 +1,10 @@
 # Copyright (c) 2020 RedFantom
-# Derived from arc theme file
-# Derived from Ubuntu Yaru theme
+# Derived from arc theme file, Copyright (c) 2015 Sergei Golovan
+# Derived from Ubuntu Yaru theme, Copyright (c) 2018-2020 The Yaru theme authors
+# See <https://github.com/ubuntu/yaru/blob/master/AUTHORS> for a list of
+# authors for the Yaru theme
+
+# Licensed under GNU GPLv3 (most restrictive, derivative of 'arc')
 
 namespace eval ttk::theme::yaru {
 

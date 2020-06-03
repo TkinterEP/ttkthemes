@@ -12,6 +12,8 @@ GNU GPLv3 Themes
 - ``ubuntu``: Copyright (C) Regents of the University of California,
   Sun Microsystems, Inc., Scriptics Corporation, and other parties.
   Copyright (C) 2018 RedFantom
+- ``yaru``: Copyright (c) 2020 RedFantom, 2015 Sergei Golovan, the
+  yaru_authors_.
 
 Tcl-License Themes
 ------------------
@@ -30,3 +32,5 @@ Tcl-License Themes
 - ``scid`` and all its derivatives: Copyright (C) 2018 Uwe Klimmek
 - ``smog``: Copyright (C) 2005 Jelco Huijser
 - ``winxpblue``: Copyright (C) 2004 Pat Thoyts
+
+.. _yaru_authors: https://github.com/ubuntu/yaru/blob/master/AUTHORS
