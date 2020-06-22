@@ -21,6 +21,7 @@ created by various authors.
     Copyright (C) 2018 Uwe Klimmek 
     Copyright (C) Regents of the University of California, Sun Microsystems, Inc., 
     Scriptics Corporation, and other parties.
+    Copyright (C) 2018-2020 The Yaru Theme Authors
     
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by

@@ -124,6 +124,12 @@ winxpblue
 A theme that tries to imitate the Windows XP look and feel created by Pat Thoyts in 2004. Not
 recommended, even for Windows XP applications.
 
+yaru
+----
+|yaru|
+
+Theme derived from the new Ubuntu 20.04 default theme and theme 'arc'.
+
 .. _Fuduntu: https://en.wikipedia.org/wiki/Fuduntu
 .. _here: https://www.gnome-look.org/content/show.php/Blue+Elegance+Light?content=164806
 .. _equilux: https://github.com/ddnexus/equilux-theme
@@ -151,3 +157,4 @@ recommended, even for Windows XP applications.
 .. |smog| image:: https://imgur.com/DFmThbK.png
 .. |ubuntu| image:: https://imgur.com/0WlZwfD.png
 .. |winxpblue| image:: https://imgur.com/3StdivF.png
+.. |yaru| image:: https://imgur.com/I4EYDSA.png
