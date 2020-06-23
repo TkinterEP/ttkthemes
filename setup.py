@@ -3,12 +3,8 @@ Author: RedFantom
 License: GNU GPLv3
 Copyright (c) 2017-2018 RedFantom
 """
-import sys
 import os
-if sys.version_info[0] >= 3:
-    from tkinter import TkVersion
-else:  # Python 2
-    from Tkinter import TkVersion
+from tkinter import TkVersion
 from setuptools import setup
 
 
