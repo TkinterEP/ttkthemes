@@ -19,8 +19,8 @@ created by various authors.
     Copyright (C) 2005 Jelco Huijser
     Copyright (C) 2015-2018 The materia and equilux authors
     Copyright (C) 2018 Uwe Klimmek 
-    Copyright (C) Regents of the University of California, Sun Microsystems, Inc., 
-    Scriptics Corporation, and other parties.
+    Copyright (C) Regents of the University of California, Sun Microsystems, Inc., Scriptics Corporation, and other parties
+    Copyright (c) 2018 Maximilian Lika
     Copyright (C) 2018-2020 The Yaru Theme Authors
     
     This program is free software: you can redistribute it and/or modify
