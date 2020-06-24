@@ -61,7 +61,7 @@ class Example(ThemedTk):
     def grid_widgets(self):
         """Put widgets in the grid"""
         sticky = {"sticky": "nswe"}
-        self.notebook.grid(row=0, column=1, columnspan=2)
+        self.notebook.grid(row=0, column=1, columnspan=2, **sticky)
         self.label.grid(row=1, column=1, columnspan=2, **sticky)
         self.dropdown.grid(row=2, column=1, **sticky)
         self.entry.grid(row=2, column=2, **sticky)
