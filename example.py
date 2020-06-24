@@ -23,6 +23,9 @@ class Example(ThemedTk):
         ThemedTk.__init__(self, fonts=True, themebg=True)
         self.set_theme(theme)
         # Create widgets
+        self.notebook = ttk.Notebook(self)
+        self.notebook.add(ttk.Button(self, text="Hello World"), text="Frame One")
+        self.notebook.add(ttk.Button(self, text="Hello Universe"), text="Frame Two")
         self.menu = tk.Menu(self, tearoff=False)
         self.sub_menu = tk.Menu(self.menu, tearoff=False)
         self.sub_menu.add_command(label="Exit", command=self.destroy)
@@ -58,6 +61,7 @@ class Example(ThemedTk):
     def grid_widgets(self):
         """Put widgets in the grid"""
         sticky = {"sticky": "nswe"}
+        self.notebook.grid(row=0, column=1, columnspan=2)
         self.label.grid(row=1, column=1, columnspan=2, **sticky)
         self.dropdown.grid(row=2, column=1, **sticky)
         self.entry.grid(row=2, column=2, **sticky)
