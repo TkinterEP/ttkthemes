@@ -146,7 +146,7 @@ namespace eval ttk::theme::adapta {
                 active              $images(check-off) \
                 selected            $images(check-on) \
                 {disabled selected} $images(check-on-insensitive) \
-            ] -width 22 -sticky w
+            ] -width 25 -sticky w -padding {0 4 0 0}
 
         # Radiobutton
         ttk::style element create Radiobutton.indicator image [list $images(radio-off) \
@@ -156,7 +156,7 @@ namespace eval ttk::theme::adapta {
                 active              $images(radio-off) \
                 selected            $images(radio-on-hover) \
                 {disabled selected} $images(radio-on-insensitive) \
-            ] -width 22 -sticky w
+            ] -width 25 -sticky w -padding {0 4 0 0}
 
         # Scrollbars
         ttk::style element create Horizontal.Scrollbar.trough \
@@ -209,7 +209,7 @@ namespace eval ttk::theme::adapta {
             image [list $images(entry) \
                         focus $images(entry-active) \
                         disabled $images(entry-insensitive)] \
-            -border 3 -padding {6 4} -sticky news
+            -border 4 -padding {6 6} -sticky news
 
         # LabelFrame
         # ttk::style element create Labelframe.border image $images(labelframe) \
@@ -283,17 +283,16 @@ namespace eval ttk::theme::adapta {
         # Notebook
         # ttk::style element create Notebook.client \
         #     image $images(notebook) -border 1
-        # ttk::style element create Notebook.tab \
-        #     image [list $images(tab-top) \
-        #                 selected    $images(tab-top-active) \
-        #                 active      $images(tab-top-hover) \
-        #     ] -padding {0 2 0 0} -border 2
+        ttk::style element create Notebook.tab \
+            image [list $images(notebook) \
+                        selected    $images(notebook-active) \
+            ] -padding {4 4 4 2} -border {5 3 5 0}
 
         # Progressbars
         ttk::style element create Horizontal.Progressbar.trough \
             image $images(progress-bg) -border 0 -padding 1
         ttk::style element create Horizontal.Progressbar.pbar \
-            image $images(progress-bar) -border 0
+            image $images(progress-bar) -border 0 -padding 2
 
         ttk::style element create Vertical.Progressbar.trough \
             image $images(progress-bg) -border 0 -padding 1
