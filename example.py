@@ -31,7 +31,7 @@ class Example(ThemedTk):
         self.sub_menu.add_command(label="Exit", command=self.destroy)
         self.menu.add_cascade(menu=self.sub_menu, label="General")
         self.config(menu=self.menu)
-        self.label = ttk.Label(self, text="This is an example label.")
+        self.label = ttk.Label(self, text="Font support: {}".format(self.font_support))
         self.dropdown = ttk.OptionMenu(self, tk.StringVar(), "First value", "Second Value")
         self.entry = ttk.Entry(self, textvariable=tk.StringVar(value="Default entry value."))
         self.button = ttk.Button(self, text="Button")
@@ -61,7 +61,7 @@ class Example(ThemedTk):
     def grid_widgets(self):
         """Put widgets in the grid"""
         sticky = {"sticky": "nswe"}
-        self.notebook.grid(row=0, column=1, columnspan=2)
+        self.notebook.grid(row=0, column=1, columnspan=2, **sticky)
         self.label.grid(row=1, column=1, columnspan=2, **sticky)
         self.dropdown.grid(row=2, column=1, **sticky)
         self.entry.grid(row=2, column=2, **sticky)
