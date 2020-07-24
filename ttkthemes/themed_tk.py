@@ -40,6 +40,8 @@ class ThemedTk(tk.Tk, ThemedWidget):
       higher UI performance than other themes.
     """
 
+    __tk_toplevel_init = tk.Toplevel.__init__
+
     def __init__(self, *args, **kwargs):
         """
         :param theme: Theme to set upon initialization. If theme is not
@@ -64,7 +66,6 @@ class ThemedTk(tk.Tk, ThemedWidget):
         # Set initial theme
         if theme is not None and theme in self.get_themes():
             self.set_theme(theme, self._toplevel, self._themebg)
-        self.__init__toplevel = tk.Toplevel.__init__
 
     def set_theme(self, theme_name, toplevel=None, themebg=None):
         """Redirect the set_theme call to also set Tk background color"""
@@ -86,7 +87,7 @@ class ThemedTk(tk.Tk, ThemedWidget):
         """Setup Toplevel.__init__ hook for background color"""
         def __toplevel__(*args, **kwargs):
             kwargs.setdefault("background", color)
-            self.__init__toplevel(*args, **kwargs)
+            ThemedTk.__tk_toplevel_init(*args, **kwargs)
 
         tk.Toplevel.__init__ = __toplevel__
 
@@ -106,7 +107,7 @@ class ThemedTk(tk.Tk, ThemedWidget):
             if toplevel is True:
                 self._setup_toplevel_hook(color)
             else:
-                tk.Toplevel.__init__ = self.__init__toplevel
+                tk.Toplevel.__init__ = ThemedTk.__tk_toplevel_init
             self._toplevel = toplevel
         if theme != self.current_theme:
             self.set_theme(theme)
