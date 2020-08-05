@@ -79,3 +79,7 @@ class TestThemedTk(unittest.TestCase):
 
         self.tk.configure(toplevel=False)
         self.assertEqual(tk.Toplevel.__init__, orig)
+
+    def test_background_on_init(self):
+        w = ThemedTk(theme="black", toplevel=True)
+        tk.Toplevel(w)  # Issue #74, RecursionError
