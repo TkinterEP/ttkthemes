@@ -21,7 +21,7 @@ setup(
     name="ttkthemes",
     packages=["ttkthemes"],
     package_data={"ttkthemes": ["themes/*", "png/*", "gif/*", "advanced/*"]},
-    version="3.1.0",
+    version="3.1.1",
     description="A group of themes for the ttk extensions of Tkinter with a Tkinter.Tk wrapper",
     author="The ttkthemes authors",
     author_email="redfantom@outlook.com",
