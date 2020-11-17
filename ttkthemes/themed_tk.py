@@ -50,8 +50,11 @@ class ThemedTk(tk.Tk, ThemedWidget):
             see class documentation for details.
         :param themebg: Control Tk background color option, see
             class documentation for details.
+        :param fonts: Whether to enable the automatic change of default
+            font selected for a theme
         """
         theme = kwargs.pop("theme", None)
+        fonts = kwargs.pop("fonts", False)
         self._toplevel = kwargs.pop("toplevel", None)
         self._themebg = kwargs.pop("themebg", None)
         # Backwards compatibility with ttkthemes v2.3.0
