@@ -6,6 +6,10 @@ always room for more themes, no matter how ugly or obscure! Even though
 some themes may not be used in practice, the original goal of the
 project has not been forgotten: To gather and preserve *all* themes.
 
+Adapta
+------
+|adapta|
+
 Aquativo
 --------
 |aquativo|
@@ -133,6 +137,7 @@ Theme derived from the new Ubuntu 20.04 default theme and theme 'arc'.
 .. _Fuduntu: https://en.wikipedia.org/wiki/Fuduntu
 .. _here: https://www.gnome-look.org/content/show.php/Blue+Elegance+Light?content=164806
 .. _equilux: https://github.com/ddnexus/equilux-theme
+.. |adapta| image:: https://imgur.com/4O3vbvk.png
 .. |aquativo| image:: https://imgur.com/RUH48LL.png
 .. |arc| image:: https://imgur.com/nmjPIYl.png
 .. |black| image:: https://imgur.com/5vs2aw4.png
