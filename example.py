@@ -4,13 +4,8 @@ License: GNU GPLv3
 Copyright (c) 2018 RedFantom
 """
 import os
-import sys
-if sys.version_info.major == 3:
-    import tkinter as tk
-    from tkinter import ttk
-else:
-    import Tkinter as tk
-    import ttk
+import tkinter as tk
+from tkinter import ttk
 from ttkthemes import ThemedTk, THEMES
 from ttkwidgets import ScaleEntry
 from ttkwidgets.autocomplete import AutocompleteCombobox
@@ -21,9 +16,16 @@ class Example(ThemedTk):
     """
     Example that is used to create screenshots for new themes.
     """
-    def __init__(self):
-        ThemedTk.__init__(self, themebg=True)
+    def __init__(self, theme="arc"):
+        """
+        :param theme: Theme to show off
+        """
+        ThemedTk.__init__(self, fonts=True, themebg=True)
+        self.set_theme(theme)
         # Create widgets
+        self.notebook = ttk.Notebook(self)
+        self.notebook.add(ttk.Button(self, text="Hello World"), text="Frame One")
+        self.notebook.add(ttk.Button(self, text="Hello Universe"), text="Frame Two")
         self.menu = tk.Menu(self, tearoff=False)
         self.sub_menu = tk.Menu(self.menu, tearoff=False)
         self.sub_menu.add_command(label="Exit", command=self.destroy)
@@ -59,6 +61,7 @@ class Example(ThemedTk):
     def grid_widgets(self):
         """Put widgets in the grid"""
         sticky = {"sticky": "nswe"}
+        self.notebook.grid(row=0, column=1, columnspan=2, **sticky)
         self.label.grid(row=1, column=1, columnspan=2, **sticky)
         self.dropdown.grid(row=2, column=1, **sticky)
         self.entry.grid(row=2, column=2, **sticky)
@@ -100,5 +103,5 @@ class Example(ThemedTk):
 
 if __name__ == '__main__':
     example = Example()
-    example.set_theme("smog")
+    example.set_theme("adapta")
     example.mainloop()
