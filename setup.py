@@ -31,6 +31,7 @@ setup(
     keywords=["tkinter", "ttk", "gui", "tcl", "theme"],
     license="GPLv3",
     long_description=read("README.md"),
+    long_description_content_type="text/markdown",
     classifiers=[
         "Programming Language :: Python :: 3.5",
         "Programming Language :: Python :: 3.6",
