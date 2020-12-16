@@ -2,8 +2,8 @@
 # Available under GNU GPLv2, or at your option any later version
 # This modified version only available under GNU GPLv3
 
-# itft1.tcl - Copyright (C) 2005 Jelco Huijser jelco@user.sourceforge.net
-# Based on sriv.tcl by Pat Thoyts <patthoyts@users.sourceforge.net>
+# itft1.tcl - Copyright (C) 2005 Jelco Huijser <jelco@user.sourceforge.net>
+# Based on sriv.tcl by Steve Redler IV <steve-wikitcl@sr-tech.com>
 #
 # itft1.tcl, v0.14 2005/08/11 Jelco Huijser
 # Added support for treeviews and alternating line colors

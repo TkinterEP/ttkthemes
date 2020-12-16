@@ -2,8 +2,8 @@
 # For full License text of GNU GPLv2, see GPLv2.txt in this folder
 # See LICENSE.md for more important information
 
-# smog.tcl - Copyright (C) 2005 Jelco Huijser jelco@user.sourceforge.net
-# Based on sriv.tcl by Pat Thoyts <patthoyts@users.sourceforge.net>
+# smog.tcl - Copyright (C) 2005 Jelco Huijser <jelco@user.sourceforge.net>
+# Based on sriv.tcl by Steve Redler IV <steve-wikitcl@sr-tech.com>
 # Images loosely based on the Mac OS X Aluminum Alloytheme  
 # smog.tcl, v0.1 2005/08/18 Jelco Huijser
 
