@@ -50,15 +50,16 @@ class TestThemedWidgets(TestCase):
             return
         for theme in self.window.themes:
             self.window.set_theme(theme)
-            for widget in self.WIDGETS:
-                window = ThemedTk(theme=theme)
-                signal.alarm(5)
-                printf("Testing {}: {}".format(theme, widget), end=" - ")
-                getattr(ttk, widget)(window).pack()
-                window.update()
-                window.destroy()
-                signal.alarm(0)
-                printf("SUCCESS")
+            for gif_override in (True, False):
+                for widget in self.WIDGETS:
+                    window = ThemedTk(theme=theme, gif_override=gif_override)
+                    signal.alarm(5)
+                    printf("Testing {}, GIF override: {}, {}".format(theme, gif_override, widget), end=" - ")
+                    getattr(ttk, widget)(window).pack()
+                    window.update()
+                    window.destroy()
+                    signal.alarm(0)
+                    printf("SUCCESS")
 
     def tearDown(self):
         self.window.destroy()
