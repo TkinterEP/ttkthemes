@@ -66,10 +66,15 @@ class GtkThemeGenerator(ThemeGenerator):
         "OPTION": "Radiobutton.indicator",
         "CHECK": "Checkbutton.indicator",
         "SHADOW": "Entry.field",
+        "BOX": ("Button", "Progressbar.pbar"),
+        "SLIDER": "Scale.slider"
     }
 
     GTK_DETAILS = {
         "\"entry\"": "Entry.field",
+        "\"bar\"": "Progressbar.pbar",
+        "\"vscale\"": "Scale.slider",
+        "\"hscale\"": "Scale.slider"
     }
 
     GTK_CLASSES = {
@@ -94,33 +99,43 @@ class GtkThemeGenerator(ThemeGenerator):
     GTK_STATES: Dict[Tuple[str, ...], Dict[Tuple[str, str], Tuple[str, ...]]] = {
         ("",): {  # Default
             # (state, shadow): tk_state
-            ("active", ""): ("active",),
-            ("insensitive", ""): ("disabled", "readonly"),
-            ("prelight", ""): ("focus",),
-            ("selected", ""): ("pressed", "selected"),
-            ("normal", ""): ("",),
-            ("", ""): ("",),
         },
         ("Scrollbar",): {
             ("insensitive", "out"): ("disabled",),
             ("active", "in"): ("pressed",),
             ("prelight", "out"): ("active",),
         },
-        ("Button", "Toolbutton", "Entry"): {
-            ("active",): ("hover",),
-            ("normal", "in"): ("pressed",),
-            ("normal", "out"): ("",),
-            ("insensitive", "in"): ("pressed", "disabled",),
-            ("insensitive", "out"): ("disabled",),
+        ("Button", "Toolbutton"): {
+            ("normal", ""): ("",),
+            ("prelight", "out"): ("hover",),
+            ("prelight", "in"): ("pressed", "active"),
+            ("active", ""): (None,),
+            ("insensitive", ""): ("disabled",),
         },
         ("Checkbutton", "Radiobutton"): {
             ("normal", "in"): ("selected",),
             ("normal", "out"): ("",),
             ("active", "in"): ("active", "selected"),
-            ("active", "out"): ("active",)
+            ("active", "out"): ("active",),
+            ("normal", "etched_in"): ("alternate",),
+            ("prelight", "etched_in"): ("hover", "alternate"),
+            ("active", "etched_in"): ("active", "alternate"),
+            ("selected", "etched_in"): ("active", "alternate"),
+            ("insensitive", "etched_in"): ("disabled", "alternate"),
         },
         ("Entry",): {
-            ("active", ""): ("focus",)
+            ("active", ""): ("focus",),
+            ("", ""): ("",),
+            ("insensitive", ""): ("disabled",),
+        },
+        ("Progressbar.pbar",): {
+            ("", ""): ("",),
+        },
+        ("Scale",): {
+            ("normal", ""): ("",),
+            ("prelight", ""): ("hover",),
+            ("active", ""): ("active",),
+            ("insensitive", ""): ("disabled",),
         }
     }
 
@@ -273,10 +288,18 @@ class GtkThemeGenerator(ThemeGenerator):
                 else:
                     continue
             if "detail" in image:
-                if image["detail"] not in self.GTK_DETAILS or self.GTK_DETAILS[image["detail"]] != widget:
+                if image["detail"].startswith(("v", "h")) and "orientation" not in image:
+                    print("Setting orientation of image")
+                    image["orient"] = "HORIZONTAL" if image["detail"].startswith("h") else "VERTICAL"
+                if image["detail"] not in self.GTK_DETAILS:
                     continue
+                if self.GTK_DETAILS[image["detail"]] not in widget:
+                    continue
+                widget = self.GTK_DETAILS[image["detail"]]
                 if "direction" in image:
                     continue
+            elif isinstance(widget, tuple):
+                widget = widget[0]
 
             element, state, image, kwargs = self.process_image_dict(widget, image)
             if element is None:
@@ -342,7 +365,7 @@ class GtkThemeGenerator(ThemeGenerator):
         gtk_state = (image["state"], image["shadow"])
 
         state_dicts = (d for k, d in self.GTK_STATES.items()
-                       if any(w in widget for w in widget))
+                       if any(w in widget for w in k))
         states = dict()
         for state_dict in state_dicts:
             states.update(state_dict)
@@ -350,6 +373,8 @@ class GtkThemeGenerator(ThemeGenerator):
             print("Unable to find '{}' for {}".format(gtk_state, widget))
             return None, None, None, None
         state = list(states[gtk_state])
+        if None in state:
+            return None, None, None, None
 
         widget_name = widget.split(".")[0].lower()
         layout = widget
@@ -458,16 +483,16 @@ class GtkThemeGenerator(ThemeGenerator):
 
 
 if __name__ == '__main__':
-    generator = GtkThemeGenerator("Yaru")
+    generator = GtkThemeGenerator("Materia")
     generator.generate()
 
     from example import Example
 
     window = Example()
 
-    with temporary_chdir("yaru"):
-        window.tk.eval("source yaru.tcl")
-        window.tk.eval("package require yaru 1.0")
-        window.tk.eval("ttk::setTheme yaru")
+    with temporary_chdir("materia"):
+        window.tk.eval("source materia.tcl")
+        window.tk.eval("package require materia 1.0")
+        window.tk.eval("ttk::setTheme materia")
 
     window.mainloop()
