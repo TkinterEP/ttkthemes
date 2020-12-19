@@ -47,14 +47,14 @@ class ThemeGenerator(object):
         self._options = dict()
 
     def option(self, name: str, option: str):
-         """Define a global style option by its name"""
-         self._options[name] = option
+        """Define a global style option by its name"""
+        self._options[name] = option
 
     def color(self, name: str, color: str):
         """Define a color of the theme by its name"""
         self._colors[name] = color
 
-    def element(self, name: str, images: List[Union[Tuple[str, ...], str]], options: Dict[str, str]):
+    def element(self, name: str, images: List[Union[str, Tuple[str, ...]]], options: Dict[str, str]):
         """
         Add an element in the theme to be created
 
@@ -65,9 +65,13 @@ class ThemeGenerator(object):
         """
         if name in self.element_names:
             raise ThemeError("This element has already been created: '{}'.".format(name))
+        if not isinstance(images, list) and len(images) >= 1 and isinstance(images[0], str):
+            raise ThemeError("Invalid type for arg images")
+        if len(images) > 1 and not \
+                all(isinstance(spec, tuple) and all(isinstance(x, str) for x in spec) for spec in images[1:]):
+            raise ThemeError("Invalid type for element of arg images")
 
         self._elements.append((name, images, options))
-
 
     def layout(self, style: str, layout: List[Tuple[str, Dict[str, Any]]]):
         """
@@ -79,6 +83,9 @@ class ThemeGenerator(object):
         """
         if style in self.layout_names:
             raise ThemeError("This layout has already been created: '{}'.".format(style))
+        if not all(isinstance(e, tuple) and isinstance(e[0], str) and isinstance(e[1], Dict) and
+                   all(isinstance(k, str) for k in e[1].keys()) for e in layout):
+            raise ThemeError("Invalid type for arg layout")
         self._layouts.append((style, layout))
 
     def image(self, name: str, data: str):
@@ -91,6 +98,8 @@ class ThemeGenerator(object):
         :param name: Name of the image that belongs in the theme
         :param data: base64 encoded data string for the image
         """
+        if not isinstance(name, str):
+            raise ThemeError("Cannot create image by name that is not string")
         if name in self._images:
             raise ThemeError("This image has already been created: '{}'.".format(name))
         if not isinstance(data, str) or os.path.exists(data):
@@ -238,7 +247,6 @@ class ThemeGenerator(object):
     @staticmethod
     def sort_states(states):
         return sorted(states, key=lambda t: len(t), reverse=True)
-
 
     def verify(self):
         """
