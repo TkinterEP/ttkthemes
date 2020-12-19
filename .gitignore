@@ -94,3 +94,8 @@ ENV/
 docs/_build
 docs/_static
 docs/_templates
+
+# GTK Theme generated files
+/ttkthemes/gtk/
+!/ttkthemes/gtk/generator.py
+!/ttkthemes/gtk/gtk_generator.py
