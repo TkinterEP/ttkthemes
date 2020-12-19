@@ -64,7 +64,12 @@ class GtkThemeGenerator(ThemeGenerator):
         "ARROW": "Arrow",
         "HANDLE": "Scrollbar.through",
         "OPTION": "Radiobutton.indicator",
-        "CHECK": "Checkbutton.indicator"
+        "CHECK": "Checkbutton.indicator",
+        "SHADOW": "Entry.field",
+    }
+
+    GTK_DETAILS = {
+        "\"entry\"": "Entry.field",
     }
 
     GTK_CLASSES = {
@@ -86,18 +91,37 @@ class GtkThemeGenerator(ThemeGenerator):
 
     }
 
-    GTK_STATE = {
-        "PRELIGHT": "active",
-        "INSENSITIVE": "disabled",
-        "NORMAL": "",
-        "ACTIVE": "pressed",
-        "SELECTED": "hover"
-    }
-
-    GTK_SHADOW = {
-        "IN": "selected",
-        "OUT": "",
-        "ETCHED_IN": None # Not supported by Tkinter!
+    GTK_STATES: Dict[Tuple[str, ...], Dict[Tuple[str, str], Tuple[str, ...]]] = {
+        ("",): {  # Default
+            # (state, shadow): tk_state
+            ("active", ""): ("active",),
+            ("insensitive", ""): ("disabled", "readonly"),
+            ("prelight", ""): ("focus",),
+            ("selected", ""): ("pressed", "selected"),
+            ("normal", ""): ("",),
+            ("", ""): ("",),
+        },
+        ("Scrollbar",): {
+            ("insensitive", "out"): ("disabled",),
+            ("active", "in"): ("pressed",),
+            ("prelight", "out"): ("active",),
+        },
+        ("Button", "Toolbutton", "Entry"): {
+            ("active",): ("hover",),
+            ("normal", "in"): ("pressed",),
+            ("normal", "out"): ("",),
+            ("insensitive", "in"): ("pressed", "disabled",),
+            ("insensitive", "out"): ("disabled",),
+        },
+        ("Checkbutton", "Radiobutton"): {
+            ("normal", "in"): ("selected",),
+            ("normal", "out"): ("",),
+            ("active", "in"): ("active", "selected"),
+            ("active", "out"): ("active",)
+        },
+        ("Entry",): {
+            ("active", ""): ("focus",)
+        }
     }
 
     DEFAULT_OPTIONS = {
@@ -248,6 +272,11 @@ class GtkThemeGenerator(ThemeGenerator):
                     image["file"] = image["overlay_file"]
                 else:
                     continue
+            if "detail" in image:
+                if image["detail"] not in self.GTK_DETAILS or self.GTK_DETAILS[image["detail"]] != widget:
+                    continue
+                if "direction" in image:
+                    continue
 
             element, state, image, kwargs = self.process_image_dict(widget, image)
             if element is None:
@@ -257,6 +286,7 @@ class GtkThemeGenerator(ThemeGenerator):
             name = name.replace("--", "-")
 
             if name in self.image_names:
+                print("Duplicate image: {}".format(image))
                 continue
             self.image(name, data)
 
@@ -276,6 +306,11 @@ class GtkThemeGenerator(ThemeGenerator):
             if element in self.DEFAULT_OPTIONS:
                 options = self.DEFAULT_OPTIONS[element].copy()
                 options.update(kwargs)
+            for e in args.copy():
+                if isinstance(e, str) and args.index(e) != 0:
+                    args.remove(e)
+                    args.insert(0, e)
+            print("Creating element: {}".format((element, args, options)))
             self.element(element, args, options)
 
     def process_image_dict(self, widget: str, image: dict) -> Tuple[str, Tuple, Tuple, dict]:
@@ -291,7 +326,8 @@ class GtkThemeGenerator(ThemeGenerator):
             }
         """
         if "state" not in image:
-            return None, None, None, None
+            print("Corrected state", image)
+            image["state"] = ""
 
         image["file"] = image["file"].strip("\"")
         path = os.path.abspath(image["file"])
@@ -301,14 +337,19 @@ class GtkThemeGenerator(ThemeGenerator):
         with open(path, "rb") as fi:
             data = b64encode(fi.read()).decode()
 
-        state = [self.GTK_STATE[image["state"]]]
-        if None in state:
-            return None, None, None, None
+        image["state"] = image["state"].lower()
+        image["shadow"] = image["shadow"].lower() if "shadow" in image else ""
+        gtk_state = (image["state"], image["shadow"])
 
-        if "shadow" in image:
-            state.append(self.GTK_SHADOW[image["shadow"]])
-            if None in state:
-                return None, None, None, None
+        state_dicts = (d for k, d in self.GTK_STATES.items()
+                       if any(w in widget for w in widget))
+        states = dict()
+        for state_dict in state_dicts:
+            states.update(state_dict)
+        if gtk_state not in states:
+            print("Unable to find '{}' for {}".format(gtk_state, widget))
+            return None, None, None, None
+        state = list(states[gtk_state])
 
         widget_name = widget.split(".")[0].lower()
         layout = widget
@@ -327,7 +368,7 @@ class GtkThemeGenerator(ThemeGenerator):
 
         while "" in state:
             state.remove("")
-        print("Parsed {} for {}".format(state, image["file"]))
+        print("Parsed {} for {}".format((layout, state, (image_name,), kwargs), image["file"]))
         return layout, tuple(state), (image_name, data), kwargs
 
     @staticmethod
