@@ -8,8 +8,6 @@ import ast
 from base64 import b64encode
 from collections import defaultdict
 import os
-import tkinter as tk
-from tkinter import ttk
 import shutil
 import subprocess as sp
 import textwrap
@@ -154,19 +152,19 @@ class GtkThemeGenerator(ThemeGenerator):
             ("insensitive", "out"): ("disabled",),
             ("insensitive", "in"): ("pressed", "disabled"),
         },
-        "Notebook.tab": {
+        "Notebook.Tab": {
             ("normal", ""): ("selected",)
         },
-        "Top.Notebook.tab": {
+        "Top.Notebook.Tab": {
             ("normal", ""): ("selected",)
         },
-        "Bottom.Notebook.tab": {
+        "Bottom.Notebook.Tab": {
             ("normal", ""): ("selected",)
         },
-        "Left.Notebook.tab": {
+        "Left.Notebook.Tab": {
             ("normal", ""): ("selected",)
         },
-        "Right.Notebook.tab": {
+        "Right.Notebook.Tab": {
             ("normal", ""): ("selected",)
         },
         "Treeitem.indicator": {
@@ -203,7 +201,7 @@ class GtkThemeGenerator(ThemeGenerator):
             ({FUNCTION: "VLINE"}, "Vertical.Separator"),
             ({FUNCTION: "HLINE"}, "Horizontal.Separator"),
             # Notebook
-            # ({FUNCTION: "EXTENSION", "gap_side": "TOP"}, "Notebook.tab"),
+            # ({FUNCTION: "EXTENSION", "gap_side": "TOP"}, "Notebook.Tab"),
             # Scrollbars
             ({FUNCTION: "BOX", DETAIL: "\"trough\"", ORIENTATION: "HORIZONTAL"}, "Horizontal.Scrollbar.trough"),
             ({FUNCTION: "BOX", DETAIL: "\"trough\"", ORIENTATION: "VERTICAL"}, "Vertical.Scrollbar.trough"),
@@ -233,13 +231,13 @@ class GtkThemeGenerator(ThemeGenerator):
             ({FUNCTION: "BOX", DETAIL: "\"spinbutton_up\"", "direction": "LTR"}, "Spinbox.uparrow"),
             ({FUNCTION: "BOX", DETAIL: "\"spinbutton_down\"", "direction": "LTR"}, "Spinbox.downarrow"),
             # Notebook
-            ({FUNCTION: "EXTENSION", "gap_side": "BOTTOM"}, ("Top.Notebook.tab", "Notebook.tab")),
+            ({FUNCTION: "EXTENSION", "gap_side": "BOTTOM"}, ("Top.Notebook.Tab", "Notebook.Tab")),
             ({FUNCTION: "BOX_GAP", "gap_side": "BOTTOM", DETAIL: "\"notebook\""}, ("Top.Notebook.client", "Notebook.client")),
-            ({FUNCTION: "EXTENSION", "gap_side": "TOP"}, "Bottom.Notebook.tab"),
+            ({FUNCTION: "EXTENSION", "gap_side": "TOP"}, "Bottom.Notebook.Tab"),
             ({FUNCTION: "BOX_GAP", "gap_side": "TOP", DETAIL: "\"notebook\""}, "Bottom.Notebook.client"),
-            ({FUNCTION: "EXTENSION", "gap_side": "LEFT"}, "Right.Notebook.tab"),
+            ({FUNCTION: "EXTENSION", "gap_side": "LEFT"}, "Right.Notebook.Tab"),
             ({FUNCTION: "BOX_GAP", "gap_side": "LEFT", DETAIL: "\"notebook\""}, "Right.Notebook.client"),
-            ({FUNCTION: "EXTENSION", "gap_side": "RIGHT"}, "Left.Notebook.tab"),
+            ({FUNCTION: "EXTENSION", "gap_side": "RIGHT"}, "Left.Notebook.Tab"),
             ({FUNCTION: "BOX_GAP", "gap_side": "RIGHT", DETAIL: "\"notebook\""}, "Left.Notebook.client")
 
         ],
@@ -247,7 +245,7 @@ class GtkThemeGenerator(ThemeGenerator):
             ({FUNCTION: "BOX"}, ("Button.button", "Menubutton.button"))
         ],
         'class "GtkNotebook"': [
-            ({"xthickness": "padding_x", "ythickness": "padding_y"}, "Notebook.tab"),
+            ({"xthickness": "padding_x", "ythickness": "padding_y"}, "Notebook.Tab"),
         ],
         'class "*<GtkNotebook>.<GtkLabel>"': {},
         'class "*<GtkNotebook>.<GtkHBox>.<GtkLabel>"': {},
@@ -557,7 +555,7 @@ class GtkThemeGenerator(ThemeGenerator):
         ])
 
         self.layout("Tab", [
-            ("Notebook.tab", {"side": "left", "children": [
+            ("Notebook.Tab", {"side": "left", "children": [
                 ("Notebook.padding", {"side": "top", "expand": True, "children": [
                     ("Notebook.focus", {"side": "top", "expand": True, "children": [
                         ("Notebook.label", {"side": "top"})
@@ -577,9 +575,10 @@ class GtkThemeGenerator(ThemeGenerator):
             ]})
         ])
 
+        # TODO: Fix and finish implementation of Notebook orientations
         self.configure("Left.TNotebook", {"tabposition": "wn"})
         self.layout("Left.TNotebook", [
-            ("Left.Tab", {"side": "left", "expand": True, "children": [
+            ("Left.Notebook.Tab", {"side": "left", "expand": True, "children": [
                 ("Left.Notebook.padding", {"side": "left", "expand": True, "children": [
                     ("Left.Notebook.focus", {"side": "left", "expand": True, "children": [
                         ("Left.Notebook.label", {"side": "left"})
@@ -588,6 +587,15 @@ class GtkThemeGenerator(ThemeGenerator):
             ]})
         ])
         self.configure("Right.TNotebook", {"tabposition": "en"})
+        self.layout("Right.TNotebook", [
+            ("Right.Notebook.Tab", {"side": "right", "expand": True, "children": [
+                ("Right.Notebook.padding", {"side": "right", "expand": True, "children": [
+                    ("Right.Notebook.focus", {"side": "right", "expand": True, "children": [
+                        ("Right.Notebook.label", {"side": "right"})
+                    ]}),
+                ]})
+            ]})
+        ])
         self.configure("Bottom.TNotebook", {"tabposition": "sw"})
         self.configure("Top.TNotebook", {"tabposition": "nw"})
 
@@ -682,16 +690,12 @@ class GtkThemeGenerator(ThemeGenerator):
 
 
 if __name__ == '__main__':
-    generator = GtkThemeGenerator("Adwaita")
-    generator.generate()
-
+    theme = GtkThemeGenerator("Materia").generate()
+    print(theme)
     from example import Example as MainWindow
-
     window = MainWindow()
-
-    with temporary_chdir("adwaita"):
-        window.tk.eval("source adwaita.tcl")
-        window.tk.eval("package require adwaita 1.0")
-        window.tk.eval("ttk::setTheme adwaita")
+    window.tk.eval(theme)
+    window.tk.eval("package require ttk::theme::materia 1.0")
+    window.tk.eval("ttk::setTheme materia")
 
     window.mainloop()
