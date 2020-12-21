@@ -100,19 +100,19 @@ namespace eval ttk::theme::yaru {
         }
 
         ttk::style layout TSpinbox {
-            Spinbox.field -side top -sticky we -children {
-                Spinbox.buttons -side right -children {
-                    null -side right -sticky {} -children {
-                        Spinbox.uparrow -side top -sticky nse -children {
-                            Spinbox.symuparrow -side right -sticky e
-                        }
-                        Spinbox.downarrow -side bottom -sticky nse -children {
-                            Spinbox.symdownarrow -side right -sticky e
-                        }
-                    }
-                }
+            Spinbox.field -side left -sticky nswe -children {
                 Spinbox.padding -sticky nswe -children {
                     Spinbox.textarea -sticky nswe
+                }
+            }
+            Spinbox.buttons -side right -children {
+                null -side right -sticky {} -children {
+                    Spinbox.uparrow -side top -sticky nse -children {
+                        Spinbox.symuparrow -side right -sticky e
+                    }
+                    Spinbox.downarrow -side bottom -sticky nse -children {
+                        Spinbox.symdownarrow -side right -sticky e
+                    }
                 }
             }
         }
@@ -246,7 +246,7 @@ namespace eval ttk::theme::yaru {
             pressed $I(spin-ltr-up-active) \
             active $I(spin-ltr-up-hover) \
             disabled $I(spin-ltr-up-insensitive) \
-        ] -width 20 -border {0 2 3 0} -padding {0 5 6 2}
+        ] -width 20 -border {3 3 3 0} -padding {4 5 6 2}
 
         ttk::style element create Spinbox.symuparrow image [list \
             $I(pan-up) \
@@ -260,7 +260,7 @@ namespace eval ttk::theme::yaru {
             pressed $I(spin-ltr-down-active) \
             active $I(spin-ltr-down-hover) \
             disabled $I(spin-ltr-down-insensitive) \
-        ] -width 20 -border {0 0 3 2} -padding {0 2 6 5}
+        ] -width 20 -border {3 3 3 3} -padding {4 2 6 5}
 
         ttk::style element create Spinbox.symdownarrow image [list \
             $I(pan-down) \
