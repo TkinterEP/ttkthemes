@@ -8,13 +8,11 @@ import ast
 from base64 import b64encode
 from collections import defaultdict
 import os
-import shutil
 import subprocess as sp
-import textwrap
 from typing import Any, Dict, Generator, List, Optional, Tuple, Union
 # Package
 from ttkthemes._utils import temporary_chdir
-from ttkthemes.gtk.generator import ThemeGenerator
+from tools.gtk.generator import ThemeGenerator
 
 
 def split_string_with_literal(string: str, char) -> Tuple[Optional[str], Optional[str]]:

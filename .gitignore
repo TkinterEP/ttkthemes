@@ -96,6 +96,7 @@ docs/_static
 docs/_templates
 
 # GTK Theme generated files
-/ttkthemes/gtk/
-!/ttkthemes/gtk/generator.py
-!/ttkthemes/gtk/gtk_generator.py
+/tools/gtk/
+!/tools/gtk/empty.png
+!/tools/gtk/generator.py
+!/tools/gtk/gtk_generator.py
