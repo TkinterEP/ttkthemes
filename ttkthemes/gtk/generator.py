@@ -5,8 +5,11 @@ Copyright (c) 2020 RedFantom
 """
 # Standard Library
 from base64 import b64encode, b64decode
+import io
 import os
+from PIL import Image
 import shutil
+import tempfile
 import textwrap
 from tkinter import ttk
 from typing import Any, Dict, List, Tuple, Union
@@ -23,11 +26,29 @@ def indent(string: str) -> str:
 
 
 class ThemeError(Exception):
-     pass
+    pass
+
+
+def trim_image(data: str) -> str:
+    """Trim base64 encoded image to contents"""
+    temp = os.path.join(tempfile.gettempdir(), "temp.png")
+    with io.BytesIO(b64decode(data)) as fi:
+        img = Image.open(fi)
+        if img.getbbox() is not None and img.getbbox()[2:3] == img.size:
+            return data
+        # TODO: Figure out why writing to BytesIO doesn't work
+        img.crop(img.getbbox()).save(temp, format="PNG")
+    with open(temp, "rb") as fi:
+        return b64encode(fi.read()).decode()
 
 
 class ThemeGenerator(object):
     """Class to generate theme files given instructions"""
+
+    MUST_BE_CROPPED = [
+        "Horizontal.Scale.slider",
+        "Vertical.Scale.slider",
+    ]
 
     def __init__(self, name: str, output_dir=".", version="1.0"):
         """
@@ -45,6 +66,8 @@ class ThemeGenerator(object):
         self._images = list()
         self._colors = dict()
         self._options = dict()
+        self._layout_options = dict()
+        self._layout_maps = dict()
 
     def option(self, name: str, option: str):
         """Define a global style option by its name"""
@@ -69,8 +92,12 @@ class ThemeGenerator(object):
             raise ThemeError("Invalid type for arg images")
         if len(images) > 1 and not \
                 all(isinstance(spec, tuple) and all(isinstance(x, str) for x in spec) for spec in images[1:]):
-            raise ThemeError("Invalid type for element of arg images")
-
+            print("WARNING: Cutting off excess images")
+            images = images[0:images[1:].index(images[0])]
+        if len(images) >= 1 and isinstance(images[0], tuple):
+            state_spec, image = images[0][:-1], images[0][-1]
+            print("WARNING: Assuming image for {}, state {} is default".format(name, state_spec))
+            images = (image,) + tuple(images[1:] if len(images) > 1 else ())
         self._elements.append((name, images, options))
 
     def layout(self, style: str, layout: List[Tuple[str, Dict[str, Any]]]):
@@ -88,7 +115,7 @@ class ThemeGenerator(object):
             raise ThemeError("Invalid type for arg layout")
         self._layouts.append((style, layout))
 
-    def image(self, name: str, data: str):
+    def image(self, name: str, data: str, trim=False):
         """
         Add an image to the theme that is to be created
 
@@ -97,6 +124,8 @@ class ThemeGenerator(object):
 
         :param name: Name of the image that belongs in the theme
         :param data: base64 encoded data string for the image
+        :param trim: Boolean indicative of whether to trim image to
+            contents only
         """
         if not isinstance(name, str):
             raise ThemeError("Cannot create image by name that is not string")
@@ -104,6 +133,8 @@ class ThemeGenerator(object):
             raise ThemeError("This image has already been created: '{}'.".format(name))
         if not isinstance(data, str) or os.path.exists(data):
             raise ThemeError("Given string is not valid for a base64 encoded image: '{}'".format(data))
+        if trim is True:
+            data = trim_image(data)
         print("[ThemeGenerator] {}".format(name))
         self._images.append((name, data))
 
@@ -166,9 +197,6 @@ class ThemeGenerator(object):
                         name, indent(wrap(data))
                     ) for name, data in self._images
             ))
-        for name, data in self._images:
-            with open("{}.png".format(name), "wb") as fo:
-                fo.write(b64decode(data))
 
     def generate_theme_file(self):
         """Generate the file that contains the ttk theme"""
@@ -194,14 +222,13 @@ class ThemeGenerator(object):
                             .strip("\\\n") + "\n"
                         ) if len(self._colors) != 0 or len(self._options) != 0 else "\n") +
                         "\n\n".join(self.generate_layout_string(layout) for layout in self._layouts) +
-                        "\n\n".join(self.generate_element_string(element) for element in self._elements)
+                        "\n\n".join(self.generate_element_string(element) for element in self._elements) + "\n"
+                        "\n".join(self.generate_configure_string(layout, config) for layout, config in self._layout_options.items()) + "\n" +
+                        "\n".join(self.generate_map_string(layout, maps) for layout, maps in self._layout_maps.items())
                     ) +
-                    "}\n"
-                    "ttk::style configure TRadiobutton -padding 3\n"
-                    "ttk::style configure TCheckbutton -padding 3\n"
-                    "ttk::style map TRadiobutton -background [list active #ffffff]\n"
+                    "\n}\n"
                 ) +
-                "}\n" +
+                "\n}\n" +
                 "package provide {} {}\n".format(self._name, self._version)
             )
 
@@ -215,6 +242,9 @@ class ThemeGenerator(object):
     def generate_element_string(self, element):
         """ttk._format_elemcreate is unsuitable, so this exists"""
         name, args, kwargs = element
+        if len(args) == 0:
+            print("[ThemeGenerator] WARNING: Invalid args given for element {}".format(name))
+            return ""
         string = (
             "ttk::style element create {} image [list $images({}) \\\n".format(name, args[0]) + indent(indent(
                 "\n".join("{} $images({}) \\".format(
@@ -227,10 +257,30 @@ class ThemeGenerator(object):
         return string
 
     @staticmethod
+    def generate_configure_string(layout: str, options: dict):
+        if len(options) == 0:
+            return ""
+        return "ttk::style configure {} ".format(layout) + \
+            indent("\n".join("-{} {}\\".format(
+                option, ThemeGenerator.generate_option_string(value)
+            ) for option, value in options.items()).strip("\\\n").strip()).strip()
+
+    @staticmethod
+    def generate_map_string(layout: str, maps: dict):
+        if len(maps) == 0:
+            return ""
+        return "ttk::style map {}".format(layout) + \
+            indent("\n".join("-{} {}\\".format(
+                option, ThemeGenerator.generate_option_string(value)
+            ) for option, value in maps.items())).strip("\\\n").strip()
+
+    @staticmethod
     def generate_option_string(option_value: Any) -> str:
         """Generate a string from a given option value"""
         if isinstance(option_value, tuple):
             return "{{{}}}".format(" ".join(str(e) for e in option_value))
+        elif isinstance(option_value, list):
+            return "[list {}]".format(" ".join(map(ThemeGenerator.generate_option_string, option_value)))
         else:
             return str(option_value)
 
@@ -243,6 +293,18 @@ class ThemeGenerator(object):
             return state[0]
         else:
             return "{{{}}}".format(" ".join(state))
+
+    def configure(self, layout: str, options: dict):
+        """Configure a layout with specific options"""
+        if layout not in self._layout_options:
+            self._layout_options[layout] = dict()
+        self._layout_options[layout].update(options)
+
+    def map(self, layout: str, options: dict):
+        """Map settings to a widget"""
+        if layout not in self._layout_maps:
+            self._layout_maps[layout] = dict()
+        self._layout_maps[layout].update(options)
 
     @staticmethod
     def sort_states(states):

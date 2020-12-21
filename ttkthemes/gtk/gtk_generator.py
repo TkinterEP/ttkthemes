@@ -4,8 +4,12 @@ License: GNU GPLv3
 Copyright (c) 2020 RedFantom
 """
 # Standard Library
+import ast
 from base64 import b64encode
+from collections import defaultdict
 import os
+import tkinter as tk
+from tkinter import ttk
 import shutil
 import subprocess as sp
 import textwrap
@@ -55,64 +59,44 @@ def search_dict_recursive(dictionary: dict, key: str) -> Generator[Union[List, D
                 yield from search_dict_recursive(item, key)
 
 
+def issubdict(full: dict, sub: dict) -> bool:
+    """Test whether the sub is a subdictionary of the full dict"""
+    return all(key in full and full[key] == value for key, value in sub.items())
+
+
 class GtkThemeError(Exception):
     pass
 
 
+# Constants
+FUNCTION = "function"
+STATE = "state"
+SHADOW = "shadow"
+DETAIL = "detail"
+LTR = "LTR"
+ORIENTATION = "orientation"
+
+
 class GtkThemeGenerator(ThemeGenerator):
-    GTK_FUNCTIONS = {
-        "ARROW": "Arrow",
-        "HANDLE": "Scrollbar.through",
-        "OPTION": "Radiobutton.indicator",
-        "CHECK": "Checkbutton.indicator",
-        "SHADOW": "Entry.field",
-        "BOX": ("Button", "Progressbar.pbar"),
-        "SLIDER": "Scale.slider"
-    }
 
-    GTK_DETAILS = {
-        "\"entry\"": "Entry.field",
-        "\"bar\"": "Progressbar.pbar",
-        "\"vscale\"": "Scale.slider",
-        "\"hscale\"": "Scale.slider"
-    }
+    # ttk.Scale cannot handle slider handles with white- or alphaspace
+    # around the actual indicator. Therefore, these images must be
+    # trimmed. AFAIK there is no option to compensate for the whitespace
+    # in the widget itself.
+    TRIM_REQUIRED = [
+        # "Vertical.Scale.slider",
+        # "Horizontal.Scale.slider"
+    ]
 
-    GTK_CLASSES = {
-        'class "GtkButton"': "Button.button",
-        'widget_class "*<GtkButtonBox>*<GtkButton>*<GtkLabel>"': "Toolbutton.button",
-        'class "GtkEntry"': "Entry",
-        'class "GtkProgressbBar"': "Progressbar",
-        'class "GtkRange"': "Scale",
-        'class "GtkScrollbar"': "Scrollbar",
-        'class "GtkSpinButton"': "SpinBox",
-        'class "GtkNotebook"': "Notebook",
-    }
-
-    GTK_COLORS = {
-        "text_color": "foreground",
-        "base_color": "background",
-        "selected_fg_color": "selectforeground",
-        "selected_bg_color": "selectbackground",
-
-    }
-
-    GTK_STATES: Dict[Tuple[str, ...], Dict[Tuple[str, str], Tuple[str, ...]]] = {
-        ("",): {  # Default
-            # (state, shadow): tk_state
-        },
-        ("Scrollbar",): {
-            ("insensitive", "out"): ("disabled",),
-            ("active", "in"): ("pressed",),
-            ("prelight", "out"): ("active",),
-        },
-        ("Button", "Toolbutton"): {
+    GTK_STATE_MAPS = defaultdict(dict, {
+        "default": {
+            ("", ""): ("",),
             ("normal", ""): ("",),
-            ("prelight", "out"): ("hover",),
-            ("prelight", "in"): ("pressed", "active"),
-            ("active", ""): (None,),
+            ("active", ""): ("active",),
             ("insensitive", ""): ("disabled",),
+            ("prelight", ""): ("hover",),
         },
-        ("Checkbutton", "Radiobutton"): {
+        "Checkbutton.indicator": {
             ("normal", "in"): ("selected",),
             ("normal", "out"): ("",),
             ("active", "in"): ("active", "selected"),
@@ -123,20 +107,187 @@ class GtkThemeGenerator(ThemeGenerator):
             ("selected", "etched_in"): ("active", "alternate"),
             ("insensitive", "etched_in"): ("disabled", "alternate"),
         },
-        ("Entry",): {
-            ("active", ""): ("focus",),
-            ("", ""): ("",),
-            ("insensitive", ""): ("disabled",),
+        "Radiobutton.indicator": {
+            ("normal", "in"): ("selected",),
+            ("normal", "out"): ("",),
+            ("active", "in"): ("active", "selected"),
+            ("active", "out"): ("active",),
+            ("normal", "etched_in"): ("alternate",),
+            ("prelight", "etched_in"): ("hover", "alternate"),
+            ("active", "etched_in"): ("active", "alternate"),
+            ("selected", "etched_in"): ("active", "alternate"),
+            ("insensitive", "etched_in"): ("disabled", "alternate"),
         },
-        ("Progressbar.pbar",): {
+        "Entry.field": {
+            ("active", "\"entry\""): ("focus",),
+            ("", "\"entry\""): ("",),
+            ("insensitive", "\"entry\""): ("disabled",),
+        },
+        "Horizontal.Progressbar.pbar": {
+            ("", "\"bar\""): ("",)
+        },
+        "Vertical.Progressbar.pbar": {
+            ("", "\"bar\""): ("",)
+        },
+        "Horizontal.Progressbar.trough": {
             ("", ""): ("",),
         },
-        ("Scale",): {
+        "Vertical.Progressbar.trough": {
+            ("", ""): ("",),
+        },
+        "Horizontal.Scale.trough": {
+            ("", "\"trough-upper\""): ("",),
+            ("", "\"trough-lower\""): ("active",),
+        },
+        "Vertical.Scale.trough": {
+            ("", "\"trough-upper\""): ("",),
+            ("", "\"trough-lower\""): ("active",),
+        },
+        "Button.button": {
             ("normal", ""): ("",),
-            ("prelight", ""): ("hover",),
-            ("active", ""): ("active",),
+            ("prelight", "out"): ("hover",),
+            ("prelight", "in"): ("pressed", "active"),
+            ("active", ""): (None,),
             ("insensitive", ""): ("disabled",),
-        }
+        },
+        "Toolbutton.button": {
+            ("insensitive", "out"): ("disabled",),
+            ("insensitive", "in"): ("pressed", "disabled"),
+        },
+        "Notebook.tab": {
+            ("normal", ""): ("selected",)
+        },
+        "Top.Notebook.tab": {
+            ("normal", ""): ("selected",)
+        },
+        "Bottom.Notebook.tab": {
+            ("normal", ""): ("selected",)
+        },
+        "Left.Notebook.tab": {
+            ("normal", ""): ("selected",)
+        },
+        "Right.Notebook.tab": {
+            ("normal", ""): ("selected",)
+        },
+        "Treeitem.indicator": {
+            ("normal", "expanded"): ("user1", "!user2"),
+            ("prelight", "expanded"): ("user1", "!user2", "hover"),
+            ("active", "expanded"): ("user1", "!user2", "active"),
+            ("insensitive", "expanded"): ("user1", "!user2", "disabled"),
+            ("normal", "collapsed"): ("!user1", "!user2",),
+            ("prelight", "collapsed"): ("!user1", "!user2", "hover",),
+            ("active", "collapsed"): ("!user1", "!user2", "active",),
+            ("insensitive", "collapsed"): ("!user1", "!user2", "disabled"),
+        },
+    })
+
+    GTK_STYLES = {
+        "": [  # For images without a style
+            # Options
+            ({"GtkButton::inner-border": "padding"}, ("Button.button", "Toolbutton.button")),
+            # TODO: Why is this not working properly?
+            # ({"GtkRange::slider-width": "width"}, ("Vertical.Scale.slider", "Horizontal.Scale.slider")),
+            ({"GtkProgressBar::xspacing": "padding_x", "GtkProgressBar::yspacing": "padding_y"}, ("Vertical.Progressbar.pbar", "Horizontal.Progressbar.pbar")),
+            ({"GtkNotebook::tab-overlap": ("tabmargins", "(0, {}, 0, 0)")}, "configure TNotebook"),
+            # Checkbutton
+            ({FUNCTION: "CHECK"}, "Checkbutton.indicator"),
+            # Radiobutton
+            ({FUNCTION: "OPTION"}, "Radiobutton.indicator"),
+            # Entry
+            ({FUNCTION: "SHADOW"}, "Entry.field"),
+            ({"GtkEntry::inner-border": "padding"}, "Entry.field"),
+            # Progressbars
+            ({FUNCTION: "BOX", DETAIL: "\"bar\"", ORIENTATION: "HORIZONTAL"}, "Horizontal.Progressbar.pbar"),
+            ({FUNCTION: "BOX", DETAIL: "\"bar\"", ORIENTATION: "VERTICAL"}, "Vertical.Progressbar.pbar"),
+            # Separators
+            ({FUNCTION: "VLINE"}, "Vertical.Separator"),
+            ({FUNCTION: "HLINE"}, "Horizontal.Separator"),
+            # Notebook
+            # ({FUNCTION: "EXTENSION", "gap_side": "TOP"}, "Notebook.tab"),
+            # Scrollbars
+            ({FUNCTION: "BOX", DETAIL: "\"trough\"", ORIENTATION: "HORIZONTAL"}, "Horizontal.Scrollbar.trough"),
+            ({FUNCTION: "BOX", DETAIL: "\"trough\"", ORIENTATION: "VERTICAL"}, "Vertical.Scrollbar.trough"),
+            ({FUNCTION: "SLIDER", DETAIL: "\"slider\"", ORIENTATION: "HORIZONTAL"}, "Horizontal.Scrollbar.thumb"),
+            ({FUNCTION: "SLIDER", DETAIL: "\"slider\"", ORIENTATION: "VERTICAL"}, "Vertical.Scrollbar.thumb"),
+            # Scales
+            ({FUNCTION: "SLIDER", DETAIL: "\"hscale\""}, "Horizontal.Scale.slider"),
+            ({FUNCTION: "SLIDER", DETAIL: "\"vscale\""}, "Vertical.Scale.slider"),
+            ({FUNCTION: "BOX", DETAIL: "\"trough-upper\"", ORIENTATION: "HORIZONTAL"}, "Horizontal.Scale.trough"),
+            ({FUNCTION: "BOX", DETAIL: "\"trough-lower\"", ORIENTATION: "HORIZONTAL"}, "Horizontal.Scale.trough"),
+            ({FUNCTION: "BOX", DETAIL: "\"trough-upper\"", ORIENTATION: "VERTICAL"}, "Vertical.Scale.trough"),
+            ({FUNCTION: "BOX", DETAIL: "\"trough-lower\"", ORIENTATION: "VERTICAL"}, "Vertical.Scale.trough"),
+            # Support overriding of arrow
+            ({FUNCTION: "ARROW", DETAIL: "\"vscrollbar\""}, ("Scrollbar.uparrow", "Scrollbar.downarrow")),
+            ({FUNCTION: "ARROW", DETAIL: "\"hscrollbar\""}, ("Scrollbar.leftarrow", "Scrollbar.rightarrow")),
+            # Arrows
+            ({FUNCTION: "ARROW", "arrow_direction": "UP"}, "uparrow"),
+            ({FUNCTION: "ARROW", "arrow_direction": "DOWN"}, ("downarrow", "Menubutton.indicator")),
+            ({FUNCTION: "ARROW", "arrow_direction": "LEFT"}, "leftarrow"),
+            ({FUNCTION: "ARROW", "arrow_direction": "RIGHT"}, "rightarrow"),
+            # Expander arrows
+            ({FUNCTION: "EXPANDER", "direction": LTR}, "Treeitem.indicator"),
+            ({FUNCTION: "EXPANDER", "direction": "RTL"}, "expander_rtl"),
+            ({FUNCTION: "EXPANDER"}, ("Treeitem.indicator", "expander_rtl")),
+            # Spinbox
+            ({FUNCTION: "ARROW", DETAIL: "\"spinbutton\""}, ("Spinbox.symuparrow", "Spinbox.symdownarrow")),
+            ({FUNCTION: "BOX", DETAIL: "\"spinbutton_up\"", "direction": "LTR"}, "Spinbox.uparrow"),
+            ({FUNCTION: "BOX", DETAIL: "\"spinbutton_down\"", "direction": "LTR"}, "Spinbox.downarrow"),
+            # Notebook
+            ({FUNCTION: "EXTENSION", "gap_side": "BOTTOM"}, ("Top.Notebook.tab", "Notebook.tab")),
+            ({FUNCTION: "BOX_GAP", "gap_side": "BOTTOM", DETAIL: "\"notebook\""}, ("Top.Notebook.client", "Notebook.client")),
+            ({FUNCTION: "EXTENSION", "gap_side": "TOP"}, "Bottom.Notebook.tab"),
+            ({FUNCTION: "BOX_GAP", "gap_side": "TOP", DETAIL: "\"notebook\""}, "Bottom.Notebook.client"),
+            ({FUNCTION: "EXTENSION", "gap_side": "LEFT"}, "Right.Notebook.tab"),
+            ({FUNCTION: "BOX_GAP", "gap_side": "LEFT", DETAIL: "\"notebook\""}, "Right.Notebook.client"),
+            ({FUNCTION: "EXTENSION", "gap_side": "RIGHT"}, "Left.Notebook.tab"),
+            ({FUNCTION: "BOX_GAP", "gap_side": "RIGHT", DETAIL: "\"notebook\""}, "Left.Notebook.client")
+
+        ],
+        'class "GtkButton"': [
+            ({FUNCTION: "BOX"}, ("Button.button", "Menubutton.button"))
+        ],
+        'class "GtkNotebook"': [
+            ({"xthickness": "padding_x", "ythickness": "padding_y"}, "Notebook.tab"),
+        ],
+        'class "*<GtkNotebook>.<GtkLabel>"': {},
+        'class "*<GtkNotebook>.<GtkHBox>.<GtkLabel>"': {},
+        'class "*<GtkNotebook>.<GtkEntry>"': {},
+        'class "GtkEntry"': [
+            ({FUNCTION: "SHADOW"}, "Entry.field")
+        ],
+        'class "GtkProgressBar"': [
+            ({FUNCTION: "BOX", DETAIL: "\"trough\"", ORIENTATION: "HORIZONTAL"}, "Horizontal.Progressbar.trough"),
+            ({FUNCTION: "BOX", DETAIL: "\"trough\"", ORIENTATION: "VERTICAL"}, "Vertical.Progressbar.trough")
+        ],
+        'class "GtkHScale"': [
+            ({FUNCTION: "BOX"}, "Horizontal.Scale.trough")
+        ],
+        'class "GtkVScale"': [
+            ({FUNCTION: "BOX"}, "Vertical.Scale.trough")
+        ],
+        'class "*<GtkToolButton>*<GtkButton>"': [
+            ({FUNCTION: "BOX"}, "Toolbutton.button")
+        ],
+        'class "*<GtkOptionMenu>"': [
+            ({FUNCTION: "BOX"}, "Combobox.field")
+        ],
+        'class "*<GtkTreeView>*<GtkButton>*"': [
+            ({FUNCTION: "BOX", "direction": LTR}, "Treeheading.cell")
+        ],
+        'class "*<GtkComboBoxEntry>*"': [
+            ({FUNCTION: "SHADOW", "direction": LTR, DETAIL: "\"entry\""}, "Spinbox.field")
+        ],
+        'class "*<GtkCombo>.<GtkButton>"': [
+            ({"GtkButton::inner-border": "padding"}, ("Spinbox.uparrow", "Spinbox.downarrow"))
+        ]
+    }
+
+    GTK_COLORS = {
+        "text_color": "foreground",
+        "base_color": "background",
+        "selected_fg_color": "selectforeground",
+        "selected_bg_color": "selectbackground",
+
     }
 
     DEFAULT_OPTIONS = {
@@ -155,6 +306,8 @@ class GtkThemeGenerator(ThemeGenerator):
         self._directory = directory or self.get_themes_directory()
         self._theme_name = theme or self.get_gnome_theme()
 
+        self.__elements = defaultdict(lambda: (set(), dict()))
+
         ThemeGenerator.__init__(self, theme, output_dir)
         self._parse_theme()
 
@@ -164,16 +317,20 @@ class GtkThemeGenerator(ThemeGenerator):
         with temporary_chdir(os.path.dirname(theme_file)):
             self._parse_theme_file(theme_file)
 
-        self.layout("TButton", [
-            ("Button.button", {"children": [
-                ("Button.focus", {"children": [
-                    ("Button.padding", {"children": [
-                        ("Button.label", {
-                            "side": "left",
-                            "expand": "true"
-                        })
-                    ]})
-            ]})]})])
+        for element, (args, kwargs) in self.__elements.items():
+            options = kwargs.copy()
+            if element in self.DEFAULT_OPTIONS:
+                options = self.DEFAULT_OPTIONS[element].copy()
+                options.update(kwargs)
+            args = list(args)
+            for e in args.copy():
+                if isinstance(e, str) and args.index(e) != 0:
+                    args.remove(e)
+                    args.insert(0, e)
+            print("Creating element: {}".format((element, args, options)))
+            self.element(element, args, options)
+
+        self._build_layouts()
 
     def _parse_theme_file(self, theme_file: str):
         """Parse a theme file"""
@@ -210,191 +367,233 @@ class GtkThemeGenerator(ThemeGenerator):
         """
         gnome_settings, _ = self._build_dictionary(lines)
 
-        for key, value in self.GTK_CLASSES.items():
-            style_string = None
-            for result in search_dict_recursive(gnome_settings, key):
-                style_string = result
-                break
-            if style_string is None:
-                continue
-            else:
-                style_dict = None
-                for result in search_dict_recursive(gnome_settings, style_string):
-                    style_dict = result
-                    break
-                if style_dict is None:
-                    continue
-                self._parse_style_dictionary(value, style_dict)
-        images = []
-        for result in search_dict_recursive(gnome_settings, "image"):
-            if isinstance(result, list):
-                images.extend(result)
+        for key, value in gnome_settings.items():
+            for widget_class, detail in self.GTK_STYLES.items():
+                if "class" in widget_class and widget_class in key:
+                    self._parse_options(detail, gnome_settings[value])
 
-        images = list(filter(lambda d: "function" in d and d["function"] in self.GTK_FUNCTIONS, images))
-        self.parse_unreferenced_images(images)
+                    # Process images
+                    images = gnome_settings[value]["engine \"pixmap\""]
+                    if "image" not in images:
+                        print("Invalid {}".format((widget_class, detail, key)), value)
+                        continue
+                    images = images["image"]
+                    print("Matched {} to {}, {}".format(widget_class, key, (value, images)))
+                    self._process_images(widget_class, images)
 
-    def _parse_style_dictionary(self, widget: str, style_dict: dict):
-        """
-        Parse a Gtk style dictionary into a ttk image element
+        if "engine \"pixmap\"" in gnome_settings["style \"default\""]:
+            images = gnome_settings["style \"default\""]["engine \"pixmap\""]["image"]
+            self._process_images("", images)
+        self._parse_options(self.GTK_STYLES[""], gnome_settings["style \"default\""])
 
-        If a widget is built with this function it is explicitly not
-        built using the unreferenced style of building.
-
-        :param widget: Name of the widget
-        :param style_dict: Gtk style dictionary
-        """
-        elements = dict()
-        if 'engine "pixmap"' in style_dict:
-            images: List[dict] = style_dict['engine "pixmap"']["image"]
-            for image in images:
-                element, state, image, kwargs = self.process_image_dict(widget, image)
-                if element is None:
-                    continue
-                name, data = image
-                name = name.replace("--", "-")
-
-                self.image(name, data)
-
-                if element not in elements:
-                    elements[element] = ([], {})
-
-                identifier = state + (name,)
-                if len(identifier) == 1:
-                    identifier = identifier[0]
-
-                elements[element][0].append(identifier)
-                elements[element][1].update(kwargs)
-
-        for element, (args, kwargs) in elements.items():
-            self.element(element, args, kwargs)
-
-    def parse_unreferenced_images(self, images: List[dict]):
-        """
-        Parse the Gtk image dictionaries that are not referenced
-
-        Not referenced means they are not used in any of the widgets
-        of which elements have explicitly been defined to exist. This
-        includes the Radiobutton and Checkbutton widgets.
-        """
-        elements = dict()
-        for image in images:
-            print("Parsing {}".format(image))
-            if "function" not in image or image["function"] not in self.GTK_FUNCTIONS:
-                continue
-            widget = self.GTK_FUNCTIONS[image["function"]]
-            if "file" not in image:
-                if "overlay_file" in image:
-                    image["file"] = image["overlay_file"]
-                else:
-                    continue
-            if "detail" in image:
-                if image["detail"].startswith(("v", "h")) and "orientation" not in image:
-                    print("Setting orientation of image")
-                    image["orient"] = "HORIZONTAL" if image["detail"].startswith("h") else "VERTICAL"
-                if image["detail"] not in self.GTK_DETAILS:
-                    continue
-                if self.GTK_DETAILS[image["detail"]] not in widget:
-                    continue
-                widget = self.GTK_DETAILS[image["detail"]]
-                if "direction" in image:
-                    continue
-            elif isinstance(widget, tuple):
-                widget = widget[0]
-
-            element, state, image, kwargs = self.process_image_dict(widget, image)
-            if element is None:
+    def _parse_options(self, options: dict, style_dict: dict):
+        # Process options
+        for option_dict, elements in options:
+            if FUNCTION in option_dict:  # Actually an image dict spec
                 continue
 
-            name, data = image
-            name = name.replace("--", "-")
+            if "configure" in elements:  # Configure settings
+                layout = elements.split(" ")[-1]
+                for gtk_opt, (tk_opt, template) in option_dict.items():
+                    if gtk_opt in style_dict:
+                        value = style_dict[gtk_opt]
+                        self.configure(layout, {tk_opt: ast.literal_eval(template.format(value))})
+                        # self.map("TNotebook.Tab", {"expand": "[list selected {1 2 4 2}]"})
 
-            if name in self.image_names:
-                print("Duplicate image: {}".format(image))
+            elif "map" in elements:  # Map options
+                pass
+            else:  # Element creation keyword arguments
+                kwargs = {k: style_dict[n] for n, k in option_dict.items() if n in style_dict}
+                if "padding" in kwargs and isinstance(kwargs["padding"], str) and not kwargs["padding"].isdigit():
+                    left, right, top, bottom = map(int, map(str.strip, kwargs["padding"].strip("{}").split(",")))
+                    kwargs["padding"] = (left, top, right, bottom)
+                elif "padding_x" in kwargs and "padding_y" in kwargs:
+                    padx, pady = kwargs["padding_x"], kwargs["padding_y"]
+                    kwargs["padding"] = (padx, pady, padx, pady)
+                    del kwargs["padding_x"], kwargs["padding_y"]
+                elif "padding_x" in kwargs or "padding_y" in kwargs:
+                    raise ValueError(option_dict, elements)  # Either both or neither must be present
+
+                print("Parsed {} for {}".format(kwargs, option_dict))
+                for element in (elements if isinstance(elements, tuple) else (elements,)):
+                    self.__elements[element][1].update(kwargs)
+
+    def _process_images(self, _class: str, images: List[dict]):
+        for img in images:
+            matching = filter(lambda sub: issubdict(img, sub[0]), self.GTK_STYLES[_class])
+            best_match = max(matching, key=lambda sub: len(sub[0]), default=None)
+            if best_match is None:  # This image is not implemented or not used
+                print(_class, "did not match", img)
                 continue
-            self.image(name, data)
+            print(_class, "matched", img, best_match)
+            _, elements = best_match
+            if isinstance(elements, str):
+                elements = (elements,)
+            for element in elements:
+                self.process_image_dict(element, img, self.GTK_STATE_MAPS[element])
 
-            if element not in elements:
-                elements[element] = ([], {})
-
-            identifier = state + (name,)
-            if len(identifier) == 1:
-                identifier = identifier[0]
-
-            if identifier not in elements[element][0]:
-                elements[element][0].append(identifier)
-            elements[element][1].update(kwargs)
-
-        for element, (args, kwargs) in elements.items():
-            options = kwargs.copy()
-            if element in self.DEFAULT_OPTIONS:
-                options = self.DEFAULT_OPTIONS[element].copy()
-                options.update(kwargs)
-            for e in args.copy():
-                if isinstance(e, str) and args.index(e) != 0:
-                    args.remove(e)
-                    args.insert(0, e)
-            print("Creating element: {}".format((element, args, options)))
-            self.element(element, args, options)
-
-    def process_image_dict(self, widget: str, image: dict) -> Tuple[str, Tuple, Tuple, dict]:
+    def process_image_dict(self, widget: str, img: dict, state_map: dict):
         """
         Process an image dictionary into a usable UI image
 
         :param widget: Name of the Tkinter widget that this belongs to
-        :param image: Dictionary like {
+        :param img: Dictionary like {
                 "file": "path_to_file",
                 "function": gtk_specific_thing,
                 "state": gtk_state_specifier,
                 "shadow": widget_option,
             }
+        :param state_map:
         """
-        if "state" not in image:
-            print("Corrected state", image)
-            image["state"] = ""
-
-        image["file"] = image["file"].strip("\"")
-        path = os.path.abspath(image["file"])
+        if "state" not in img:
+            img["state"] = ""
+        if "file" not in img and "overlay_file" in img:
+            img["file"] = img["overlay_file"]
+        if "file" not in img:
+            img["file"] = os.path.join(os.path.abspath(os.path.dirname(__file__)), "empty.png")
+        img["file"] = img["file"].strip("\"")
+        path = os.path.abspath(img["file"])
         if not path.endswith((".png", ".gif")):
-            return None, None, None, None
+            return None
 
         with open(path, "rb") as fi:
-            data = b64encode(fi.read()).decode()
+            img_data = b64encode(fi.read()).decode()
 
-        image["state"] = image["state"].lower()
-        image["shadow"] = image["shadow"].lower() if "shadow" in image else ""
-        gtk_state = (image["state"], image["shadow"])
+        img["state"] = img["state"].lower()
+        if "shadow" not in img and "detail" not in img and img[FUNCTION] != "EXPANDER":
+            gtk_state = (img["state"], "")
+        elif "shadow" not in img and "detail" not in img and img[FUNCTION] == "EXPANDER":
+            gtk_state = (img["state"], img["expander_style"])
+        elif "shadow" not in img and "detail" in img:
+            gtk_state = (img["state"], img["detail"])
+        else:
+            gtk_state = (img["state"], img["shadow"])
+        gtk_state = tuple(map(str.lower, gtk_state))
 
-        state_dicts = (d for k, d in self.GTK_STATES.items()
-                       if any(w in widget for w in k))
-        states = dict()
-        for state_dict in state_dicts:
-            states.update(state_dict)
-        if gtk_state not in states:
+        default_state_map = self.GTK_STATE_MAPS["default"].copy()
+        if "detail" in img:
+            for (state, _), tk_state in default_state_map.copy().items():
+                default_state_map[(state, img["detail"])] = tk_state
+        default_state_map.update(state_map)
+        state_map = default_state_map.copy()
+
+        if gtk_state not in state_map:
             print("Unable to find '{}' for {}".format(gtk_state, widget))
-            return None, None, None, None
-        state = list(states[gtk_state])
+            return None
+        state = list(state_map[gtk_state])
         if None in state:
-            return None, None, None, None
+            print("Ignored state image")
+            return None
 
-        widget_name = widget.split(".")[0].lower()
-        layout = widget
-        if "orientation" in image:
-            layout = "{}.{}".format(image["orientation"].lower().capitalize(), layout)
-        if "through" in state:
-            layout = "{}.{}".format(layout, "through")
-        if "thumb" in state:
-            layout = "{}.{}".format(layout, "thumb")
-
-        image_name = "{}-{}".format(widget_name, "-".join(state)).strip("-")
+        widget_name = "-".join(map(str.lower, widget.split(".")))
+        img_name = "{}-{}".format(widget_name, "-".join(state)).strip("-")
 
         kwargs = dict()
-        if "border" in image:
-            kwargs["border"] = tuple(map(int, map(lambda x: x.strip(" {},"), image["border"].split(","))))
+        if "border" in img:
+            left, right, top, bottom = tuple(map(int, map(lambda x: x.strip(" {},"), img["border"].split(","))))
+            kwargs["border"] = (left, top, right, bottom)
 
         while "" in state:
             state.remove("")
-        print("Parsed {} for {}".format((layout, state, (image_name,), kwargs), image["file"]))
-        return layout, tuple(state), (image_name, data), kwargs
+        while "--" in img_name:
+            img_name = img_name.replace("--", "-")
+
+        if img_name not in self.image_names:
+            self.image(img_name, img_data, trim=widget in self.TRIM_REQUIRED)  # Register image
+
+        # Add image to layout element
+        identifier = tuple(state) + (img_name,)
+        identifier = identifier if len(identifier) > 1 else identifier[0]
+
+        self.__elements[widget][0].add(identifier)
+        self.__elements[widget][1].update(kwargs)
+
+        # TODO: Move this dirty solution elsewhere
+        if widget == "Treeitem.indicator" and ("user2", "empty") not in self.__elements[widget][0]:
+            # A custom Treeitem indicator is in the theme
+            self.__elements[widget][0].add(("user2", "empty"))
+            with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "empty.png"), "rb") as fi:
+                img_data = b64encode(fi.read()).decode()
+            self.image("empty", img_data)
+
+    def _build_layouts(self):
+        """Build the layouts for the GTK theme based on available elements"""
+        self.layout("TButton", [
+            ("Button.button", {"children": [
+                ("Button.focus", {"children": [
+                    ("Button.padding", {"children": [
+                        ("Button.label", {})
+                    ]})
+                ]})
+            ]})
+        ])
+
+        self.layout("Treeview.item", [
+            ("Treeitem.padding", {"sticky": "nswe", "children": [
+                ("Treeitem.indicator", {"side": "left"}),
+                ("Treeitem.image", {"side": "left"}),
+                ("Treeitem.focus", {"side": "left", "children": [
+                    ("Treeitem.text", {"side": "left"})
+                ]})
+            ]})
+        ])
+
+        self.layout("TSpinbox", [
+            ("Spinbox.field", {"side": "left", "sticky": "nswe", "children": [
+                ("Spinbox.padding", {"side": "left", "sticky": "nswe", "children": [
+                    ("Spinbox.textarea", {"side": "left", "sticky": "nswe"})
+                ]})
+            ]}),
+            ("Spinbox.buttons", {"side": "right", "children": [
+                ("null", {"side": "right", "children": [
+                    ("Spinbox.uparrow", {"side": "top", "sticky": "nse", "children": [
+                        ("uparrow", {"side": "right", "sticky": "e"})
+                    ]}),
+                    ("Spinbox.downarrow", {"side": "bottom", "sticky": "nse", "children": [
+                        ("downarrow", {"side": "right", "sticky": "e"})
+                    ]})
+                ]})
+            ]}),
+        ])
+
+        self.layout("Tab", [
+            ("Notebook.tab", {"side": "left", "children": [
+                ("Notebook.padding", {"side": "top", "expand": True, "children": [
+                    ("Notebook.focus", {"side": "top", "expand": True, "children": [
+                        ("Notebook.label", {"side": "top"})
+                    ]})
+                ]})
+            ]}),
+        ])
+
+        self.layout("TMenubutton", [
+            ("Menubutton.button", {"children": [
+                ("Menubutton.focus", {"children": [
+                    ("Menubutton.padding", {"children": [
+                        ("Menubutton.indicator", {"side": "right"}),
+                        ("Menubutton.label", {"side": "right", "expand": True})
+                    ]})
+                ]})
+            ]})
+        ])
+
+        self.configure("Left.TNotebook", {"tabposition": "wn"})
+        self.layout("Left.TNotebook", [
+            ("Left.Tab", {"side": "left", "expand": True, "children": [
+                ("Left.Notebook.padding", {"side": "left", "expand": True, "children": [
+                    ("Left.Notebook.focus", {"side": "left", "expand": True, "children": [
+                        ("Left.Notebook.label", {"side": "left"})
+                    ]})
+                ]})
+            ]})
+        ])
+        self.configure("Right.TNotebook", {"tabposition": "en"})
+        self.configure("Bottom.TNotebook", {"tabposition": "sw"})
+        self.configure("Top.TNotebook", {"tabposition": "nw"})
+
+        self.configure("TNotebook", {"tabmargins": (0, 2, 0, 0)})
+        self.configure("TNotebook.Tab", {"expand": (0, 0, 1)})
+        self.map("TNotebook.Tab", {"expand": ["selected", (1, 1, 2, 1)]})
 
     @staticmethod
     def _build_dictionary(lines: List[str]) -> Tuple[Dict[str, Any], int]:
@@ -405,7 +604,7 @@ class GtkThemeGenerator(ThemeGenerator):
         :return: Tuple of dictionary produced and the level of building
             used in recursive algorithm.
         """
-        result = dict()
+        result: Dict[str, Union[list, dict, str]] = defaultdict(dict)
         to_skip = 0
         for i, line in enumerate(lines):
 
@@ -483,16 +682,16 @@ class GtkThemeGenerator(ThemeGenerator):
 
 
 if __name__ == '__main__':
-    generator = GtkThemeGenerator("Materia")
+    generator = GtkThemeGenerator("Adwaita")
     generator.generate()
 
-    from example import Example
+    from example import Example as MainWindow
 
-    window = Example()
+    window = MainWindow()
 
-    with temporary_chdir("materia"):
-        window.tk.eval("source materia.tcl")
-        window.tk.eval("package require materia 1.0")
-        window.tk.eval("ttk::setTheme materia")
+    with temporary_chdir("adwaita"):
+        window.tk.eval("source adwaita.tcl")
+        window.tk.eval("package require adwaita 1.0")
+        window.tk.eval("ttk::setTheme adwaita")
 
     window.mainloop()
