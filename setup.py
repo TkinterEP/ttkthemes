@@ -9,7 +9,7 @@ from setuptools import setup
 
 
 if TkVersion <= 8.5:
-    message = "This version of ttkthemes does not support Tk 8.5 and earlier. Please install an earlier version."
+    message = "This version of ttkthemes does not support Tk 8.5 and earlier. Please install a later version."
     raise RuntimeError(message)
 
 
