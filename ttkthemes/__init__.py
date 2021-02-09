@@ -7,6 +7,7 @@ from ttkthemes.themed_tk import ThemedTk
 from ttkthemes.themed_style import ThemedStyle
 
 THEMES = [
+    "adapta",
     "aquativo",
     "arc",
     "black",
@@ -30,4 +31,5 @@ THEMES = [
     "smog",
     "ubuntu",
     "winxpblue",
+    "yaru",
 ]
