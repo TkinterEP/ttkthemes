@@ -4,6 +4,7 @@
 set gif_theme_dir [file join [pwd] [file dirname [info script]]]
 
 array set gif_themes {
+  adapta 1.0
   arc 0.1
   breeze 0.6
   equilux 1.1
