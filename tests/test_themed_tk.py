@@ -24,14 +24,15 @@ class TestThemedTk(unittest.TestCase):
                 raise AssertionError("Theme {} not available".format(theme))
 
     def test_theme_setting(self):
-        button = ttk.Button(self.tk)
-        label = ttk.Label(self.tk)
-        button.pack()
-        label.pack()
-        self.tk.update()
         for theme in self.tk.get_themes():
-            self.tk.set_theme(theme)
-            self.tk.update()
+            window = ThemedTk()
+            button = ttk.Button(window)
+            label = ttk.Label(window)
+            button.pack()
+            label.pack()
+            window.set_theme(theme)
+            window.update()
+            window.destroy()
 
     def test_custom_theme(self):
         if not self.tk.png_support:
