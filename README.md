@@ -22,6 +22,7 @@ created by various authors.
     Copyright (C) Regents of the University of California, Sun Microsystems, Inc., Scriptics Corporation, and other parties
     Copyright (c) 2018 Maximilian Lika
     Copyright (C) 2018-2020 The Yaru Theme Authors
+    Copyright (C) 2015-2020 The Adapta Theme Authors
     
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
