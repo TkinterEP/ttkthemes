@@ -91,9 +91,7 @@ namespace eval ttk::theme::aquativo {
     ::ttk::style layout TButton {
       Button.background
       Button.button -children {
-        Button.focus -children {
           Button.label
-        }
       }
     }
     
@@ -112,7 +110,9 @@ namespace eval ttk::theme::aquativo {
     # Menubuttons
     
     ::ttk::style element create Menubutton.button image \
-        [list $I(menubar_option) ] \
+        [list $I(buttonNorm) \
+		pressed $I(buttonPressed)\ 
+		active $I(buttonPressed)] \
         -border {7 10 29 15} -padding {7 4 29 4} -sticky news
     
     ::ttk::style element create Menubutton.indicator image \
@@ -205,6 +205,7 @@ namespace eval ::tablelist:: {
 	-background		white \
 	-foreground		black \
 	-disabledforeground	black \
+	-disabledbackground	white \
 	-stripebackground	#EDF3FE \
 	-selectbackground	#000000 \
 	-selectforeground	#ffffff \
