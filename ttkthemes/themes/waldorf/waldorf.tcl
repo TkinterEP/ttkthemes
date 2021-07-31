@@ -1,9 +1,13 @@
-# waldorf.tcl
-#
 # CrunchBang-Waldorf pixmap theme for ttk
-# 2016-04-13
-#
+
 # Copyright (c) 2016 François Tonneau <francois.tonneau@gmail.com>
+
+# The Waldorf theme has not been published in the ttkthemes package so far due to its unclear license.
+# This theme is a derivative of the Chrunchbang Linux Gtk theme, created by Philip Newborough. He said any
+# open source license could be used for it, but then considered that the theme might be a derivative of yet
+# another theme. Hence, if the theme being derived from another theme is to be disregarded,
+# which does not seem a crazy thing to do as the Crunchbang theme itself was widely distributed.
+# GNU GPLv2 seems like the right license to use.
 
 package require Tk
 

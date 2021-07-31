@@ -64,7 +64,7 @@ namespace eval ttk::theme::aquativo {
     ::ttk::style map "." \
         -foreground { disabled "#565248" } \
         -background { \
-	    disabled "#e3e1dd"
+        disabled "#e3e1dd"
             pressed  "#bab5ab"
             active   "#c1d2ee" }
         
@@ -91,13 +91,15 @@ namespace eval ttk::theme::aquativo {
     ::ttk::style layout TButton {
       Button.background
       Button.button -children {
+        Button.focus -children {
           Button.label
+        }
       }
     }
     
     ::ttk::style element create Button.button image \
         [list $I(buttonNorm) \
-	      pressed $I(buttonPressed) active $I(buttonPressed)] \
+          pressed $I(buttonPressed) active $I(buttonPressed)] \
         -border {4 4} -padding 3 -sticky nsew
     
     ::ttk::style element create Checkbutton.indicator image \
@@ -110,14 +112,12 @@ namespace eval ttk::theme::aquativo {
     # Menubuttons
     
     ::ttk::style element create Menubutton.button image \
-        [list $I(buttonNorm) \
-		pressed $I(buttonPressed)\ 
-		active $I(buttonPressed)] \
+        [list $I(menubar_option) ] \
         -border {7 10 29 15} -padding {7 4 29 4} -sticky news
     
     ::ttk::style element create Menubutton.indicator image \
         [list $I(menubar_option_arrow) \
-	      disabled $I(menubar_option_arrow_insensitive)] \
+          disabled $I(menubar_option_arrow_insensitive)] \
         -width 11 -sticky w -padding {0 0 18 0}
     
     # Scrollbar
@@ -130,15 +130,15 @@ namespace eval ttk::theme::aquativo {
 
     ::ttk::style element create Horizontal.Scrollbar.thumb \
         image [list $I(scrollbar_horizontal) \
-	            {active !disabled} $I(scrollbar_horizontal) \
-		    disabled  $I(horizontal_trough)] \
+                {active !disabled} $I(scrollbar_horizontal) \
+            disabled  $I(horizontal_trough)] \
         -border 7 -width 16 -height 0 -sticky nsew
 
     ::ttk::style element create Vertical.Scrollbar.thumb \
         image [list $I(scrollbar_vertical) \
-	            {active !disabled}  $I(scrollbar_vertical) \
-		    disabled $I(vertical_trough)] \
- 	-border 7 -width 0 -height 16 -sticky nsew
+                {active !disabled}  $I(scrollbar_vertical) \
+            disabled $I(vertical_trough)] \
+    -border 7 -width 0 -height 16 -sticky nsew
     
     # Scale
     
@@ -202,29 +202,28 @@ namespace eval ::tablelist:: {
     proc aquativoTheme {} {
       variable themeDefaults
       array set themeDefaults [list \
-	-background		white \
-	-foreground		black \
-	-disabledforeground	black \
-	-disabledbackground	white \
-	-stripebackground	#EDF3FE \
-	-selectbackground	#000000 \
-	-selectforeground	#ffffff \
-	-selectborderwidth	0 \
-	-font			TkTextFont \
-        -labelbackground	#fafafa \
-	-labeldisabledBg	#fafafa \
-	-labelactiveBg		#fafafa \
-	-labelpressedBg		#fafafa \
-	-labelforeground	black \
-	-labeldisabledFg	black \
-	-labelactiveFg		black \
-	-labelpressedFg		black \
-	-labelfont		TkDefaultFont \
-	-labelborderwidth	2 \
-	-labelpady		1 \
-	-arrowcolor		#777777 \
-	-arrowstyle		flat7x7 \
-	-showseparators         yes \
+    -background     white \
+    -foreground     black \
+    -disabledforeground black \
+    -stripebackground   #EDF3FE \
+    -selectbackground   #000000 \
+    -selectforeground   #ffffff \
+    -selectborderwidth  0 \
+    -font           TkTextFont \
+        -labelbackground    #fafafa \
+    -labeldisabledBg    #fafafa \
+    -labelactiveBg      #fafafa \
+    -labelpressedBg     #fafafa \
+    -labelforeground    black \
+    -labeldisabledFg    black \
+    -labelactiveFg      black \
+    -labelpressedFg     black \
+    -labelfont      TkDefaultFont \
+    -labelborderwidth   2 \
+    -labelpady      1 \
+    -arrowcolor     #777777 \
+    -arrowstyle     flat7x7 \
+    -showseparators         yes \
       ]
    }
 }
