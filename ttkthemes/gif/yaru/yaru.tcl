@@ -1,24 +1,22 @@
+# Copyright (c) 2021 rdbende
 # Copyright (c) 2020 RedFantom
-# Derived from arc theme file, Copyright (c) 2015 Sergei Golovan
 # Derived from Ubuntu Yaru theme, Copyright (c) 2018-2020 The Yaru theme authors
-# See <https://github.com/ubuntu/yaru/blob/master/AUTHORS> for a list of
-# authors for the Yaru theme
+# See <https://github.com/ubuntu/yaru/blob/master/AUTHORS> for a list of authors for the Yaru theme
 
-# Licensed under GNU GPLv3 (most restrictive, derivative of 'arc')
+package require Tk 8.6
 
 namespace eval ttk::theme::yaru {
 
+    variable version 1.2
+    package provide ttk::theme::yaru $version
     variable colors
     array set colors {
         -fg             "#3d3d3d"
-        -bg             "#f5f6f7"
+        -bg             "#f7f7f7"
         -disabledfg     "#8b8e8f"
-        -disabledbg     "#f1f1f1"
-        -selectfg       "#ffffff"
+        -disabledbg     "#f7f7f7"
+        -selectfg       "#f7f7f7"
         -selectbg       "#e95420"
-        -window         "#f4f4f4"
-        -focuscolor     "#5c616c"
-        -checklight     "#fbfcfc"
     }
 
     proc LoadImages {imgdir} {
@@ -31,36 +29,81 @@ namespace eval ttk::theme::yaru {
 
     LoadImages [file join [file dirname [info script]] yaru]
 
+    # Settings
     ttk::style theme create yaru -parent default -settings {
         ttk::style configure . \
             -background $colors(-bg) \
             -foreground $colors(-fg) \
             -troughcolor $colors(-bg) \
+            -focuscolor $colors(-selectbg) \
             -selectbackground $colors(-selectbg) \
             -selectforeground $colors(-selectfg) \
-            -fieldbackground $colors(-window) \
+            -fieldbackground $colors(-selectbg) \
             -font TkDefaultFont \
             -borderwidth 1 \
-            -focuscolor $colors(-focuscolor)
+            -relief flat
 
         ttk::style map . -foreground [list disabled $colors(-disabledfg)]
 
+        tk_setPalette background [ttk::style lookup . -background] \
+            foreground [ttk::style lookup . -foreground] \
+            highlightColor [ttk::style lookup . -focuscolor] \
+            selectBackground [ttk::style lookup . -selectbackground] \
+            selectForeground [ttk::style lookup . -selectforeground] \
+            activeBackground [ttk::style lookup . -selectbackground] \
+            activeForeground [ttk::style lookup . -selectforeground]
+        option add *font [ttk::style lookup . -font]
+
+
+        # Layouts
         ttk::style layout TButton {
             Button.button -children {
-                Button.focus -children {
-                    Button.padding -children {
-                        Button.label -side left -expand true
-                    }
-                }
+                Button.padding -children {
+                    Button.label -side left -expand true
+                } 
             }
         }
 
         ttk::style layout Toolbutton {
             Toolbutton.button -children {
-                Toolbutton.focus -children {
-                    Toolbutton.padding -children {
-                        Toolbutton.label -side left -expand true
-                    }
+                Toolbutton.padding -children {
+                    Toolbutton.label -side left -expand true
+                } 
+            }
+        }
+
+        ttk::style layout TMenubutton {
+            Menubutton.button -children {
+                Menubutton.padding -children {
+                    Menubutton.indicator -side right
+                    Menubutton.label -side right -expand true
+                }
+            }
+        }
+
+        ttk::style layout TOptionMenu {
+            OptionMenu.button -children {
+                OptionMenu.padding -children {
+                    OptionMenu.indicator -side right
+                    OptionMenu.label -side right -expand true
+                }
+            }
+        }
+
+        ttk::style layout TCheckbutton {
+            Checkbutton.button -children {
+                Checkbutton.padding -children {
+                    Checkbutton.indicator -side left
+                    Checkbutton.label -side right -expand true
+                }
+            }
+        }
+
+        ttk::style layout TRadiobutton {
+            Radiobutton.button -children {
+                Radiobutton.padding -children {
+                    Radiobutton.indicator -side left
+                    Radiobutton.label -side right -expand true
                 }
             }
         }
@@ -77,255 +120,298 @@ namespace eval ttk::theme::yaru {
             }
         }
 
-        ttk::style layout TMenubutton {
-            Menubutton.button -children {
-                Menubutton.focus -children {
-                    Menubutton.padding -children {
-                        Menubutton.indicator -side right
-                        Menubutton.label -side right -expand true
-                    }
-                }
-            }
-        }
-
         ttk::style layout TCombobox {
-            Combobox.field -sticky nswe -children {
-                Combobox.downarrow -side right -sticky ns -children {
-                    Combobox.arrow -side right
-                }
-                Combobox.padding -expand true -sticky nswe -children {
-                    Combobox.textarea -sticky nswe
+            Combobox.field -children {
+                Combobox.downarrow -side right -sticky {}
+                Combobox.padding -expand 1 -children {
+                    Combobox.textarea
                 }
             }
         }
 
         ttk::style layout TSpinbox {
-            Spinbox.field -side top -sticky we -children {
-                Spinbox.buttons -side right -children {
-                    null -side right -sticky {} -children {
-                        Spinbox.uparrow -side top -sticky nse -children {
-                            Spinbox.symuparrow -side right -sticky e
-                        }
-                        Spinbox.downarrow -side bottom -sticky nse -children {
-                            Spinbox.symdownarrow -side right -sticky e
-                        }
-                    }
+            Spinbox.field -children {
+                null -side right -children {
+                	Spinbox.uparrow -side top -sticky e
+                	Spinbox.downarrow -side bottom -sticky s
                 }
-                Spinbox.padding -sticky nswe -children {
-                    Spinbox.textarea -sticky nswe
+                Spinbox.padding -expand 0 -children {
+                    Spinbox.textarea
                 }
             }
         }
 
-        ttk::style element create Button.button image [list \
-            $I(button) \
-            pressed     $I(button-active) \
-            active      $I(button-hover) \
-            disabled    $I(button-insensitive) \
-        ] -border 3 -padding {3 2} -sticky ewns
+        ttk::style layout Horizontal.TSeparator {
+            Horizontal.separator -sticky nswe
+        }
 
-        ttk::style element create Toolbutton.button image [list \
-            $I(button) \
-            selected            $I(button-active) \
-            pressed             $I(button-active) \
-            {active !disabled}  $I(button-hover) \
-        ] -border 3 -padding {3 2} -sticky news
+        ttk::style layout Vertical.TSeparator {
+            Vertical.separator -sticky nswe
+        }
 
-        ttk::style element create Checkbutton.indicator image [list \
-            $I(checkbox-unchecked) \
-            disabled            $I(checkbox-unchecked-insensitive) \
-            {active selected}   $I(checkbox-checked) \
-            {pressed selected}  $I(checkbox-checked) \
-            active              $I(checkbox-unchecked) \
-            selected            $I(checkbox-checked) \
-            {disabled selected} $I(checkbox-checked-insensitive) \
-        ] -width 17 -sticky w
+        ttk::style layout TLabelframe {
+            Labelframe.border {
+                Labelframe.padding -expand 1 -children {
+                    Labelframe.label -side right
+                }
+            }
+        }
 
-        ttk::style element create Radiobutton.indicator image [list \
-            $I(radio-unchecked) \
-            disabled            $I(radio-unchecked-insensitive) \
-            {active selected}   $I(radio-checked) \
-            {pressed selected}  $I(radio-checked) \
-            active              $I(radio-unchecked) \
-            selected            $I(radio-checked) \
-            {disabled selected} $I(radio-checked-insensitive) \
-        ] -width 17 -sticky w
+        ttk::style layout TNotebook.Tab {
+            Notebook.tab -children {
+                Notebook.padding -side top -children {
+                    Notebook.label -side top -sticky {}
+                }
+            }
+        }        
 
-        ttk::style element create Horizontal.Scrollbar.trough image $I(scrollbar-horz-trough)
+        ttk::style layout Treeview.Item {
+            Treeitem.padding -sticky nswe -children {
+                Treeitem.indicator -side left -sticky {}
+                Treeitem.image -side left -sticky {}
+                Treeitem.text -side left -sticky {}
+            }
+        }
 
-        ttk::style element create Horizontal.Scrollbar.thumb image [list \
-            $I(scrollbar-horz-slider) \
-            {pressed !disabled} $I(scrollbar-horz-slider-active) \
-            {active !disabled}  $I(scrollbar-horz-slider) \
-        ] -border 5 -sticky ew
+        # Button
+        ttk::style configure TButton -padding 4 -width 10 -anchor center
 
-        ttk::style element create Vertical.Scrollbar.trough image $I(scrollbar-vert-trough)
+        ttk::style element create Button.button \
+            image [list $I(button-basic) \
+                disabled $I(button-disabled) \
+                pressed $I(button-pressed) \
+                active $I(button-basic) \
+            ] -border 4 -sticky news
 
-        ttk::style element create Vertical.Scrollbar.thumb image [list \
-            $I(scrollbar-vert-slider) \
-            {pressed !disabled} $I(scrollbar-vert-slider-active) \
-            {active !disabled}  $I(scrollbar-vert-slider) \
-        ] -border 6 -sticky ns
+        # Toolbutton
+        ttk::style configure Toolbutton -padding 4 -width 10 -anchor center
 
-        ttk::style element create Horizontal.Scale.trough image [list \
-            $I(scale-horz-trough) \
-            {pressed !disabled} $I(scale-horz-trough-active) \
-        ] -border 10 -padding 0
+        ttk::style element create Toolbutton.button \
+            image [list $I(empty) \
+                disabled $I(empty) \
+                pressed $I(button-pressed) \
+                active $I(button-pressed) \
+            ] -border 4 -sticky news
 
-        ttk::style element create Horizontal.Scale.slider image [list \
-            $I(scale-slider)  \
-            disabled $I(scale-slider-insensitive) \
-            active $I(scale-slider-active) \
-        ] -sticky {}
+        # Menubutton
+        ttk::style configure TMenubutton -padding 4
 
-        ttk::style element create Vertical.Scale.trough image [list \
-            $I(scale-vert-trough-active) \
-            disabled $I(scale-vert-trough) \
-        ] -border 10 -padding 0
+        ttk::style element create Menubutton.button \
+            image [list $I(button-basic) \
+                disabled $I(button-disabled) \
+                pressed $I(button-pressed) \
+                active $I(button-basic) \
+            ] -border 4 -sticky news 
 
-        ttk::style element create Vertical.Scale.slider image [list \
-            $I(scale-slider) \
-            disabled $I(scale-slider-insensitive) \
-            active $I(scale-slider-active) \
-        ] -sticky {}
+        ttk::style element create Menubutton.indicator image $I(arrow-down-basic) -width 25 -sticky e
 
-        ttk::style element create Entry.field image [list \
-            $I(entry) \
-            focus $I(entry-active) \
-            disabled $I(entry-insensitive) \
-        ] -border 3 -padding {6 4} -sticky news
+        # OptionMenu
+        ttk::style configure TOptionMenu -padding 4
 
-        ttk::style element create Labelframe.border image $I(labelframe) \
-           -border 4 -padding 4 -sticky news
+        ttk::style element create OptionMenu.button \
+            image [list $I(button-basic) \
+                disabled $I(button-disabled) \
+                pressed $I(button-pressed) \
+                active $I(button-basic) \
+            ] -border 4 -sticky news
 
-        ttk::style element create Menubutton.button image [list \
-            $I(button) \
-            pressed $I(button-active) \
-            active $I(button-hover) \
-            disabled $I(button-insensitive) \
-        ] -sticky news -border 3 -padding {3 2}
+        ttk::style element create OptionMenu.indicator image $I(arrow-down-basic) -width 25 -sticky e
 
-        ttk::style element create Menubutton.indicator image [list \
-            $I(spin-down) \
-            active $I(spin-down) \
-            pressed $I(spin-down) \
-            disabled $I(spin-down-insensitive) \
-        ] -sticky e -width 20
+        # Checkbutton
+        ttk::style configure TCheckbutton -padding 4
 
-        ttk::style element create Combobox.field image [list \
-            $I(combo-entry-ltr-entry) \
-            {readonly disabled} $I(combo-entry-ltr-button-insensitive) \
-            {readonly pressed} $I(combo-entry-ltr-button-active) \
-            readonly $I(combo-entry-ltr-button) \
-            {disabled} $I(combo-entry-ltr-entry-insensitive) \
-            {focus} $I(combo-entry-ltr-entry) \
-            {hover} $I(combo-entry-ltr-entry) \
-        ] -border 4 -padding {6 0 0 0}
+        ttk::style element create Checkbutton.indicator \
+            image [list $I(checkbox-basic) \
+            	disabled $I(checkbox-basic) \
+                {selected disabled} $I(checkbox-selected-dis) \
+                {pressed selected} $I(checkbox-selected) \
+                {active selected} $I(checkbox-selected) \
+                selected $I(checkbox-selected) \
+                {pressed !selected} $I(checkbox-basic) \
+                active $I(checkbox-basic) \
+            ] -width 20 -sticky w
 
-        ttk::style element create Combobox.downarrow image [list \
-            $I(combo-entry-ltr-button) \
-            pressed $I(combo-entry-ltr-button-active) \
-            active $I(combo-entry-ltr-button-hover) \
-            disabled $I(combo-entry-ltr-button-insensitive) \
-        ] -border 4 -padding {0 10 6 10}
+        # Radiobutton
+        ttk::style configure TRadiobutton -padding 4
 
-        ttk::style element create Combobox.arrow image [list \
-            $I(pan-down) \
-            active $I(pan-down) \
-            pressed $I(pan-down) \
-            disabled $I(pan-down-insensitive) \
-        ]  -sticky e -width 15
+        ttk::style element create Radiobutton.indicator \
+            image [list $I(radio-basic) \
+            	disabled $I(radio-basic) \
+                {selected disabled} $I(radio-selected-dis) \
+                {pressed selected} $I(radio-selected) \
+                {active selected} $I(radio-selected) \
+                selected $I(radio-selected) \
+                {pressed !selected} $I(radio-basic) \
+                active $I(radio-basic) \
+            ] -width 20 -sticky w
 
-        ttk::style element create Spinbox.field image [list \
-            $I(combo-entry-ltr-entry) \
-            focus $I(combo-entry-ltr-entry-active) \
-        ] -border 4 -padding {6 0 0 0} -sticky news
+        # Scrollbar
+        ttk::style element create Horizontal.Scrollbar.trough image $I(scrollbar-hor-trough) \
+        	-border 2 -sticky ew
 
-        ttk::style element create Spinbox.uparrow image [list \
-            $I(spin-ltr-up) \
-            pressed $I(spin-ltr-up-active) \
-            active $I(spin-ltr-up-hover) \
-            disabled $I(spin-ltr-up-insensitive) \
-        ] -width 20 -border {0 2 3 0} -padding {0 5 6 2}
+        ttk::style element create Horizontal.Scrollbar.thumb \
+             image [list $I(scrollbar-hor-gray) \
+                disabled $I(scrollbar-hor-gray) \
+                pressed $I(scrollbar-hor-orange) \
+                active $I(scrollbar-hor-orange) \
+            ] -border 1 -sticky ew
 
-        ttk::style element create Spinbox.symuparrow image [list \
-            $I(pan-up) \
-            active $I(pan-up) \
-            pressed $I(pan-up) \
-            disabled $I(pan-up-insensitive) \
-        ]
+        ttk::style element create Vertical.Scrollbar.trough image $I(scrollbar-vert-trough) \
+        	-border 2 -sticky ns
 
-        ttk::style element create Spinbox.downarrow image [list \
-            $I(spin-ltr-down) \
-            pressed $I(spin-ltr-down-active) \
-            active $I(spin-ltr-down-hover) \
-            disabled $I(spin-ltr-down-insensitive) \
-        ] -width 20 -border {0 0 3 2} -padding {0 2 6 5}
+        ttk::style element create Vertical.Scrollbar.thumb \
+            image [list $I(scrollbar-vert-gray) \
+                disabled $I(scrollbar-vert-gray) \
+                pressed $I(scrollbar-vert-orange) \
+                active $I(scrollbar-vert-orange) \
+            ] -border 1 -sticky ns
 
-        ttk::style element create Spinbox.symdownarrow image [list \
-            $I(pan-down) \
-            active $I(pan-down) \
-            pressed $I(pan-down) \
-            disabled $I(pan-down-insensitive) \
-        ]
+        # Scale
+        ttk::style element create Horizontal.Scale.trough \
+        	image [ list $I(scale-trough) \
+        		disabled $I(scale-trough-disabled)
+        	] -border 9 -padding 0
 
-        # ttk::style element create Notebook.client \
-        #     image $I(notebook) -border 1
-        ttk::style element create Notebook.tab image [list \
-            $I(notebook-entry) \
-            selected    $I(notebook-entry-active) \
-            active      $I(notebook-entry) \
-        ] -padding {0 2 0 0} -border 4
+        ttk::style element create Horizontal.Scale.slider \
+            image [list $I(scale-slider) \
+                disabled $I(scale-slider) \
+                pressed $I(scale-slider-hover) \
+                active $I(scale-slider-hover) \
+            ] -sticky news
 
-        ttk::style element create Horizontal.Progressbar.trough \
-            image $I(progressbar-vert-trough) -border {3 1 3 1} -padding 1
-        ttk::style element create Horizontal.Progressbar.pbar \
-            image $I(progressbar-vert) -border {1 0 1 0}
+        ttk::style element create Vertical.Scale.trough \
+        	image [ list $I(scale-trough) \
+        		disabled $I(scale-trough-disabled)
+        	] -border 9 -padding 0
 
-        ttk::style element create Vertical.Progressbar.trough \
-            image $I(progressbar-horz-trough) -border {1 3 1 3} -padding 1
-        ttk::style element create Vertical.Progressbar.pbar \
-            image $I(progressbar-horz) -border {0 1 0 1}
+        ttk::style element create Vertical.Scale.slider \
+            image [list $I(scale-slider) \
+                disabled $I(scale-slider) \
+                pressed $I(scale-slider-hover) \
+                active $I(scale-slider-hover) \
+            ] -sticky news
 
-        ttk::style element create Treeview.field \
-            image $I(empty) -border 1
-        ttk::style element create Treeheading.cell image [list \
-            $I(notebook-entry) \
-            pressed $I(notebook-entry-active) \
-            disabled $I(notebook-entry-insensitive) \
-        ] -border 4 -padding 4 -sticky ewns
+        # Progressbar
+        ttk::style element create Horizontal.Progressbar.trough image $I(progressbar-trough-hor) \
+            -border 2 -sticky ew
 
-        ttk::style element create Treeitem.indicator \
-            image [list $I(plus) user2 $I(empty) user1 $I(minus)] \
-            -width 15 -sticky w
+        ttk::style element create Horizontal.Progressbar.pbar image $I(progressbar-hor) \
+            -border 2 -sticky ew
 
-        #ttk::style element create Separator.separator image $I()
+        ttk::style element create Vertical.Progressbar.trough image $I(progressbar-trough-hor) \
+            -border 2 -sticky ns
 
-        #
-        # Settings:
-        #
+        ttk::style element create Vertical.Progressbar.pbar image $I(progressbar-hor) \
+            -border 2 -sticky ns
 
-        ttk::style configure TButton -padding {8 4 8 4} -width -10 -anchor center
-        ttk::style configure TMenubutton -padding {8 4 4 4}
-        ttk::style configure Toolbutton -anchor center
-        ttk::style map TCheckbutton -background [list active $colors(-checklight)]
-        ttk::style configure TCheckbutton -padding 3
-        ttk::style map TRadiobutton -background [list active $colors(-checklight)]
-        ttk::style configure TRadiobutton -padding 3
-        ttk::style configure TNotebook -tabmargins {0 2 0 0}
-        ttk::style configure TNotebook.Tab -padding {6 2 6 2} -expand {0 0 2}
-        ttk::style map TNotebook.Tab -expand [list selected {1 2 4 2}]
-        ttk::style configure TSeparator -background $colors(-bg)
+        # Entry
+        ttk::style element create Entry.field \
+            image [list $I(entry-basic) \
+                {focus hover} $I(entry-focus) \
+                invalid $I(entry-focus) \
+                disabled $I(entry-disabled) \
+                focus $I(entry-focus) \
+                hover $I(entry-basic) \
+            ] -border 4 -padding 8 -sticky news
+
+        # Combobox
+        ttk::style map TCombobox -selectbackground [list \
+            {!focus} $colors(-selectbg) \
+            {readonly hover} $colors(-selectbg) \
+            {readonly focus} $colors(-selectbg)]
+            
+        ttk::style map TCombobox -selectforeground [list \
+            {!focus} $colors(-selectfg) \
+            {readonly hover} $colors(-selectfg) \
+            {readonly focus} $colors(-selectfg)]
+
+        ttk::style element create Combobox.field \
+            image [list $I(entry-basic) \
+                {readonly disabled} $I(button-disabled) \
+                {readonly pressed} $I(button-pressed) \
+                {readonly focus hover} $I(button-basic) \
+                {readonly focus} $I(button-basic) \
+                {readonly hover} $I(button-basic) \
+                {focus hover} $I(entry-focus) \
+                readonly $I(button-basic) \
+                disabled $I(entry-disabled) \
+                focus $I(entry-focus) \
+                hover $I(entry-basic) \
+            ] -border 4 -padding 8
+
+        ttk::style element create Combobox.downarrow image $I(arrow-down-basic) \
+        	-width 25 -sticky e
+
+        # Spinbox
+        ttk::style element create Spinbox.field \
+            image [list $I(entry-basic) \
+                disabled $I(entry-disabled) \
+                focus $I(entry-focus) \
+                hover $I(entry-basic) \
+            ] -border 4 -padding 8 -sticky news
+
+        ttk::style element create Spinbox.uparrow \
+            image [list $I(arrow-up-basic) \
+                disabled $I(arrow-up-hover) \
+                pressed $I(arrow-up-hover) \
+                active $I(arrow-up-hover) \
+            ] -width 15 -sticky e
+
+        ttk::style element create Spinbox.downarrow \
+            image [list $I(arrow-down-basic) \
+                disabled $I(arrow-down-hover) \
+                pressed $I(arrow-down-hover) \
+                active $I(arrow-down-hover) \
+            ] -width 15 -sticky e
+
+        # Sizegrip
+        ttk::style element create Sizegrip.sizegrip image $I(sizegrip) \
+        	-sticky news
+
+        # Separator
+        ttk::style element create Horizontal.separator image $I(separator)
+
+        ttk::style element create Vertical.separator image $I(separator)
+
+        # Labelframe
+        ttk::style element create Labelframe.border image $I(checkbox-basic) \
+            -border 4 -padding 4 -sticky news
+        
+        # Notebook
+        ttk::style element create Notebook.client \
+            image $I(checkbox-basic) -border 4
+
+        ttk::style element create Notebook.tab \
+            image [list $I(tab-basic) \
+                selected $I(tab-current) \
+                active $I(tab-hover) \
+            ] -border 6 -padding {14 10} -sticky news
 
         # Treeview
-        ttk::style configure Treeview -background $colors(-window)
-        ttk::style configure Treeview.Item -padding {2 0 0 0}
+        ttk::style element create Treeview.field image $I(checkbox-basic) \
+            -border 4
+
+        ttk::style element create Treeheading.cell \
+            image [list $I(tree-basic) \
+                pressed $I(tree-pressed)
+            ] -border 10 -padding 4 -sticky news
+        
+        ttk::style element create Treeitem.indicator \
+            image [list $I(plus) \
+                user2 $I(empty) \
+                user1 $I(minus) \
+            ] -width 15 -sticky w
+
+        ttk::style configure Treeview -background $colors(-bg)
+        ttk::style configure Treeview.Item
         ttk::style map Treeview \
             -background [list selected $colors(-selectbg)] \
             -foreground [list selected $colors(-selectfg)]
+
+        # Sashes
+        ttk::style configure TPanedwindow \
+            -width 1 -padding 0
+        ttk::style map TPanedwindow \
+            -background [list hover $colors(-bg)]
     }
 }
-
-variable version 0.1
-package provide ttk::theme::yaru $version
-
