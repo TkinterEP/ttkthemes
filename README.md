@@ -17,6 +17,7 @@ created by various authors.
     Copyright (C) 2004 David Zolli
     Copyright (C) 2007-2008 Mats Bengsston
     Copyright (C) 2005 Jelco Huijser
+    Copyright (C) 2016 François Tonneau
     Copyright (C) 2015-2018 The materia and equilux authors
     Copyright (C) 2018 Uwe Klimmek 
     Copyright (C) Regents of the University of California, Sun Microsystems, Inc., Scriptics Corporation, and other parties

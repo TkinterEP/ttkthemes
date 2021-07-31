@@ -121,6 +121,12 @@ Smog
 ----
 |smog|
 
+waldorf
+---------
+|waldorf|
+
+A theme based on the Crunchbang-Waldorf Gtk+ theme. Created by François Tonneau in 2016.
+
 winxpblue
 ---------
 |winxpblue|
@@ -161,5 +167,6 @@ Theme derived from the new Ubuntu 20.04 default theme and theme 'arc'.
 .. |scidsand| image:: https://imgur.com/6CtUCAW.png
 .. |smog| image:: https://imgur.com/DFmThbK.png
 .. |ubuntu| image:: https://imgur.com/0WlZwfD.png
+.. |waldorf| image:: https://raw.githubusercontent.com/TkinterEP/ttkthemes/master/screenshots/waldorf.png
 .. |winxpblue| image:: https://imgur.com/3StdivF.png
 .. |yaru| image:: https://imgur.com/I4EYDSA.png
