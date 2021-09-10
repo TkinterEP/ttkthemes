@@ -14,13 +14,11 @@ class ThemedStyle(ttk.Style, ThemedWidget):
     used as a drop-in replacement for normal ttk.Style instances.
     Supports the themes provided by this package.
     """
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, theme=None, gif_override=False, **kwargs):
         """
         :param theme: Theme to set up initialization completion. If the
                       theme is not available, fails silently.
         """
-        theme = kwargs.pop("theme", None)
-        gif_override = kwargs.pop("gif_override", False)
         # Initialize as ttk.Style
         ttk.Style.__init__(self, *args, **kwargs)
         # Initialize as ThemedObject

@@ -42,7 +42,15 @@ class ThemedTk(tk.Tk, ThemedWidget):
 
     __tk_toplevel_init = tk.Toplevel.__init__
 
-    def __init__(self, *args, **kwargs):
+    def __init__(
+            self, *args,
+            fonts=False,
+            theme=None,
+            toplevel=None,
+            themebg=None,
+            background=None,
+            gif_override=False,
+            **kwargs):
         """
         :param theme: Theme to set upon initialization. If theme is not
             available, fails silently.
@@ -53,15 +61,11 @@ class ThemedTk(tk.Tk, ThemedWidget):
         :param fonts: Whether to enable the automatic change of default
             font selected for a theme
         """
-        theme = kwargs.pop("theme", None)
-        fonts = kwargs.pop("fonts", False)
-        self._toplevel = kwargs.pop("toplevel", None)
-        self._themebg = kwargs.pop("themebg", None)
+        self._toplevel = toplevel
+        self._themebg = themebg
         # Backwards compatibility with ttkthemes v2.3.0
-        background = kwargs.pop("background", None)
         if isinstance(background, bool):
             self._themebg = self._themebg or background
-        gif_override = kwargs.pop("gif_override", False)
         # Initialize as tk.Tk
         tk.Tk.__init__(self, *args, **kwargs)
         # Initialize as ThemedWidget
