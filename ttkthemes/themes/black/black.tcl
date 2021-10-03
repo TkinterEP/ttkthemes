@@ -88,6 +88,9 @@ namespace eval ttk::theme::black {
     $styleCmd configure TCombobox \
         -fieldbackground white -foreground black \
         -padding {2 0}
+    $styleCmd configure TSpinbox \
+        -fieldbackground white -foreground black \
+        -padding {2 0}
 
     $styleCmd configure TNotebook.Tab \
         -padding {6 2 6 2}
