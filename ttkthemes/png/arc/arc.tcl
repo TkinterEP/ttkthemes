@@ -258,14 +258,14 @@ namespace eval ttk::theme::arc {
             ] -padding {0 2 0 0} -border 2
 
         ttk::style element create Horizontal.Progressbar.trough \
-            image $I(trough-progressbar_v) -border {5 1 5 1} -padding 1
+            image $I(trough-progressbar_v) -border {5 1 5 1} -padding 1 -sticky ew
         ttk::style element create Horizontal.Progressbar.pbar \
-            image $I(progressbar_v) -border {4 0 4 0}
+            image $I(progressbar_v) -border {4 0 4 0} -sticky ew
 
         ttk::style element create Vertical.Progressbar.trough \
-            image $I(trough-progressbar) -border {1 5 1 5} -padding 1
+            image $I(trough-progressbar) -border {1 5 1 5} -padding 1 -sticky ns
         ttk::style element create Vertical.Progressbar.pbar \
-            image $I(progressbar) -border {0 4 0 4}
+            image $I(progressbar) -border {0 4 0 4} -sticky ns
 
         ttk::style element create Treeview.field \
             image $I(treeview) -border 1
