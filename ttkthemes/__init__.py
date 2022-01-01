@@ -30,6 +30,7 @@ THEMES = [
     "scidsand",
     "smog",
     "ubuntu",
+    "waldorf",
     "winxpblue",
     "yaru",
 ]

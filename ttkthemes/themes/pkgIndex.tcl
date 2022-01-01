@@ -16,6 +16,7 @@ array set base_themes {
   plastik 0.6.2
   radiance 0.1
   smog 0.1.1
+  waldorf 0.1
   winxpblue 0.6
 }
 
