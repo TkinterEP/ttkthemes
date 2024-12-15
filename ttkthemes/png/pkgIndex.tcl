@@ -10,7 +10,8 @@ array set png_themes {
   arc 0.1
   breeze 0.6
   equilux 1.1
-  scid 0.9.1
+  scidlight 1.0
+  sciddark 1.0
   ubuntu 1.0
   yaru 1.2
 }

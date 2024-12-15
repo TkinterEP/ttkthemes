@@ -70,7 +70,8 @@ class ThemedWidget(object):
             theme_dir = "gif" if not self.png_support else "png"
             self._append_theme_dir(theme_dir)
             self.tk.eval("source {}/pkgIndex.tcl".format(theme_dir))
-        self.tk.call("package", "require", "ttk::theme::scid")
+        self.tk.call("package", "require", "ttk::theme::scidlight")
+        self.tk.call("package", "require", "ttk::theme::sciddark")
 
     def _append_theme_dir(self, name):
         """Append a theme dir to the Tk interpreter auto_path"""
