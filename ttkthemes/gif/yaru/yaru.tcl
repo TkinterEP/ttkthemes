@@ -3,7 +3,7 @@
 # Derived from Ubuntu Yaru theme, Copyright (c) 2018-2020 The Yaru theme authors
 # See <https://github.com/ubuntu/yaru/blob/master/AUTHORS> for a list of authors for the Yaru theme
 
-package require Tk 8.6
+package require Tk 8.6-
 
 namespace eval ttk::theme::yaru {
 

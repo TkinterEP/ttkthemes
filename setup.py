@@ -3,12 +3,12 @@ Author: RedFantom
 License: GNU GPLv3
 Copyright (c) 2017-2018 RedFantom
 """
-import os
+from pathlib import Path
 from setuptools import setup
 
 
 def read(fname):
-    return open(os.path.join(os.path.dirname(__file__), fname)).read()
+    return Path(__file__).with_name(fname).read_text()
 
 
 setup(
