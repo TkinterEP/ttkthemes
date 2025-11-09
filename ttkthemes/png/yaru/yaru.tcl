@@ -60,7 +60,7 @@ namespace eval ttk::theme::yaru {
             Button.button -children {
                 Button.padding -children {
                     Button.label -side left -expand true
-                } 
+                }
             }
         }
 
@@ -68,7 +68,7 @@ namespace eval ttk::theme::yaru {
             Toolbutton.button -children {
                 Toolbutton.padding -children {
                     Toolbutton.label -side left -expand true
-                } 
+                }
             }
         }
 
@@ -163,7 +163,7 @@ namespace eval ttk::theme::yaru {
                     Notebook.label -side top -sticky {}
                 }
             }
-        }        
+        }
 
         ttk::style layout Treeview.Item {
             Treeitem.padding -sticky nswe -children {
@@ -174,7 +174,7 @@ namespace eval ttk::theme::yaru {
         }
 
         # Button
-        ttk::style configure TButton -padding 4 -width 10 -anchor center
+        ttk::style configure TButton -padding 4 -width -10 -anchor center
 
         ttk::style element create Button.button \
             image [list $I(button-basic) \
@@ -184,7 +184,7 @@ namespace eval ttk::theme::yaru {
             ] -border 4 -sticky news
 
         # Toolbutton
-        ttk::style configure Toolbutton -padding 4 -width 10 -anchor center
+        ttk::style configure Toolbutton -padding 4 -width -10 -anchor center
 
         ttk::style element create Toolbutton.button \
             image [list $I(empty) \
@@ -201,7 +201,7 @@ namespace eval ttk::theme::yaru {
                 disabled $I(button-disabled) \
                 pressed $I(button-pressed) \
                 active $I(button-basic) \
-            ] -border 4 -sticky news 
+            ] -border 4 -sticky news
 
         ttk::style element create Menubutton.indicator image $I(arrow-down-basic) -width 25 -sticky e
 
@@ -319,7 +319,7 @@ namespace eval ttk::theme::yaru {
             {!focus} $colors(-selectbg) \
             {readonly hover} $colors(-selectbg) \
             {readonly focus} $colors(-selectbg)]
-            
+
         ttk::style map TCombobox -selectforeground [list \
             {!focus} $colors(-selectfg) \
             {readonly hover} $colors(-selectfg) \
@@ -376,7 +376,7 @@ namespace eval ttk::theme::yaru {
         # Labelframe
         ttk::style element create Labelframe.border image $I(checkbox-basic) \
             -border 4 -padding 4 -sticky news
-        
+
         # Notebook
         ttk::style element create Notebook.client \
             image $I(checkbox-basic) -border 4
@@ -395,7 +395,7 @@ namespace eval ttk::theme::yaru {
             image [list $I(tree-basic) \
                 pressed $I(tree-pressed)
             ] -border 10 -padding 4 -sticky news
-        
+
         ttk::style element create Treeitem.indicator \
             image [list $I(plus) \
                 user2 $I(empty) \

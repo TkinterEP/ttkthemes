@@ -4,7 +4,7 @@
 #
 # $Id: black.tcl,v 1.2 2009/10/25 19:21:30 oberdorfer Exp $
 
-package require Tk 8.6
+package require Tk 8.6-
 
 
 namespace eval ttk {
