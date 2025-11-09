@@ -1,0 +1,42 @@
+[build-system]
+requires = ["setuptools>=65"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ttkthemes"
+version = "3.3.0"
+description = "A group of themes for the ttk extensions of Tkinter with a Tkinter.Tk wrapper"
+license = "GPL-3.0-or-later"
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = ["pillow>=5.0.0"]
+authors = [{name = "The ttkthemes authors"}]
+maintainers = [
+    {name = "RedFantom", email = "redfantom@outlook.com"},
+    {name = "rdbende", email = "rdbende@proton.me"},
+]
+keywords = ["tkinter", "ttk", "gui", "tcl", "theme", "tk", "tcl/tk", "tile"]
+classifiers = [
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Programming Language :: Tcl",
+    "Environment :: Win32 (MS Windows)",
+    "Environment :: X11 Applications",
+    "Operating System :: OS Independent",
+    "Topic :: Software Development :: User Interfaces",
+    "Topic :: Software Development :: Libraries :: Tcl Extensions",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+
+[project.urls]
+Source = "https://github.com/RedFantom/ttkthemes"
+Documentation = "https://ttkthemes.readthedocs.io/en/latest/"
+
+
+[tool.setuptools]
+packages = ["ttkthemes"]
