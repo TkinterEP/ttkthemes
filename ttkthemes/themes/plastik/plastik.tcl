@@ -1,8 +1,7 @@
 # plastik - Copyright (C) 2004 Pat Thoyts <patthoyts@users.sourceforge.net>
 # Available under the BSD-like 2-clause Tcl License as described in LICENSE in this folder
 
-package require Tk 8.4
-package require tile 0.8.0
+package require Tk 8.6-
 
 namespace eval ttk::theme::plastik {
 

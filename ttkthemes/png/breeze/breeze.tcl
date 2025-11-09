@@ -4,7 +4,7 @@
 #
 #  Copyright (c) 2018 Maximilian Lika
 
-package require Tk 8.5.0
+package require Tk 8.6-
 
 namespace eval ttk::theme::breeze {
 
