@@ -20,7 +20,7 @@ class Example(ThemedTk):
         """
         :param theme: Theme to show off
         """
-        ThemedTk.__init__(self, fonts=True, themebg=True)
+        ThemedTk.__init__(self, themebg=True)
         self.set_theme(theme)
         # Create widgets
         self.notebook = ttk.Notebook(self)

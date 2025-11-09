@@ -44,7 +44,6 @@ class ThemedTk(tk.Tk, ThemedWidget):
 
     def __init__(
             self, *args,
-            fonts=False,
             theme=None,
             toplevel=None,
             themebg=None,
@@ -58,8 +57,6 @@ class ThemedTk(tk.Tk, ThemedWidget):
             see class documentation for details.
         :param themebg: Control Tk background color option, see
             class documentation for details.
-        :param fonts: Whether to enable the automatic change of default
-            font selected for a theme
         """
         self._toplevel = toplevel
         self._themebg = themebg
@@ -67,6 +64,7 @@ class ThemedTk(tk.Tk, ThemedWidget):
         if isinstance(background, bool):
             self._themebg = self._themebg or background
         # Initialize as tk.Tk
+        kwargs.pop("fonts", None)  # Backwards compatibility
         tk.Tk.__init__(self, *args, **kwargs)
         # Initialize as ThemedWidget
         ThemedWidget.__init__(self, self.tk, gif_override)
