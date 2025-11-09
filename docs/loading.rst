@@ -81,7 +81,7 @@ TkImg is available.
 
 .. code-block:: tcl
 
-    package require Tk 8.6
+    package require Tk 8.6-
     source ttkthemes/themes/pkgIndex.tcl
     source ttkthemes/png/pkgIndex.tcl
     package require ttkthemes 1.0
