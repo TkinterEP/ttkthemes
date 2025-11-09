@@ -48,6 +48,7 @@ example images of the different included themes there, so you can choose one eas
 as examples on usage.
   
 ## Recommendations
-The themes `plastik`, `clearlooks` and `elegance` are recommended to make your UI look nicer
+The themes `adapta`, `arc`, `breeze`  and `yaru` are recommended to make your UI look nicer
 on all platforms when using `Tkinter` and the `ttk` extensions in Python. When you are targeting
-Ubuntu, consider using the great `radiance` theme.
+Ubuntu, consider using the great `yaru` theme, and use the `breeze` theme if you want your UI to
+blend in on KDE Plasma.
